@@ -27,7 +27,7 @@ Algumas representações compartilham o mesmo artefato quando o recorte textual 
 
 ## Sequência de implementação
 
-O protótipo foi desenvolvido primeiro pelo fluxo de texto colado. A estabilização `0.4.1` consolidou o grafo proposicional; a versão `0.5.0` ligou a ingestão estruturada à fixture `09_vetorizacao`; a versão `0.6.0` completou a seleção explicável da ideia central e do conteúdo essencial; a versão `0.7.0` passou a gerar uma síntese extrativa; a versão `0.8.0` acrescentou paráfrases opcionais; e a versão `0.9.0` implementou a checagem explicável de fidelidade.
+O protótipo foi desenvolvido primeiro pelo fluxo de texto colado. A estabilização `0.4.1` consolidou o grafo proposicional; a versão `0.5.0` ligou a ingestão estruturada à fixture `09_vetorizacao`; a versão `0.6.0` completou a seleção explicável da ideia central e do conteúdo essencial; a versão `0.7.0` passou a gerar uma síntese extrativa; a versão `0.8.0` acrescentou paráfrases opcionais; a versão `0.9.0` implementou a checagem explicável de fidelidade; e a versão `1.0.0` concluiu a exposição e a observabilidade da aplicação.
 
 ### Etapa 1 — receber e validar
 
@@ -108,14 +108,24 @@ O contrato inclui explicitamente a limitação de que essa checagem não certifi
 
 ### Etapa 5 — expor o aplicativo
 
-- encapsular o fluxo em uma API Python;
-- adicionar interface para envio do JSON e inspeção do resultado;
-- mostrar evidências junto de cada interpretação;
-- registrar versão do motor, parâmetros, duração e custos.
+**Implementada — contrato de análise `1.0.0`.**
 
-## Contrato preliminar de saída
+- encapsular o fluxo em uma API Python; **implementado**
+- adicionar interface para envio do JSON e inspeção do resultado; **implementado**
+- mostrar evidências junto de cada interpretação; **implementado**
+- registrar versão do motor, parâmetros, duração e custos. **implementado — contrato 1.0.0**
 
-O contrato de ingestão foi fechado em `0.5.0`. A saída completa das etapas seguintes deverá conter pelo menos:
+Critério de aceite: os fluxos de texto livre e JSON estruturado ficam disponíveis por HTTP, a interface apresenta resultados e evidências, e cada análise declara os dados necessários para auditar sua execução. **Atendido por testes automatizados.**
+
+#### Execução auditável implementada
+
+O objeto `execucao` identifica a versão do motor, mede sua duração em milissegundos e registra as estratégias de centralidade, síntese, paráfrase e checagem, as regras de paráfrase habilitadas, o limite de alternativas e o uso de contexto anterior. O objeto `custos` informa chamadas externas, tokens de entrada e saída, moeda e custo estimado.
+
+Esta versão usa somente o motor heurístico local. Assim, chamadas externas, tokens externos e custo estimado ficam em zero, com uma observação explícita no contrato. Se uma estratégia externa for incorporada depois, esses campos permitem reportar o consumo sem mudar o significado do registro.
+
+## Contrato do primeiro ciclo
+
+O contrato de ingestão foi fechado em `0.5.0`. A saída de análise do primeiro ciclo foi fechada em `1.0.0` e contém pelo menos:
 
 ```json
 {
@@ -138,6 +148,24 @@ O contrato de ingestão foi fechado em `0.5.0`. A saída completa das etapas seg
     "estado": "sem_alertas_detectados",
     "achados": [],
     "limitacoes": []
+  },
+  "execucao": {
+    "versao_motor": "1.0.0",
+    "duracao_ms": 2.4,
+    "parametros": {
+      "idioma": "pt-BR",
+      "estrategia_centralidade": "heuristica_explicavel_v1",
+      "estrategia_sintese": "extrativa_conteudo_essencial_v1",
+      "estrategia_parafrase": "substituicao_discursiva_controlada_v1",
+      "metodo_checagem": "cobertura_estrutural_v1"
+    },
+    "custos": {
+      "moeda": "USD",
+      "chamadas_externas": 0,
+      "tokens_entrada": 0,
+      "tokens_saida": 0,
+      "custo_estimado": 0
+    }
   }
 }
 ```

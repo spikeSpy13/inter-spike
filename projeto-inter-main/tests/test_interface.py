@@ -14,7 +14,7 @@ class InterfaceContractTests(unittest.TestCase):
         html = (ROOT / "dist" / "index.html").read_text(encoding="utf-8")
         javascript = (ROOT / "dist" / "app.js").read_text(encoding="utf-8")
         self.assertIn('id="graph-map"', html)
-        self.assertIn("Protótipo · checagem de fidelidade · v0.9.0", html)
+        self.assertIn("Primeiro ciclo completo · v1.0.0", html)
         self.assertIn('id="json-file"', html)
         self.assertIn('id="json-paragraph"', html)
         self.assertIn('fetch("/api/documentos/validar"', javascript)
@@ -35,9 +35,12 @@ class InterfaceContractTests(unittest.TestCase):
         self.assertIn('id="fidelity-check"', html)
         self.assertIn("function renderFidelityCheck(check)", javascript)
         self.assertIn("renderFidelityCheck(data.checagem)", javascript)
+        self.assertIn('id="execution-meta"', html)
+        self.assertIn("function renderExecution(execution)", javascript)
+        self.assertIn("renderExecution(data.execucao)", javascript)
         self.assertIn("renderAlerts(data.alertas)", javascript)
         self.assertIn("AbortController", javascript)
-        self.assertIn('data.schema_version !== "0.9.0"', javascript)
+        self.assertIn('data.schema_version !== "1.0.0"', javascript)
 
 
 if __name__ == "__main__":

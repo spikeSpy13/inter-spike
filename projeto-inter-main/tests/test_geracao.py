@@ -19,7 +19,7 @@ class SynthesisTests(unittest.TestCase):
         resultado = analisar_paragrafo(PARAGRAFO)
         sintese = resultado.sintese
 
-        self.assertEqual(resultado.schema_version, "0.9.0")
+        self.assertEqual(resultado.schema_version, "1.0.0")
         self.assertEqual(sintese.estado, "gerada")
         self.assertEqual(
             sintese.texto,

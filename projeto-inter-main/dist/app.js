@@ -19,6 +19,7 @@ const analysisAlerts = document.querySelector("#analysis-alerts");
 const centralIdea = document.querySelector("#central-idea");
 const synthesis = document.querySelector("#synthesis");
 const fidelityCheck = document.querySelector("#fidelity-check");
+const executionMeta = document.querySelector("#execution-meta");
 const analyzeLabel = analyzeButton.querySelector("span");
 const jsonFileInput = document.querySelector("#json-file");
 const jsonStatus = document.querySelector("#json-status");
@@ -290,6 +291,38 @@ function renderFidelityCheck(check) {
   `;
 }
 
+function renderExecution(execution) {
+  const parameters = execution.parametros;
+  const costs = execution.custos;
+  const totalTokens = costs.tokens_entrada + costs.tokens_saida;
+  executionMeta.innerHTML = `
+    <header>
+      <div><h3 id="execution-title">Execução auditável</h3><p>Versão, estratégias, duração e consumo desta análise.</p></div>
+      <span>motor ${escapeHtml(execution.versao_motor)}</span>
+    </header>
+    <dl class="execution-grid">
+      <div><dt>Duração do motor</dt><dd>${Number(execution.duracao_ms).toFixed(3)} ms</dd></div>
+      <div><dt>Chamadas externas</dt><dd>${costs.chamadas_externas}</dd></div>
+      <div><dt>Tokens externos</dt><dd>${totalTokens}</dd></div>
+      <div><dt>Custo estimado</dt><dd>${escapeHtml(costs.moeda)} ${Number(costs.custo_estimado).toFixed(6)}</dd></div>
+    </dl>
+    <details class="execution-parameters">
+      <summary>Examinar parâmetros e estratégias</summary>
+      <dl>
+        <div><dt>Idioma</dt><dd>${escapeHtml(parameters.idioma)}</dd></div>
+        <div><dt>Ideia central</dt><dd>${escapeHtml(parameters.estrategia_centralidade)}</dd></div>
+        <div><dt>Síntese</dt><dd>${escapeHtml(parameters.estrategia_sintese)}</dd></div>
+        <div><dt>Paráfrase</dt><dd>${escapeHtml(parameters.estrategia_parafrase)}</dd></div>
+        <div><dt>Checagem</dt><dd>${escapeHtml(parameters.metodo_checagem)}</dd></div>
+        <div><dt>Regras de paráfrase</dt><dd>${parameters.regras_parafrase.map(item => escapeHtml(humanize(item))).join(" · ")}</dd></div>
+        <div><dt>Alternativas centrais</dt><dd>até ${parameters.limite_alternativas_ideia_central}</dd></div>
+        <div><dt>Contexto anterior</dt><dd>${parameters.usa_contexto_anterior ? "utilizado" : "não informado"}</dd></div>
+      </dl>
+    </details>
+    <p class="execution-note">${escapeHtml(costs.observacao)}</p>
+  `;
+}
+
 function renderGraph(data) {
   const propById = new Map(data.proposicoes.map(item => [item.id, item]));
   const referentById = new Map(data.referentes.map(item => [item.id, item]));
@@ -540,6 +573,7 @@ function renderError(message) {
   centralIdea.innerHTML = "";
   synthesis.innerHTML = "";
   fidelityCheck.innerHTML = "";
+  executionMeta.innerHTML = "";
   referenceMap.innerHTML = "";
   mentionMap.innerHTML = "";
   propositionList.innerHTML = `<li class="error-state">${escapeHtml(message)}</li>`;
@@ -577,17 +611,18 @@ async function renderAnalysis() {
     const responseData = await response.json();
     if (requestId !== activeRequestId) return;
     if (!response.ok) throw new Error(errorMessage(responseData, "Não foi possível analisar o parágrafo."));
-    if (structured && responseData.schema_version !== "0.9.0") {
+    if (structured && responseData.schema_version !== "1.0.0") {
       throw new Error(`Versão do fluxo estruturado incompatível: ${responseData.schema_version || "ausente"}.`);
     }
     const data = structured ? responseData.analise : responseData;
-    if (data.schema_version !== "0.9.0") throw new Error(`Versão de resposta incompatível: ${data.schema_version || "ausente"}.`);
+    if (data.schema_version !== "1.0.0") throw new Error(`Versão de resposta incompatível: ${data.schema_version || "ausente"}.`);
 
     emptyState.hidden = true;
     analysisOutput.hidden = false;
     renderCentralIdea(data.ideia_central, data.conteudo_essencial_ids);
     renderSynthesis(data.sintese, data.parafrases);
     renderFidelityCheck(data.checagem);
+    renderExecution(data.execucao);
     renderGraph(data);
     renderReferences(data.referentes, data.resolucoes, data.mencoes);
     renderMentions(data.mencoes, data.resolucoes);
@@ -610,6 +645,7 @@ async function renderAnalysis() {
       <span class="mini-chip synthesis">${summary.sintese_caracteres} caracteres na síntese</span>
       <span class="mini-chip synthesis">${summary.parafrases} ${summary.parafrases === 1 ? "paráfrase" : "paráfrases"}</span>
       <span class="mini-chip ${summary.achados_fidelidade ? "warning" : "check"}">${summary.achados_fidelidade} alertas de fidelidade</span>
+      <span class="mini-chip">${Number(data.execucao.duracao_ms).toFixed(3)} ms</span>
       ${structured ? `<span class="mini-chip source">documento ${escapeHtml(responseData.fonte.documento_id)} · ${escapeHtml(responseData.paragrafo.rotulo)}</span>` : ""}
       <span class="mini-chip">contrato ${escapeHtml(data.schema_version)}</span>
     `;

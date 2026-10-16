@@ -6,7 +6,7 @@ O primeiro recorte do produto é deliberadamente pequeno: interpretar **um pará
 
 ## Estado atual
 
-O projeto concluiu a **Etapa 1 — ingestão e validação**, a **Etapa 2 — interpretação**, a **Etapa 3 — geração de textos** e a **Etapa 4 — checagem de fidelidade**. A versão `0.9.0` verifica a síntese e cada paráfrase contra o texto original e o registro interpretativo, com achados explicáveis por alvo e ID afetado. O motor e a API são escritos em Python; a interface funcional está em `dist/`. Os anexos originais foram preservados em:
+O projeto concluiu as cinco etapas do primeiro ciclo. A versão `1.0.0` recebe e valida a vetorização, interpreta um parágrafo, gera textos, checa sua fidelidade e expõe todo o fluxo pela API e pela interface. Cada resposta também registra a versão do motor, as estratégias e os parâmetros usados, a duração medida e os custos da execução. O motor e a API são escritos em Python; a interface funcional está em `dist/`. Os anexos originais foram preservados em:
 
 - `fixtures/vetorizacao-28.json`: exemplo real de entrada;
 - `docs/referencias/arquitetura_interpretacao_fundamentada_v1.pdf`: referência conceitual.
@@ -15,7 +15,7 @@ O plano e os critérios de aceite estão em [`docs/01-escopo-e-etapas.md`](docs/
 
 ## Interface atual
 
-A página aceita o arquivo JSON de `09_vetorizacao`, valida sua estrutura e permite selecionar um parágrafo. O texto livre e o contexto anterior continuam disponíveis. A análise produz proposições, menções, grupos de referentes `R1/R2`, um grafo com operadores, quadros de atribuição e relações, além da ideia central proposta, da síntese extrativa e das paráfrases aplicáveis. A checagem mostra seu estado, os alvos verificados, eventuais achados e a limitação do método.
+A página aceita o arquivo JSON de `09_vetorizacao`, valida sua estrutura e permite selecionar um parágrafo. O texto livre e o contexto anterior continuam disponíveis. A análise produz proposições, menções, grupos de referentes `R1/R2`, um grafo com operadores, quadros de atribuição e relações, além da ideia central proposta, da síntese extrativa e das paráfrases aplicáveis. A checagem mostra seu estado, os alvos verificados, eventuais achados e a limitação do método. O painel de execução identifica o motor e mostra duração, parâmetros, chamadas externas, tokens e custo estimado.
 
 Esta versão continua sendo um extrator heurístico demonstrativo. Resoluções ambíguas ou sem antecedente permanecem explícitas; confiança não representa uma probabilidade calibrada.
 
@@ -66,6 +66,12 @@ O validador reconstrói a paráfrase a partir do original e das transformações
 O contrato de análise `0.9.0` acrescenta `checagem`, com os estados `sem_alertas_detectados`, `revisao_necessaria` e `indeterminada`. O método `cobertura_estrutural_v1` confere evidências, texto reconstruível, proposições, operadores, relações, participantes e transformações de cada saída. Cada achado registra um código estável, o alvo, uma mensagem e os IDs afetados.
 
 Afirmações acrescentadas, cobertura removida, evidências divergentes e transformações desconhecidas produzem alertas. O estado `sem_alertas_detectados` significa apenas que as regras atuais não encontraram essas falhas; o próprio contrato declara que a checagem não certifica equivalência semântica geral.
+
+### Primeiro ciclo `1.0.0`
+
+O contrato de análise `1.0.0` acrescenta `execucao`. Esse registro informa `versao_motor`, `duracao_ms`, os parâmetros das estratégias de centralidade, síntese, paráfrase e checagem, e se o contexto anterior foi usado. O bloco `custos` separa chamadas externas, tokens de entrada e saída e custo estimado em dólares.
+
+O motor atual é heurístico e local. Por isso, cada análise informa zero chamadas externas, zero tokens externos e custo estimado `USD 0.000000`; a duração em milissegundos é medida para cada execução. A interface apresenta esses mesmos dados e permite inspecionar todos os parâmetros utilizados.
 
 ## Baixar e executar
 

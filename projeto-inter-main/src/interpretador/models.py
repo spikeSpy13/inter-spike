@@ -157,6 +157,33 @@ class FidelityCheck(BaseModel):
     limitacoes: list[str]
 
 
+class ExecutionParameters(BaseModel):
+    idioma: Literal["pt-BR"] = "pt-BR"
+    estrategia_centralidade: Literal["heuristica_explicavel_v1"]
+    estrategia_sintese: Literal["extrativa_conteudo_essencial_v1"]
+    estrategia_parafrase: Literal["substituicao_discursiva_controlada_v1"]
+    metodo_checagem: Literal["cobertura_estrutural_v1"]
+    regras_parafrase: list[Literal["coordenacao_negativa", "justificativa_causal"]]
+    limite_alternativas_ideia_central: int = Field(ge=0)
+    usa_contexto_anterior: bool
+
+
+class ExecutionCosts(BaseModel):
+    moeda: Literal["USD"] = "USD"
+    chamadas_externas: int = Field(ge=0)
+    tokens_entrada: int = Field(ge=0)
+    tokens_saida: int = Field(ge=0)
+    custo_estimado: float = Field(ge=0)
+    observacao: str
+
+
+class ExecutionMetadata(BaseModel):
+    versao_motor: Literal["1.0.0"] = "1.0.0"
+    duracao_ms: float = Field(ge=0)
+    parametros: ExecutionParameters
+    custos: ExecutionCosts
+
+
 class AnalysisSummary(BaseModel):
     proposicoes: int
     mencoes: int
@@ -174,7 +201,7 @@ class AnalysisSummary(BaseModel):
 
 
 class AnalysisResponse(BaseModel):
-    schema_version: Literal["0.9.0"] = "0.9.0"
+    schema_version: Literal["1.0.0"] = "1.0.0"
     paragrafo: str
     contexto_anterior: str | None = None
     proposicoes: list[Proposition]
@@ -189,6 +216,7 @@ class AnalysisResponse(BaseModel):
     sintese: Synthesis
     parafrases: list[Paraphrase] = Field(default_factory=list)
     checagem: FidelityCheck
+    execucao: ExecutionMetadata
     resumo: AnalysisSummary
     alertas: list[str]
 
@@ -232,7 +260,7 @@ class JsonAnalysisRequest(BaseModel):
 
 
 class JsonAnalysisResponse(BaseModel):
-    schema_version: Literal["0.9.0"] = "0.9.0"
+    schema_version: Literal["1.0.0"] = "1.0.0"
     fonte: DocumentSource
     paragrafo: DocumentParagraph
     analise: AnalysisResponse

@@ -25,7 +25,7 @@ class FidelityCheckTests(unittest.TestCase):
     def test_saidas_geradas_ficam_sem_alertas_detectados(self) -> None:
         checagem = self.resultado.checagem
 
-        self.assertEqual(self.resultado.schema_version, "0.9.0")
+        self.assertEqual(self.resultado.schema_version, "1.0.0")
         self.assertEqual(checagem.estado, "sem_alertas_detectados")
         self.assertEqual(checagem.alvos_verificados, ["sintese", "PF1"])
         self.assertEqual(checagem.achados, [])

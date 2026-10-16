@@ -1,13 +1,17 @@
 from __future__ import annotations
 
-import re
 from dataclasses import dataclass
+import re
+from time import perf_counter
 
 from .models import (
     AnalysisResponse,
     AnalysisSummary,
     Attribution,
     Evidence,
+    ExecutionCosts,
+    ExecutionMetadata,
+    ExecutionParameters,
     Operators,
     Participant,
     Proposition,
@@ -316,6 +320,7 @@ def encontrar_mencao(
 
 
 def analisar_paragrafo(texto: str, contexto_anterior: str | None = None) -> AnalysisResponse:
+    inicio_execucao = perf_counter()
     if not texto.strip():
         raise ValueError("O parágrafo não pode estar vazio.")
     contexto_anterior = contexto_anterior if contexto_anterior and contexto_anterior.strip() else None
@@ -442,6 +447,26 @@ def analisar_paragrafo(texto: str, contexto_anterior: str | None = None) -> Anal
     elif ideia_central.alternativas and ideia_central.confianca < 0.72:
         alertas.append("A ideia central possui alternativa próxima e deve ser revisada.")
 
+    execucao = ExecutionMetadata(
+        duracao_ms=round((perf_counter() - inicio_execucao) * 1_000, 3),
+        parametros=ExecutionParameters(
+            estrategia_centralidade=ideia_central.metodo,
+            estrategia_sintese=sintese.estrategia,
+            estrategia_parafrase="substituicao_discursiva_controlada_v1",
+            metodo_checagem=checagem.metodo,
+            regras_parafrase=["coordenacao_negativa", "justificativa_causal"],
+            limite_alternativas_ideia_central=2,
+            usa_contexto_anterior=contexto_anterior is not None,
+        ),
+        custos=ExecutionCosts(
+            chamadas_externas=0,
+            tokens_entrada=0,
+            tokens_saida=0,
+            custo_estimado=0,
+            observacao="Motor heurístico local; nenhuma chamada externa ou cobrança por token.",
+        ),
+    )
+
     return AnalysisResponse(
         paragrafo=texto,
         contexto_anterior=contexto_anterior,
@@ -457,6 +482,7 @@ def analisar_paragrafo(texto: str, contexto_anterior: str | None = None) -> Anal
         sintese=sintese,
         parafrases=parafrases,
         checagem=checagem,
+        execucao=execucao,
         resumo=AnalysisSummary(
             proposicoes=len(proposicoes),
             mencoes=len(mencoes),

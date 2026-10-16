@@ -147,6 +147,7 @@ h1 em { color: var(--green-2); font-weight: 400; }
 .central-idea,
 .synthesis,
 .fidelity-check,
+.execution-meta,
 .reference-map,
 .proposition-card {
   border: 1px solid var(--line);
@@ -780,6 +781,69 @@ textarea.context-textarea:focus {
   line-height: 1.45;
 }
 
+.execution-meta {
+  padding: 20px;
+  border-radius: 14px;
+  border-left: 4px solid var(--green);
+  box-shadow: none;
+}
+
+.execution-meta header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 15px;
+}
+
+.execution-meta h3 { margin: 0; font-size: 14px; }
+.execution-meta header p { margin: 3px 0 0; color: var(--muted); font-size: 10px; }
+.execution-meta header > span {
+  padding: 5px 8px;
+  color: var(--green);
+  background: var(--mint);
+  border-radius: 999px;
+  font-size: 9px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.execution-grid {
+  margin: 14px 0 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.execution-grid > div {
+  padding: 9px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  background: #fbfaf6;
+}
+
+.execution-grid dt,
+.execution-parameters dt {
+  color: var(--muted);
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.execution-grid dd { margin: 5px 0 0; color: var(--green); font-size: 12px; font-weight: 800; }
+.execution-parameters { margin-top: 11px; border-top: 1px solid var(--line); }
+.execution-parameters > summary {
+  padding-top: 11px;
+  color: var(--green-2);
+  cursor: pointer;
+  font-size: 10px;
+  font-weight: 750;
+}
+.execution-parameters dl { margin: 10px 0 0; display: grid; gap: 7px; }
+.execution-parameters dl > div { display: grid; grid-template-columns: minmax(110px, 0.35fr) 1fr; gap: 10px; }
+.execution-parameters dd { margin: 0; overflow-wrap: anywhere; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 8px; }
+.execution-note { margin: 11px 0 0; color: var(--muted); font-size: 9px; line-height: 1.45; }
+
 .reference-map {
   padding: 18px 20px;
   border-radius: 14px;
@@ -1268,6 +1332,8 @@ footer {
   .referent-grid { grid-template-columns: 1fr; }
   .graph-columns { grid-template-columns: 1fr; }
   .coverage-grid { grid-template-columns: 1fr; }
+  .execution-grid { grid-template-columns: 1fr; }
+  .execution-parameters dl > div { grid-template-columns: 1fr; gap: 3px; }
   .relation-item { grid-template-columns: 1fr auto; }
   .relation-type { text-align: left; }
   .text-button.muted { margin-left: 0; }
