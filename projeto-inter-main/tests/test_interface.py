@@ -14,7 +14,7 @@ class InterfaceContractTests(unittest.TestCase):
         html = (ROOT / "dist" / "index.html").read_text(encoding="utf-8")
         javascript = (ROOT / "dist" / "app.js").read_text(encoding="utf-8")
         self.assertIn('id="graph-map"', html)
-        self.assertIn("Protótipo · etapas 1–2 · v0.5.0", html)
+        self.assertIn("Protótipo · etapa 2 completa · v0.6.0", html)
         self.assertIn('id="json-file"', html)
         self.assertIn('id="json-paragraph"', html)
         self.assertIn('fetch("/api/documentos/validar"', javascript)
@@ -24,9 +24,12 @@ class InterfaceContractTests(unittest.TestCase):
         self.assertIn("data.quadros_atribuicao", javascript)
         self.assertIn("data.relacoes", javascript)
         self.assertIn('id="analysis-alerts"', html)
+        self.assertIn('id="central-idea"', html)
+        self.assertIn("function renderCentralIdea(idea, essentialIds)", javascript)
+        self.assertIn("data.conteudo_essencial_ids", javascript)
         self.assertIn("renderAlerts(data.alertas)", javascript)
         self.assertIn("AbortController", javascript)
-        self.assertIn('data.schema_version !== "0.4.0"', javascript)
+        self.assertIn('data.schema_version !== "0.6.0"', javascript)
 
 
 if __name__ == "__main__":

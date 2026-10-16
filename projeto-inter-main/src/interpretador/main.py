@@ -28,8 +28,8 @@ DIST_DIR = SOURCE_DIST_DIR if SOURCE_DIST_DIR.is_dir() else INSTALLED_DIST_DIR
 
 app = FastAPI(
     title="Interpretador de Proposições",
-    version="0.5.0",
-    description="Ingestão vetorizada e grafo explicável de proposições em português.",
+    version="0.6.0",
+    description="Interpretação proposicional com ideia central fundamentada em português.",
 )
 app.mount("/static", StaticFiles(directory=DIST_DIR), name="static")
 

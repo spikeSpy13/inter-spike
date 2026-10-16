@@ -17,6 +17,7 @@ from .referencias.detector import detectar_mencoes
 from .referencias.models import Mention
 from .referencias.resolvedor import resolver_referencias
 from .grafo import construir_grafo
+from .centralidade import propor_ideia_central
 
 
 @dataclass(frozen=True)
@@ -393,6 +394,11 @@ def analisar_paragrafo(texto: str, contexto_anterior: str | None = None) -> Anal
         mencoes,
         resultado_referencias,
     )
+    ideia_central, conteudo_essencial_ids = propor_ideia_central(
+        texto,
+        proposicoes,
+        grafo.relacoes,
+    )
 
     alertas: list[str] = []
     if not proposicoes:
@@ -405,6 +411,10 @@ def analisar_paragrafo(texto: str, contexto_anterior: str | None = None) -> Anal
         alertas.append(f"{len(ambiguas)} resolução referencial permaneceu ambígua.")
     if nao_resolvidas:
         alertas.append(f"{len(nao_resolvidas)} menção pronominal permaneceu sem referente textual seguro.")
+    if ideia_central.estado == "indeterminada":
+        alertas.append("A ideia central não pôde ser proposta com o registro disponível.")
+    elif ideia_central.alternativas and ideia_central.confianca < 0.72:
+        alertas.append("A ideia central possui alternativa próxima e deve ser revisada.")
 
     return AnalysisResponse(
         paragrafo=texto,
@@ -416,6 +426,8 @@ def analisar_paragrafo(texto: str, contexto_anterior: str | None = None) -> Anal
         operadores_escopo=grafo.operadores,
         quadros_atribuicao=grafo.quadros_atribuicao,
         relacoes=grafo.relacoes,
+        ideia_central=ideia_central,
+        conteudo_essencial_ids=conteudo_essencial_ids,
         resumo=AnalysisSummary(
             proposicoes=len(proposicoes),
             mencoes=len(mencoes),
@@ -428,6 +440,7 @@ def analisar_paragrafo(texto: str, contexto_anterior: str | None = None) -> Anal
             relacoes=len(grafo.relacoes),
             negacoes=sum(prop.operadores.negacao is not None for prop in proposicoes),
             atribuicoes_marcadas=sum(prop.atribuicao.modo != "asserção narrativa" for prop in proposicoes),
+            conteudo_essencial=len(conteudo_essencial_ids),
         ),
         alertas=alertas,
     )

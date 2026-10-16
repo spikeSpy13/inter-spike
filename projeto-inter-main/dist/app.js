@@ -16,6 +16,7 @@ const referenceMap = document.querySelector("#reference-map");
 const mentionMap = document.querySelector("#mention-map");
 const resultStats = document.querySelector("#result-stats");
 const analysisAlerts = document.querySelector("#analysis-alerts");
+const centralIdea = document.querySelector("#central-idea");
 const analyzeLabel = analyzeButton.querySelector("span");
 const jsonFileInput = document.querySelector("#json-file");
 const jsonStatus = document.querySelector("#json-status");
@@ -187,6 +188,34 @@ function renderAlerts(alerts) {
   analysisAlerts.querySelector("ul").innerHTML = items
     .map(item => `<li>${escapeHtml(item)}</li>`)
     .join("");
+}
+
+function renderCentralIdea(idea, essentialIds) {
+  if (!idea || idea.estado === "indeterminada") {
+    centralIdea.innerHTML = `
+      <header><div><h3 id="central-idea-title">Ideia central</h3><p>Hipótese revisável apoiada no texto original.</p></div></header>
+      <p class="quiet-message">O registro atual não foi suficiente para propor uma ideia central.</p>
+    `;
+    return;
+  }
+  const evidence = idea.evidencias?.[0];
+  const alternatives = (idea.alternativas || []).map((item, index) => `
+    <article class="central-alternative">
+      <div><span>Alternativa ${index + 1}</span><strong>${Math.round(item.pontuacao * 100)} pontos</strong></div>
+      <blockquote>“${escapeHtml(item.texto)}”</blockquote>
+      <small>${item.proposicao_ids.map(id => escapeHtml(id)).join(" · ")} · ${escapeHtml(evidenceLabel(item.evidencias?.[0]))}</small>
+    </article>
+  `).join("");
+  centralIdea.innerHTML = `
+    <header>
+      <div><h3 id="central-idea-title">Ideia central proposta</h3><p>Seleção extrativa; permanece aberta à revisão.</p></div>
+      <span>${Math.round(idea.confianca * 100)}% confiança</span>
+    </header>
+    <blockquote class="central-statement">“${escapeHtml(idea.texto)}”<small>${escapeHtml(evidenceLabel(evidence))}</small></blockquote>
+    <div class="essential-row"><strong>Conteúdo essencial</strong>${essentialIds.map(id => `<span>${escapeHtml(id)}</span>`).join("")}</div>
+    <ul class="central-reasons">${idea.razoes.map(reason => `<li>${escapeHtml(reason)}</li>`).join("")}</ul>
+    ${alternatives ? `<details class="central-alternatives"><summary>Examinar ${idea.alternativas.length} ${idea.alternativas.length === 1 ? "alternativa" : "alternativas"}</summary><div>${alternatives}</div></details>` : ""}
+  `;
 }
 
 function renderGraph(data) {
@@ -361,8 +390,9 @@ function renderMentions(mentions, resolutions) {
   `;
 }
 
-function renderPropositions(propositions, frames) {
+function renderPropositions(propositions, frames, essentialIds) {
   const frameById = new Map(frames.map(item => [item.id, item]));
+  const essential = new Set(essentialIds || []);
   propositionList.innerHTML = propositions.map((prop, index) => {
     const frame = frameById.get(prop.atribuicao_id);
     const negation = prop.operadores.negacao ? `sim — marcador “${prop.operadores.negacao}”` : "não detectada";
@@ -380,10 +410,11 @@ function renderPropositions(propositions, frames) {
       : `<span class="operator-none">não resolvido</span>`;
     const attributionState = frame?.estado || prop.atribuicao.estado;
     return `
-      <li class="proposition-card" style="animation-delay:${Math.min(index * 45, 360)}ms">
+      <li class="proposition-card ${essential.has(prop.id) ? "essential" : ""}" style="animation-delay:${Math.min(index * 45, 360)}ms">
         <div class="card-top">
           <span class="proposition-id">${escapeHtml(prop.id)}</span>
           <div class="card-badges">
+            ${essential.has(prop.id) ? `<span class="essential-chip">essencial</span>` : ""}
             <span class="status-chip ${escapeHtml(attributionState)}">${escapeHtml(attributionState)}</span>
             <span class="polarity-chip ${escapeHtml(prop.polaridade)}">${escapeHtml(prop.polaridade)}</span>
             <span class="confidence">${Math.round(prop.confianca * 100)}% confiança</span>
@@ -434,6 +465,7 @@ function renderError(message) {
   emptyState.hidden = true;
   analysisOutput.hidden = false;
   graphMap.innerHTML = "";
+  centralIdea.innerHTML = "";
   referenceMap.innerHTML = "";
   mentionMap.innerHTML = "";
   propositionList.innerHTML = `<li class="error-state">${escapeHtml(message)}</li>`;
@@ -471,19 +503,20 @@ async function renderAnalysis() {
     const responseData = await response.json();
     if (requestId !== activeRequestId) return;
     if (!response.ok) throw new Error(errorMessage(responseData, "Não foi possível analisar o parágrafo."));
-    if (structured && responseData.schema_version !== "0.5.0") {
-      throw new Error(`Versão de ingestão incompatível: ${responseData.schema_version || "ausente"}.`);
+    if (structured && responseData.schema_version !== "0.6.0") {
+      throw new Error(`Versão do fluxo estruturado incompatível: ${responseData.schema_version || "ausente"}.`);
     }
     const data = structured ? responseData.analise : responseData;
-    if (data.schema_version !== "0.4.0") throw new Error(`Versão de resposta incompatível: ${data.schema_version || "ausente"}.`);
+    if (data.schema_version !== "0.6.0") throw new Error(`Versão de resposta incompatível: ${data.schema_version || "ausente"}.`);
 
     emptyState.hidden = true;
     analysisOutput.hidden = false;
+    renderCentralIdea(data.ideia_central, data.conteudo_essencial_ids);
     renderGraph(data);
     renderReferences(data.referentes, data.resolucoes, data.mencoes);
     renderMentions(data.mencoes, data.resolucoes);
     renderAlerts(data.alertas);
-    if (data.proposicoes.length) renderPropositions(data.proposicoes, data.quadros_atribuicao);
+    if (data.proposicoes.length) renderPropositions(data.proposicoes, data.quadros_atribuicao, data.conteudo_essencial_ids);
     else propositionList.innerHTML = `<li class="error-state">${escapeHtml(data.alertas[0] || "Nenhuma proposição identificada.")}</li>`;
 
     const summary = data.resumo;
@@ -497,6 +530,7 @@ async function renderAnalysis() {
       <span class="mini-chip">${summary.relacoes} relações</span>
       <span class="mini-chip">${summary.negacoes} negações</span>
       <span class="mini-chip">${summary.atribuicoes_marcadas} atribuídas</span>
+      <span class="mini-chip essential">${summary.conteudo_essencial} essenciais</span>
       ${structured ? `<span class="mini-chip source">documento ${escapeHtml(responseData.fonte.documento_id)} · ${escapeHtml(responseData.paragrafo.rotulo)}</span>` : ""}
       <span class="mini-chip">contrato ${escapeHtml(data.schema_version)}</span>
     `;

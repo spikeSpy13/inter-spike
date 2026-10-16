@@ -73,6 +73,25 @@ class Proposition(BaseModel):
     confianca: float = Field(ge=0, le=1)
 
 
+class CentralIdeaAlternative(BaseModel):
+    texto: str
+    proposicao_ids: list[str]
+    evidencias: list[Evidence]
+    pontuacao: float = Field(ge=0, le=1)
+    razoes: list[str]
+
+
+class CentralIdea(BaseModel):
+    estado: Literal["proposta", "indeterminada"]
+    texto: str | None = None
+    proposicao_ids: list[str] = Field(default_factory=list)
+    evidencias: list[Evidence] = Field(default_factory=list)
+    confianca: float = Field(ge=0, le=1)
+    razoes: list[str]
+    alternativas: list[CentralIdeaAlternative] = Field(default_factory=list)
+    metodo: Literal["heuristica_explicavel_v1"] = "heuristica_explicavel_v1"
+
+
 class AnalysisSummary(BaseModel):
     proposicoes: int
     mencoes: int
@@ -83,10 +102,11 @@ class AnalysisSummary(BaseModel):
     relacoes: int
     negacoes: int
     atribuicoes_marcadas: int
+    conteudo_essencial: int
 
 
 class AnalysisResponse(BaseModel):
-    schema_version: Literal["0.4.0"] = "0.4.0"
+    schema_version: Literal["0.6.0"] = "0.6.0"
     paragrafo: str
     contexto_anterior: str | None = None
     proposicoes: list[Proposition]
@@ -96,6 +116,8 @@ class AnalysisResponse(BaseModel):
     operadores_escopo: list["ScopeOperator"]
     quadros_atribuicao: list["AttributionFrame"]
     relacoes: list["PropositionRelation"]
+    ideia_central: CentralIdea
+    conteudo_essencial_ids: list[str]
     resumo: AnalysisSummary
     alertas: list[str]
 
@@ -139,7 +161,7 @@ class JsonAnalysisRequest(BaseModel):
 
 
 class JsonAnalysisResponse(BaseModel):
-    schema_version: Literal["0.5.0"] = "0.5.0"
+    schema_version: Literal["0.6.0"] = "0.6.0"
     fonte: DocumentSource
     paragrafo: DocumentParagraph
     analise: AnalysisResponse

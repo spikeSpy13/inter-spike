@@ -27,7 +27,7 @@ Algumas representações compartilham o mesmo artefato quando o recorte textual 
 
 ## Sequência de implementação
 
-O protótipo foi desenvolvido primeiro pelo fluxo de texto colado. A estabilização `0.4.1` consolidou o contrato de análise `0.4.0`; a versão `0.5.0` ligou a ingestão estruturada à fixture `09_vetorizacao` e manteve o fluxo anterior para compatibilidade.
+O protótipo foi desenvolvido primeiro pelo fluxo de texto colado. A estabilização `0.4.1` consolidou o grafo proposicional; a versão `0.5.0` ligou a ingestão estruturada à fixture `09_vetorizacao`; e a versão `0.6.0` completou a seleção explicável da ideia central e do conteúdo essencial.
 
 ### Etapa 1 — receber e validar
 
@@ -44,14 +44,20 @@ Critério de aceite: a fixture fornecida é aceita; cópias com referência queb
 
 ### Etapa 2 — interpretar um parágrafo
 
+**Implementada — contrato de análise `0.6.0`.**
+
 - extrair proposições e participantes; **implementado**
 - detectar menções e seus intervalos no parágrafo e no contexto anterior; **implementado**
 - registrar referentes e alternativas de resolução; **implementado — contrato 0.3.0**
 - representar negação, possibilidade, atribuição e relações entre proposições; **implementado — contrato 0.4.0**
-- propor a ideia central com evidências e alternativas;
-- marcar IDs do conteúdo considerado essencial.
+- propor a ideia central com evidências e alternativas; **implementado — contrato 0.6.0**
+- marcar IDs do conteúdo considerado essencial. **implementado — contrato 0.6.0**
 
-Critério de aceite: cada proposição e cada hipótese relevante aponta para um ou mais intervalos válidos do texto original.
+Critério de aceite: cada proposição e cada hipótese relevante aponta para um ou mais intervalos válidos do texto original. **Atendido por testes automatizados.**
+
+#### Ideia central e conteúdo essencial
+
+O seletor `heuristica_explicavel_v1` agrupa proposições que compartilham o mesmo trecho de evidência. A pontuação considera relações discursivas, estado de atribuição, polaridade, posição e recorrência de participantes. A hipótese principal preserva até duas alternativas, registra suas razões e mantém a formulação como recorte do original. Pontuação e confiança ordenam hipóteses para revisão; não são probabilidades calibradas.
 
 #### Resolução referencial implementada
 

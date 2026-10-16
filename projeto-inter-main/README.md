@@ -6,7 +6,7 @@ O primeiro recorte do produto é deliberadamente pequeno: interpretar **um pará
 
 ## Estado atual
 
-O projeto concluiu a **Etapa 1 — ingestão e validação** e continua na **Etapa 2 — interpretação de um parágrafo**. A versão `0.5.0` recebe diretamente o JSON de `09_vetorizacao`, oferece os parágrafos válidos para seleção e executa sobre eles o grafo proposicional estabilizado em `0.4.1`. O motor e a API são escritos em Python; a interface funcional está em `dist/`. Os anexos originais foram preservados em:
+O projeto concluiu a **Etapa 1 — ingestão e validação** e a **Etapa 2 — interpretação de um parágrafo**. A versão `0.6.0` acrescenta uma hipótese extrativa de ideia central, alternativas pontuadas e os IDs do conteúdo essencial ao fluxo estruturado de `09_vetorizacao`. O motor e a API são escritos em Python; a interface funcional está em `dist/`. Os anexos originais foram preservados em:
 
 - `fixtures/vetorizacao-28.json`: exemplo real de entrada;
 - `docs/referencias/arquitetura_interpretacao_fundamentada_v1.pdf`: referência conceitual.
@@ -15,13 +15,13 @@ O plano e os critérios de aceite estão em [`docs/01-escopo-e-etapas.md`](docs/
 
 ## Interface atual
 
-A página aceita o arquivo JSON de `09_vetorizacao`, valida sua estrutura e permite selecionar um parágrafo. O texto livre e o contexto anterior continuam disponíveis. A análise produz proposições, menções, grupos de referentes `R1/R2` e um grafo com operadores, quadros de atribuição e relações. Cada decisão mostra confiança, razões, alternativas e evidências. Possessivos registram uma relação de possuidor, sem confundir o possuidor com o objeto possuído. Os participantes recebem papéis semânticos como agente, paciente, destinatário e meio.
+A página aceita o arquivo JSON de `09_vetorizacao`, valida sua estrutura e permite selecionar um parágrafo. O texto livre e o contexto anterior continuam disponíveis. A análise produz proposições, menções, grupos de referentes `R1/R2`, um grafo com operadores, quadros de atribuição e relações, além da ideia central proposta. Cada decisão mostra confiança, razões, alternativas e evidências. As proposições essenciais ficam destacadas para orientar a futura síntese.
 
 Esta versão continua sendo um extrator heurístico demonstrativo. Resoluções ambíguas ou sem antecedente permanecem explícitas; confiança não representa uma probabilidade calibrada.
 
-### Contrato `0.4.0`
+### Base proposicional `0.4.0`
 
-A resposta de `POST /api/analisar` inclui:
+Os campos introduzidos nesse contrato permanecem na resposta atual de `POST /api/analisar`:
 
 - `mencoes`: ocorrências com intervalos exatos;
 - `referentes`: agrupamentos de menções;
@@ -41,7 +41,13 @@ O contrato de ingestão `0.5.0` valida `schema_version`, etapa e estado da orige
 
 - `POST /api/documentos/validar`: valida o documento e lista os parágrafos disponíveis;
 - `POST /api/analisar-json`: valida novamente a origem e analisa o parágrafo selecionado;
-- `POST /api/analisar`: mantém o fluxo de texto livre do contrato `0.4.0`.
+- `POST /api/analisar`: mantém o fluxo de texto livre e retorna o contrato de análise atual.
+
+### Ideia central `0.6.0`
+
+O contrato de análise `0.6.0` agrupa proposições apoiadas pelo mesmo trecho e pontua os grupos com sinais explícitos do registro: relações discursivas, atribuição, polaridade, posição e recorrência de participantes. A melhor hipótese fica em `ideia_central`; até duas leituras concorrentes permanecem em `alternativas`; `conteudo_essencial_ids` identifica as proposições que a próxima etapa deverá preservar.
+
+A hipótese usa um trecho do original como formulação, e todas as evidências são validadas contra seus intervalos. A pontuação é heurística e não representa probabilidade calibrada nem certificação de correção.
 
 ## Baixar e executar
 

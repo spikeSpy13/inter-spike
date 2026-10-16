@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "interpretador-proposicoes"
-version = "0.5.0"
-description = "Ingestão vetorizada e grafo explicável de proposições em português."
+version = "0.6.0"
+description = "Interpretação proposicional com ideia central fundamentada em português."
 requires-python = ">=3.12"
 dependencies = [
   "fastapi>=0.115,<1",
