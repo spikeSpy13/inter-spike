@@ -27,7 +27,7 @@ Algumas representações compartilham o mesmo artefato quando o recorte textual 
 
 ## Sequência de implementação
 
-O protótipo foi desenvolvido primeiro pelo fluxo de texto colado. A estabilização `0.4.1` consolidou o grafo proposicional; a versão `0.5.0` ligou a ingestão estruturada à fixture `09_vetorizacao`; e a versão `0.6.0` completou a seleção explicável da ideia central e do conteúdo essencial.
+O protótipo foi desenvolvido primeiro pelo fluxo de texto colado. A estabilização `0.4.1` consolidou o grafo proposicional; a versão `0.5.0` ligou a ingestão estruturada à fixture `09_vetorizacao`; a versão `0.6.0` completou a seleção explicável da ideia central e do conteúdo essencial; e a versão `0.7.0` passou a gerar uma síntese extrativa com cobertura verificável.
 
 ### Etapa 1 — receber e validar
 
@@ -73,11 +73,17 @@ As relações e os operadores apontam para intervalos exatos do parágrafo. O va
 
 ### Etapa 3 — gerar textos
 
-- gerar uma síntese a partir do registro interpretativo;
-- oferecer paráfrases opcionais como saídas independentes;
-- consultar o original durante a geração.
+**Em andamento — síntese implementada no contrato de análise `0.7.0`.**
 
-Critério de aceite: síntese e paráfrases preservam negação, modalidade, participantes e relações essenciais selecionadas.
+- gerar uma síntese a partir do registro interpretativo; **implementado — contrato 0.7.0**
+- oferecer paráfrases opcionais como saídas independentes; **pendente**
+- consultar o original durante a geração. **implementado — contrato 0.7.0**
+
+Critério de aceite: síntese e paráfrases preservam negação, modalidade, participantes e relações essenciais selecionadas. **Atendido para a síntese por testes automatizados; pendente para paráfrases.**
+
+#### Síntese extrativa implementada
+
+A estratégia `extrativa_conteudo_essencial_v1` seleciona períodos completos do original que contêm as proposições essenciais. Ela também exige cobertura das evidências de operadores e relações ligados a essas proposições e dos intervalos dos participantes. O contrato registra os IDs cobertos, os intervalos literais, a confiança herdada da ideia central e alertas de revisão. O validador rejeita texto sem apoio ou perda de qualquer elemento declarado como essencial.
 
 ### Etapa 4 — checar fidelidade
 

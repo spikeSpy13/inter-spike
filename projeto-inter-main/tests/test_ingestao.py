@@ -51,7 +51,7 @@ class IngestaoTests(unittest.TestCase):
     def test_analise_seleciona_paragrafo_e_contexto_anterior(self) -> None:
         resposta = analisar_json(JsonAnalysisRequest(documento=self.documento, paragrafo_id="P2"))
 
-        self.assertEqual(resposta.schema_version, "0.6.0")
+        self.assertEqual(resposta.schema_version, "0.7.0")
         self.assertEqual(resposta.paragrafo.rotulo, "P2")
         self.assertEqual(resposta.analise.paragrafo, resposta.paragrafo.texto)
         self.assertEqual(resposta.analise.contexto_anterior, validar_documento(self.documento).paragrafos[0].texto)

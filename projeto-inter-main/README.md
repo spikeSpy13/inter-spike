@@ -6,7 +6,7 @@ O primeiro recorte do produto é deliberadamente pequeno: interpretar **um pará
 
 ## Estado atual
 
-O projeto concluiu a **Etapa 1 — ingestão e validação** e a **Etapa 2 — interpretação de um parágrafo**. A versão `0.6.0` acrescenta uma hipótese extrativa de ideia central, alternativas pontuadas e os IDs do conteúdo essencial ao fluxo estruturado de `09_vetorizacao`. O motor e a API são escritos em Python; a interface funcional está em `dist/`. Os anexos originais foram preservados em:
+O projeto concluiu a **Etapa 1 — ingestão e validação** e a **Etapa 2 — interpretação de um parágrafo**. A **Etapa 3 — geração de textos** está em andamento: a versão `0.7.0` acrescenta uma síntese extrativa com cobertura verificável do conteúdo essencial ao fluxo estruturado de `09_vetorizacao`. O motor e a API são escritos em Python; a interface funcional está em `dist/`. Os anexos originais foram preservados em:
 
 - `fixtures/vetorizacao-28.json`: exemplo real de entrada;
 - `docs/referencias/arquitetura_interpretacao_fundamentada_v1.pdf`: referência conceitual.
@@ -15,7 +15,7 @@ O plano e os critérios de aceite estão em [`docs/01-escopo-e-etapas.md`](docs/
 
 ## Interface atual
 
-A página aceita o arquivo JSON de `09_vetorizacao`, valida sua estrutura e permite selecionar um parágrafo. O texto livre e o contexto anterior continuam disponíveis. A análise produz proposições, menções, grupos de referentes `R1/R2`, um grafo com operadores, quadros de atribuição e relações, além da ideia central proposta. Cada decisão mostra confiança, razões, alternativas e evidências. As proposições essenciais ficam destacadas para orientar a futura síntese.
+A página aceita o arquivo JSON de `09_vetorizacao`, valida sua estrutura e permite selecionar um parágrafo. O texto livre e o contexto anterior continuam disponíveis. A análise produz proposições, menções, grupos de referentes `R1/R2`, um grafo com operadores, quadros de atribuição e relações, além da ideia central proposta e da síntese extrativa. Cada decisão mostra confiança, razões, alternativas e evidências. A síntese informa quais proposições, operadores, relações e participantes foram preservados.
 
 Esta versão continua sendo um extrator heurístico demonstrativo. Resoluções ambíguas ou sem antecedente permanecem explícitas; confiança não representa uma probabilidade calibrada.
 
@@ -48,6 +48,12 @@ O contrato de ingestão `0.5.0` valida `schema_version`, etapa e estado da orige
 O contrato de análise `0.6.0` agrupa proposições apoiadas pelo mesmo trecho e pontua os grupos com sinais explícitos do registro: relações discursivas, atribuição, polaridade, posição e recorrência de participantes. A melhor hipótese fica em `ideia_central`; até duas leituras concorrentes permanecem em `alternativas`; `conteudo_essencial_ids` identifica as proposições que a próxima etapa deverá preservar.
 
 A hipótese usa um trecho do original como formulação, e todas as evidências são validadas contra seus intervalos. A pontuação é heurística e não representa probabilidade calibrada nem certificação de correção.
+
+### Síntese extrativa `0.7.0`
+
+O contrato de análise `0.7.0` gera `sintese` a partir dos IDs de conteúdo essencial. A estratégia `extrativa_conteudo_essencial_v1` seleciona períodos completos do texto original que cobrem as proposições essenciais e as evidências de seus operadores e relações. O resultado declara a cobertura em `proposicao_ids`, `operador_ids`, `relacao_ids` e `mencao_ids`; o validador rejeita intervalos divergentes, texto acrescentado e perda dos elementos essenciais.
+
+Quando não há conteúdo essencial, a síntese fica `indeterminada`. Períodos não contíguos, contexto adicional e baixa confiança da ideia central geram alertas para revisão. `parafrases` permanece uma lista vazia nesta versão: a geração opcional de paráfrases terá um contrato de fidelidade próprio.
 
 ## Baixar e executar
 

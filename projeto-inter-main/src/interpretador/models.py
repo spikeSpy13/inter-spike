@@ -92,6 +92,30 @@ class CentralIdea(BaseModel):
     metodo: Literal["heuristica_explicavel_v1"] = "heuristica_explicavel_v1"
 
 
+class SynthesisCoverage(BaseModel):
+    proposicao_ids: list[str]
+    operador_ids: list[str]
+    relacao_ids: list[str]
+    mencao_ids: list[str]
+
+
+class Synthesis(BaseModel):
+    estado: Literal["gerada", "indeterminada"]
+    texto: str | None = None
+    estrategia: Literal["extrativa_conteudo_essencial_v1"] = "extrativa_conteudo_essencial_v1"
+    evidencias: list[Evidence] = Field(default_factory=list)
+    cobertura: SynthesisCoverage
+    confianca: float = Field(ge=0, le=1)
+    alertas: list[str] = Field(default_factory=list)
+
+
+class Paraphrase(BaseModel):
+    texto: str
+    proposicao_ids: list[str]
+    evidencias: list[Evidence]
+    estrategia: str
+
+
 class AnalysisSummary(BaseModel):
     proposicoes: int
     mencoes: int
@@ -103,10 +127,11 @@ class AnalysisSummary(BaseModel):
     negacoes: int
     atribuicoes_marcadas: int
     conteudo_essencial: int
+    sintese_caracteres: int
 
 
 class AnalysisResponse(BaseModel):
-    schema_version: Literal["0.6.0"] = "0.6.0"
+    schema_version: Literal["0.7.0"] = "0.7.0"
     paragrafo: str
     contexto_anterior: str | None = None
     proposicoes: list[Proposition]
@@ -118,6 +143,8 @@ class AnalysisResponse(BaseModel):
     relacoes: list["PropositionRelation"]
     ideia_central: CentralIdea
     conteudo_essencial_ids: list[str]
+    sintese: Synthesis
+    parafrases: list[Paraphrase] = Field(default_factory=list)
     resumo: AnalysisSummary
     alertas: list[str]
 
@@ -161,7 +188,7 @@ class JsonAnalysisRequest(BaseModel):
 
 
 class JsonAnalysisResponse(BaseModel):
-    schema_version: Literal["0.6.0"] = "0.6.0"
+    schema_version: Literal["0.7.0"] = "0.7.0"
     fonte: DocumentSource
     paragrafo: DocumentParagraph
     analise: AnalysisResponse

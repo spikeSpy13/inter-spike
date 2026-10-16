@@ -17,6 +17,7 @@ const mentionMap = document.querySelector("#mention-map");
 const resultStats = document.querySelector("#result-stats");
 const analysisAlerts = document.querySelector("#analysis-alerts");
 const centralIdea = document.querySelector("#central-idea");
+const synthesis = document.querySelector("#synthesis");
 const analyzeLabel = analyzeButton.querySelector("span");
 const jsonFileInput = document.querySelector("#json-file");
 const jsonStatus = document.querySelector("#json-status");
@@ -215,6 +216,36 @@ function renderCentralIdea(idea, essentialIds) {
     <div class="essential-row"><strong>Conteúdo essencial</strong>${essentialIds.map(id => `<span>${escapeHtml(id)}</span>`).join("")}</div>
     <ul class="central-reasons">${idea.razoes.map(reason => `<li>${escapeHtml(reason)}</li>`).join("")}</ul>
     ${alternatives ? `<details class="central-alternatives"><summary>Examinar ${idea.alternativas.length} ${idea.alternativas.length === 1 ? "alternativa" : "alternativas"}</summary><div>${alternatives}</div></details>` : ""}
+  `;
+}
+
+function renderSynthesis(item, paraphrases) {
+  if (!item || item.estado === "indeterminada") {
+    synthesis.innerHTML = `
+      <header><div><h3 id="synthesis-title">Síntese</h3><p>Texto apoiado no conteúdo essencial.</p></div></header>
+      <p class="quiet-message">Não há conteúdo essencial suficiente para gerar a síntese.</p>
+    `;
+    return;
+  }
+  const coverage = item.cobertura;
+  const coverageGroup = (label, ids) => `
+    <div><dt>${escapeHtml(label)}</dt><dd>${ids.length ? ids.map(id => `<span>${escapeHtml(id)}</span>`).join("") : `<em>nenhum</em>`}</dd></div>
+  `;
+  synthesis.innerHTML = `
+    <header>
+      <div><h3 id="synthesis-title">Síntese extrativa</h3><p>Períodos originais selecionados pelo conteúdo essencial.</p></div>
+      <span>${Math.round(item.confianca * 100)}% confiança</span>
+    </header>
+    <blockquote class="synthesis-text">${escapeHtml(item.texto)}</blockquote>
+    <p class="synthesis-evidence">${item.evidencias.map(evidence => escapeHtml(evidenceLabel(evidence))).join(" · ")}</p>
+    <dl class="coverage-grid">
+      ${coverageGroup("Proposições", coverage.proposicao_ids)}
+      ${coverageGroup("Operadores", coverage.operador_ids)}
+      ${coverageGroup("Relações", coverage.relacao_ids)}
+      ${coverageGroup("Participantes", coverage.mencao_ids)}
+    </dl>
+    ${item.alertas.length ? `<ul class="synthesis-alerts">${item.alertas.map(alert => `<li>${escapeHtml(alert)}</li>`).join("")}</ul>` : ""}
+    <p class="paraphrase-state">${paraphrases.length ? `${paraphrases.length} paráfrases disponíveis` : "Paráfrases opcionais ainda não geradas."}</p>
   `;
 }
 
@@ -466,6 +497,7 @@ function renderError(message) {
   analysisOutput.hidden = false;
   graphMap.innerHTML = "";
   centralIdea.innerHTML = "";
+  synthesis.innerHTML = "";
   referenceMap.innerHTML = "";
   mentionMap.innerHTML = "";
   propositionList.innerHTML = `<li class="error-state">${escapeHtml(message)}</li>`;
@@ -503,15 +535,16 @@ async function renderAnalysis() {
     const responseData = await response.json();
     if (requestId !== activeRequestId) return;
     if (!response.ok) throw new Error(errorMessage(responseData, "Não foi possível analisar o parágrafo."));
-    if (structured && responseData.schema_version !== "0.6.0") {
+    if (structured && responseData.schema_version !== "0.7.0") {
       throw new Error(`Versão do fluxo estruturado incompatível: ${responseData.schema_version || "ausente"}.`);
     }
     const data = structured ? responseData.analise : responseData;
-    if (data.schema_version !== "0.6.0") throw new Error(`Versão de resposta incompatível: ${data.schema_version || "ausente"}.`);
+    if (data.schema_version !== "0.7.0") throw new Error(`Versão de resposta incompatível: ${data.schema_version || "ausente"}.`);
 
     emptyState.hidden = true;
     analysisOutput.hidden = false;
     renderCentralIdea(data.ideia_central, data.conteudo_essencial_ids);
+    renderSynthesis(data.sintese, data.parafrases);
     renderGraph(data);
     renderReferences(data.referentes, data.resolucoes, data.mencoes);
     renderMentions(data.mencoes, data.resolucoes);
@@ -531,6 +564,7 @@ async function renderAnalysis() {
       <span class="mini-chip">${summary.negacoes} negações</span>
       <span class="mini-chip">${summary.atribuicoes_marcadas} atribuídas</span>
       <span class="mini-chip essential">${summary.conteudo_essencial} essenciais</span>
+      <span class="mini-chip synthesis">${summary.sintese_caracteres} caracteres na síntese</span>
       ${structured ? `<span class="mini-chip source">documento ${escapeHtml(responseData.fonte.documento_id)} · ${escapeHtml(responseData.paragrafo.rotulo)}</span>` : ""}
       <span class="mini-chip">contrato ${escapeHtml(data.schema_version)}</span>
     `;
