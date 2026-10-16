@@ -6,7 +6,7 @@ O primeiro recorte do produto é deliberadamente pequeno: interpretar **um pará
 
 ## Estado atual
 
-O projeto está na **Etapa 3 — grafo proposicional e escopo**. O motor e a API são escritos em Python; a interface funcional está em `dist/`. Os anexos originais foram preservados em:
+O projeto está na **Etapa 2 — interpretação de um parágrafo**, com o grafo proposicional estabilizado na versão `0.4.1`. O motor e a API são escritos em Python; a interface funcional está em `dist/`. A Etapa 1 de ingestão e validação direta do JSON vetorizado ainda será conectada ao protótipo. Os anexos originais foram preservados em:
 
 - `fixtures/vetorizacao-28.json`: exemplo real de entrada;
 - `docs/referencias/arquitetura_interpretacao_fundamentada_v1.pdf`: referência conceitual.
@@ -30,6 +30,10 @@ A resposta de `POST /api/analisar` inclui:
 - `operadores_escopo`: negação e modalidade com marcador e proposições afetadas;
 - `quadros_atribuicao`: fonte, modo, estado e conteúdo atribuído;
 - `relacoes`: arestas explicáveis entre proposições e referentes.
+
+### Estabilização `0.4.1`
+
+A versão do aplicativo `0.4.1` mantém o contrato de resposta `0.4.0` e corrige escopo de negação em coordenações, quadros de fala citada, papéis em voz ativa e passiva, modalidade com verbos auxiliares e validação dos intervalos. A interface passou a mostrar alertas, evidências, confiança e a versão do contrato. A suíte inclui testes HTTP reais e casos de regressão além do parágrafo de referência.
 
 ## Baixar e executar
 

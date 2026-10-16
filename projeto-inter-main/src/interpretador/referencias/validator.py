@@ -34,6 +34,8 @@ def validar_referencias(
         raise ValueError("IDs de referente duplicados.")
     if len({item.mencao_id for item in resolucoes}) != len(resolucoes):
         raise ValueError("Uma menção possui mais de uma decisão referencial.")
+    if {item.mencao_id for item in resolucoes} != set(mencoes_por_id):
+        raise ValueError("Toda menção deve possuir exatamente uma decisão referencial.")
 
     participacoes: dict[str, str] = {}
     for referente in referentes:
@@ -51,8 +53,20 @@ def validar_referencias(
             raise ValueError("Resolução aponta para um referente inexistente.")
         if resolucao.referente_id and participacoes.get(resolucao.mencao_id) != resolucao.referente_id:
             raise ValueError("Resolução e agrupamento referencial divergem.")
+        if (
+            resolucao.antecedente_mencao_id
+            and resolucao.antecedente_mencao_id not in mencoes_por_id
+        ):
+            raise ValueError("Resolução aponta para um antecedente inexistente.")
+        if any(item.referente_id not in referentes_por_id for item in resolucao.alternativas):
+            raise ValueError("Alternativa aponta para um referente inexistente.")
         for evidencia in resolucao.evidencias:
             mencao = mencoes_por_id.get(evidencia.mencao_id)
-            if mencao is None or evidencia.texto != mencao.texto or evidencia.intervalo != mencao.intervalo:
+            if (
+                mencao is None
+                or evidencia.texto != mencao.texto
+                or evidencia.intervalo != mencao.intervalo
+                or evidencia.origem != mencao.origem
+            ):
                 raise ValueError("Evidência referencial incompatível com a menção original.")
 

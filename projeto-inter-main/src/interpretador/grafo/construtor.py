@@ -27,10 +27,10 @@ def construir_grafo(
     mencoes: list[Mention],
     referencias: ResolutionResult,
 ) -> GraphResult:
-    vincular_possessivos_a_fontes(contexto_anterior, mencoes, referencias)
+    vincular_possessivos_a_fontes(texto, contexto_anterior, mencoes, referencias)
     enriquecer_participantes(texto, proposicoes, mencoes, referencias.referente_por_mencao)
     operadores = extrair_operadores_escopo(texto, proposicoes)
     quadros = construir_quadros_atribuicao(texto, proposicoes, mencoes)
     relacoes = extrair_relacoes(texto, proposicoes, mencoes, referencias.referente_por_mencao)
-    validar_grafo(texto, proposicoes, referencias.referentes, operadores, quadros, relacoes)
+    validar_grafo(texto, proposicoes, mencoes, referencias.referentes, operadores, quadros, relacoes)
     return GraphResult(operadores, quadros, relacoes)

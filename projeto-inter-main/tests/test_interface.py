@@ -14,11 +14,15 @@ class InterfaceContractTests(unittest.TestCase):
         html = (ROOT / "dist" / "index.html").read_text(encoding="utf-8")
         javascript = (ROOT / "dist" / "app.js").read_text(encoding="utf-8")
         self.assertIn('id="graph-map"', html)
-        self.assertIn("Protótipo · etapa 3", html)
+        self.assertIn("Protótipo · etapa 2 · v0.4.1", html)
         self.assertIn("function renderGraph(data)", javascript)
         self.assertIn("data.operadores_escopo", javascript)
         self.assertIn("data.quadros_atribuicao", javascript)
         self.assertIn("data.relacoes", javascript)
+        self.assertIn('id="analysis-alerts"', html)
+        self.assertIn("renderAlerts(data.alertas)", javascript)
+        self.assertIn("AbortController", javascript)
+        self.assertIn('data.schema_version !== "0.4.0"', javascript)
 
 
 if __name__ == "__main__":

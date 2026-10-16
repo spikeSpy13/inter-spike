@@ -63,6 +63,36 @@ class ExtractorTests(unittest.TestCase):
         self.assertEqual(construir.participantes[0].mencao.casefold(), "alguém")
         self.assertEqual(transformar.participantes[0].mencao.casefold(), "alguém")
 
+    def test_negacao_nao_vaza_para_coordenada_afirmativa(self) -> None:
+        resultado = analisar_paragrafo("João não assinou e Helena enviou o contrato.")
+        assinar = next(item for item in resultado.proposicoes if item.predicado == "assinar")
+        enviar = next(item for item in resultado.proposicoes if item.predicado == "enviar")
+        self.assertEqual(assinar.polaridade, "negativa")
+        self.assertEqual(enviar.polaridade, "positiva")
+        self.assertIsNone(enviar.operadores.negacao)
+
+    def test_modal_comum_tem_escopo_sobre_predicado_lexical(self) -> None:
+        resultado = analisar_paragrafo("Ana pode abandonar o projeto.")
+        self.assertEqual([item.predicado for item in resultado.proposicoes], ["abandonar"])
+        operador = next(item for item in resultado.operadores_escopo if item.tipo == "modalidade")
+        self.assertEqual(operador.marcador.casefold(), "pode")
+        self.assertEqual(operador.escopo, ["P1"])
+
+    def test_verbos_comuns_e_espacos_originais_sao_preservados(self) -> None:
+        texto = "  Maria leu o livro. Talvez Beatriz viaje amanhã.  "
+        resultado = analisar_paragrafo(texto)
+        self.assertEqual(resultado.paragrafo, texto)
+        self.assertEqual(
+            [item.predicado for item in resultado.proposicoes],
+            ["ler", "viajar"],
+        )
+        for proposicao in resultado.proposicoes:
+            intervalo = proposicao.evidencia.intervalo
+            self.assertEqual(
+                proposicao.evidencia.texto,
+                texto[intervalo.inicio:intervalo.fim],
+            )
+
 
 if __name__ == "__main__":
     unittest.main()

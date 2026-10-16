@@ -27,6 +27,8 @@ Algumas representações compartilham o mesmo artefato quando o recorte textual 
 
 ## Sequência de implementação
 
+O protótipo foi desenvolvido primeiro pelo fluxo de texto colado. Por isso, partes avançadas da Etapa 2 já funcionam, enquanto a ingestão estruturada da Etapa 1 ainda precisa ser ligada à fixture `09_vetorizacao`. A estabilização `0.4.1` mantém o contrato de análise `0.4.0` e prepara essa integração.
+
 ### Etapa 1 — receber e validar
 
 - carregar o JSON sem perder o original;

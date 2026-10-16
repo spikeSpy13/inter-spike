@@ -50,46 +50,49 @@ def _ligar_mencao_a_fonte(
 
 
 def vincular_possessivos_a_fontes(
+    texto: str,
     contexto: str | None,
     mencoes: list[Mention],
     resultado: ResolutionResult,
 ) -> None:
-    if not contexto:
-        return
-    mencoes_contexto = [item for item in mencoes if item.origem == "contexto_anterior"]
-    for citacao in re.finditer(r'["“]([^"”]+)["”]', contexto, re.DOTALL):
-        cauda_fim = contexto.find(".", citacao.end())
-        if cauda_fim == -1:
-            cauda_fim = min(len(contexto), citacao.end() + 180)
-        cauda = contexto[citacao.end():cauda_fim]
-        verbo = re.search(VERBOS_FALA, cauda, re.IGNORECASE)
-        if not verbo:
-            continue
-        inicio_fonte = citacao.end() + verbo.end()
-        fontes = [
-            item for item in mencoes_contexto
-            if item.caracteristicas.classe_semantica == "pessoa"
-            and inicio_fonte <= item.intervalo.inicio < cauda_fim
-            and resultado.referente_por_mencao.get(item.id)
-        ]
-        if not fontes:
-            continue
-        fonte = min(fontes, key=lambda item: item.intervalo.inicio)
-        primeira_pessoa = [
-            item for item in mencoes_contexto
-            if citacao.start() < item.intervalo.inicio < citacao.end()
-            and item.texto.casefold() in {"meu", "minha", "meus", "minhas"}
-        ]
-        for mencao in primeira_pessoa:
-            _ligar_mencao_a_fonte(mencao, fonte, resultado, 0.94, "possessivo de primeira pessoa ligado ao falante da citação")
+    fontes_textuais = [(texto, "paragrafo")]
+    if contexto:
+        fontes_textuais.insert(0, (contexto, "contexto_anterior"))
+    for fonte_texto, origem in fontes_textuais:
+        mencoes_origem = [item for item in mencoes if item.origem == origem]
+        for citacao in re.finditer(r'["“]([^"”]+)["”]', fonte_texto, re.DOTALL):
+            cauda_fim = fonte_texto.find(".", citacao.end())
+            if cauda_fim == -1:
+                cauda_fim = min(len(fonte_texto), citacao.end() + 180)
+            cauda = fonte_texto[citacao.end():cauda_fim]
+            verbo = re.search(VERBOS_FALA, cauda, re.IGNORECASE)
+            if not verbo:
+                continue
+            inicio_fonte = citacao.end() + verbo.end()
+            fontes = [
+                item for item in mencoes_origem
+                if item.caracteristicas.classe_semantica == "pessoa"
+                and inicio_fonte <= item.intervalo.inicio < cauda_fim
+                and resultado.referente_por_mencao.get(item.id)
+            ]
+            if not fontes:
+                continue
+            fonte = min(fontes, key=lambda item: item.intervalo.inicio)
+            primeira_pessoa = [
+                item for item in mencoes_origem
+                if citacao.start() < item.intervalo.inicio < citacao.end()
+                and item.texto.casefold() in {"meu", "minha", "meus", "minhas"}
+            ]
+            for mencao in primeira_pessoa:
+                _ligar_mencao_a_fonte(mencao, fonte, resultado, 0.94, "possessivo de primeira pessoa ligado ao falante da citação")
 
-        continuidade = [
-            item for item in mencoes_contexto
-            if fonte.intervalo.fim < item.intervalo.inicio < cauda_fim
-            and item.texto.casefold() in {"seu", "sua", "seus", "suas"}
-        ]
-        for mencao in continuidade:
-            _ligar_mencao_a_fonte(mencao, fonte, resultado, 0.82, "possessivo retomado na continuidade do quadro de fala")
+            continuidade = [
+                item for item in mencoes_origem
+                if fonte.intervalo.fim < item.intervalo.inicio < cauda_fim
+                and item.texto.casefold() in {"seu", "sua", "seus", "suas"}
+            ]
+            for mencao in continuidade:
+                _ligar_mencao_a_fonte(mencao, fonte, resultado, 0.82, "possessivo retomado na continuidade do quadro de fala")
     resultado.referentes[:] = [item for item in resultado.referentes if item.mencoes]
     resolucoes_por_mencao = {item.mencao_id: item for item in resultado.resolucoes}
     for referente in resultado.referentes:
@@ -119,29 +122,85 @@ def construir_quadros_atribuicao(
     mencoes: list[Mention],
 ) -> list[AttributionFrame]:
     grupos: dict[tuple[str, str, str], list[Proposition]] = {}
+    mencoes_por_id = {item.id: item for item in mencoes}
+    rotulos_fontes: dict[str, str] = {}
+    prioridades_rotulos: dict[str, int] = {}
+    for proposicao in proposicoes:
+        for participante in proposicao.participantes:
+            if participante.referente_id:
+                mencao = mencoes_por_id.get(participante.mencao_id)
+                prioridade = (
+                    3 if mencao and mencao.tipo == "nome_proprio"
+                    else 2 if mencao and mencao.tipo in {"descricao_nominal", "descricao_complexa"}
+                    else 1
+                )
+                if prioridade > prioridades_rotulos.get(participante.referente_id, 0):
+                    prioridades_rotulos[participante.referente_id] = prioridade
+                    rotulos_fontes[participante.referente_id] = participante.mencao
+
+    def fonte_da_proposicao(proposicao: Proposition) -> str:
+        return next(
+            (
+                participante.referente_id
+                for participante in proposicao.participantes
+                if participante.referente_id
+            ),
+            "FONTE_NAO_RESOLVIDA",
+        )
+
+    def fonte_da_citacao(proposicao: Proposition) -> str:
+        relatoras = [
+            item for item in proposicoes
+            if item.predicado in {"dizer", "afirmar", "contar", "murmurar", "perguntar"}
+            and item.predicado_intervalo.inicio > proposicao.predicado_intervalo.inicio
+            and item.predicado_intervalo.inicio - proposicao.predicado_intervalo.fim <= 220
+        ]
+        if not relatoras:
+            return "FONTE_NAO_RESOLVIDA"
+        return fonte_da_proposicao(min(relatoras, key=lambda item: item.predicado_intervalo.inicio))
+
     for proposicao in proposicoes:
         if _dentro_de_descricao_complexa(proposicao, mencoes):
             chave = ("pressuposicao", "pressuposta", "ENUNCIADOR")
             proposicao.atribuicao = Attribution(
                 fonte="enunciador",
                 modo="informação de fundo",
-                estado="afirmada",
+                estado="pressuposta",
             )
         elif "?" in proposicao.evidencia.texto:
             chave = ("pergunta", "questionada", "ENUNCIADOR")
             proposicao.atribuicao = Attribution(fonte="enunciador", modo="pergunta", estado="questionada")
+        elif proposicao.atribuicao.modo == "fala citada":
+            fonte_id = fonte_da_citacao(proposicao)
+            chave = ("fala_citada", "citada", fonte_id)
+            if fonte_id in rotulos_fontes:
+                proposicao.atribuicao.fonte = rotulos_fontes[fonte_id]
         elif proposicao.atribuicao.modo in {"percepção", "conteúdo percebido"}:
-            chave = ("percepcao", "percebida", "FONTE_NAO_RESOLVIDA")
+            chave = ("percepcao", "percebida", fonte_da_proposicao(proposicao))
+            proposicao.atribuicao.estado = "percebida"
         elif proposicao.atribuicao.modo == "atitude mental":
-            chave = ("atitude_mental", "afirmada", "FONTE_NAO_RESOLVIDA")
+            chave = ("atitude_mental", "afirmada", fonte_da_proposicao(proposicao))
         else:
             chave = ("assercao_narrativa", "afirmada", "NARRADOR")
+            proposicao.atribuicao = Attribution(
+                fonte="narrador",
+                modo="asserção narrativa",
+                estado="afirmada",
+            )
         grupos.setdefault(chave, []).append(proposicao)
 
     quadros: list[AttributionFrame] = []
     for (modo, estado, fonte_id), escopo in grupos.items():
-        tipo_fonte = "participante_discursivo" if fonte_id in {"NARRADOR", "ENUNCIADOR"} else "nao_resolvida"
-        rotulo = "narrador" if fonte_id == "NARRADOR" else "enunciador" if fonte_id == "ENUNCIADOR" else "fonte não resolvida"
+        tipo_fonte = (
+            "participante_discursivo" if fonte_id in {"NARRADOR", "ENUNCIADOR"}
+            else "referente" if fonte_id in rotulos_fontes
+            else "nao_resolvida"
+        )
+        rotulo = (
+            "narrador" if fonte_id == "NARRADOR"
+            else "enunciador" if fonte_id == "ENUNCIADOR"
+            else rotulos_fontes.get(fonte_id, "fonte não resolvida")
+        )
         evidencias: list[GraphEvidence] = []
         vistos: set[tuple[int, int]] = set()
         for proposicao in escopo:
@@ -159,7 +218,7 @@ def construir_quadros_atribuicao(
             estado=estado,
             escopo=[item.id for item in escopo],
             evidencias=evidencias,
-            confianca=0.94 if tipo_fonte == "participante_discursivo" else 0.68,
+            confianca=0.94 if tipo_fonte in {"participante_discursivo", "referente"} else 0.68,
         )
         quadros.append(quadro)
         for proposicao in escopo:

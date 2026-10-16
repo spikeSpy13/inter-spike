@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "interpretador-proposicoes"
-version = "0.4.0"
+version = "0.4.1"
 description = "Grafo explicável de proposições, referências, operadores e atribuições em português."
 requires-python = ">=3.12"
 dependencies = [
@@ -15,4 +15,7 @@ dependencies = [
 
 [tool.setuptools.packages.find]
 where = ["src"]
+
+[tool.setuptools.data-files]
+"share/interpretador-proposicoes" = ["dist/index.html", "dist/app.js", "dist/styles.css"]
 

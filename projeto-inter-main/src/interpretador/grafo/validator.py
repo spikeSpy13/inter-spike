@@ -1,21 +1,45 @@
 from __future__ import annotations
 
 from ..models import Proposition
-from ..referencias.models import Referent
+from ..referencias.models import Mention, Referent
 from .models import AttributionFrame, PropositionRelation, ScopeOperator
 
 
 def validar_grafo(
     texto: str,
     proposicoes: list[Proposition],
+    mencoes: list[Mention],
     referentes: list[Referent],
     operadores: list[ScopeOperator],
     quadros: list[AttributionFrame],
     relacoes: list[PropositionRelation],
 ) -> None:
     proposicao_ids = {item.id for item in proposicoes}
+    mencoes_por_id = {item.id: item for item in mencoes}
     referente_ids = {item.id for item in referentes}
     quadro_ids = {item.id for item in quadros}
+    for nome, itens in (
+        ("proposição", proposicoes),
+        ("operador", operadores),
+        ("quadro", quadros),
+        ("relação", relacoes),
+    ):
+        if len({item.id for item in itens}) != len(itens):
+            raise ValueError(f"IDs de {nome} duplicados.")
+    for proposicao in proposicoes:
+        evidencia = proposicao.evidencia
+        if texto[evidencia.intervalo.inicio:evidencia.intervalo.fim] != evidencia.texto:
+            raise ValueError(f"Evidência inválida na proposição {proposicao.id}.")
+        if texto[proposicao.predicado_intervalo.inicio:proposicao.predicado_intervalo.fim] != proposicao.forma_textual:
+            raise ValueError(f"Intervalo do predicado inválido em {proposicao.id}.")
+        for participante in proposicao.participantes:
+            mencao = mencoes_por_id.get(participante.mencao_id)
+            if mencao is None:
+                raise ValueError(f"Participante de {proposicao.id} aponta para menção inexistente.")
+            if participante.intervalo != mencao.intervalo or participante.mencao != mencao.texto:
+                raise ValueError(f"Participante de {proposicao.id} diverge da menção original.")
+            if participante.referente_id and participante.referente_id not in referente_ids:
+                raise ValueError(f"Participante de {proposicao.id} aponta para referente inexistente.")
     for operador in operadores:
         if not set(operador.escopo) <= proposicao_ids:
             raise ValueError(f"Escopo inválido no operador {operador.id}.")
@@ -25,9 +49,18 @@ def validar_grafo(
     for quadro in quadros:
         if not set(quadro.escopo) <= proposicao_ids:
             raise ValueError(f"Escopo inválido no quadro {quadro.id}.")
+        if quadro.fonte.tipo == "referente" and quadro.fonte.id not in referente_ids:
+            raise ValueError(f"Fonte inexistente no quadro {quadro.id}.")
+        for evidencia in quadro.evidencias:
+            intervalo = evidencia.intervalo
+            if texto[intervalo.inicio:intervalo.fim] != evidencia.texto:
+                raise ValueError(f"Evidência inválida no quadro {quadro.id}.")
     for proposicao in proposicoes:
         if proposicao.atribuicao_id not in quadro_ids:
             raise ValueError(f"Proposição {proposicao.id} sem quadro de atribuição válido.")
+        quadro = next(item for item in quadros if item.id == proposicao.atribuicao_id)
+        if proposicao.atribuicao.estado != quadro.estado:
+            raise ValueError(f"Estado de atribuição divergente em {proposicao.id}.")
     destinos_validos = proposicao_ids | referente_ids
     for relacao in relacoes:
         if relacao.origem_id not in destinos_validos or relacao.destino_id not in destinos_validos:

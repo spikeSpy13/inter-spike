@@ -105,6 +105,64 @@ class PropositionGraphTests(unittest.TestCase):
         }
         self.assertFalse(ids_objetos & {item.referente_id for item in resolucao.alternativas})
 
+    def test_fala_citada_tem_fonte_e_quadro_consistentes(self) -> None:
+        resultado = analisar_paragrafo('"Helena assinou o contrato", afirmou Maria.')
+        assinar = next(item for item in resultado.proposicoes if item.predicado == "assinar")
+        afirmar = next(item for item in resultado.proposicoes if item.predicado == "afirmar")
+        quadro_fala = next(
+            item for item in resultado.quadros_atribuicao
+            if item.id == assinar.atribuicao_id
+        )
+        quadro_relato = next(
+            item for item in resultado.quadros_atribuicao
+            if item.id == afirmar.atribuicao_id
+        )
+        self.assertEqual((quadro_fala.modo, quadro_fala.estado), ("fala_citada", "citada"))
+        self.assertEqual((quadro_fala.fonte.tipo, quadro_fala.fonte.rotulo), ("referente", "Maria"))
+        self.assertEqual((quadro_relato.modo, quadro_relato.estado), ("assercao_narrativa", "afirmada"))
+        self.assertEqual(afirmar.participantes[0].mencao, "Maria")
+
+    def test_vozes_ativa_e_passiva_preservam_papeis(self) -> None:
+        ativa = analisar_paragrafo("Ana enviou o documento ao diretor.")
+        papeis_ativos = {
+            (item.papel, item.mencao)
+            for item in ativa.proposicoes[0].participantes
+        }
+        self.assertEqual(
+            papeis_ativos,
+            {("agente", "Ana"), ("paciente", "o documento"), ("destinatario", "diretor")},
+        )
+
+        passiva = analisar_paragrafo("O contrato foi assinado por Ana.")
+        papeis_passivos = {
+            (item.papel, item.mencao)
+            for item in passiva.proposicoes[0].participantes
+        }
+        self.assertEqual(
+            papeis_passivos,
+            {("paciente", "O contrato"), ("agente", "Ana")},
+        )
+
+    def test_descricao_relativa_nao_engole_oracao_principal(self) -> None:
+        resultado = analisar_paragrafo("Alguém que construiu a carreira reagiu.")
+        construir = next(item for item in resultado.proposicoes if item.predicado == "construir")
+        reagir = next(item for item in resultado.proposicoes if item.predicado == "reagir")
+        quadro_construir = next(item for item in resultado.quadros_atribuicao if item.id == construir.atribuicao_id)
+        quadro_reagir = next(item for item in resultado.quadros_atribuicao if item.id == reagir.atribuicao_id)
+        self.assertEqual(quadro_construir.estado, "pressuposta")
+        self.assertEqual(quadro_reagir.estado, "afirmada")
+
+    def test_possessivo_na_citacao_do_paragrafo_aponta_para_falante(self) -> None:
+        resultado = analisar_paragrafo('"Meu contrato foi assinado", disse Ana.')
+        meu = next(item for item in resultado.mencoes if item.texto.casefold() == "meu")
+        ana = next(item for item in resultado.mencoes if item.texto == "Ana")
+        resolucao_meu = next(item for item in resultado.resolucoes if item.mencao_id == meu.id)
+        resolucao_ana = next(item for item in resultado.resolucoes if item.mencao_id == ana.id)
+        self.assertEqual(resolucao_meu.referente_id, resolucao_ana.referente_id)
+        self.assertEqual(resolucao_meu.estado, "resolvida")
+        quadro = next(item for item in resultado.quadros_atribuicao if item.modo == "fala_citada")
+        self.assertEqual(quadro.fonte.rotulo, "Ana")
+
 
 if __name__ == "__main__":
     unittest.main()

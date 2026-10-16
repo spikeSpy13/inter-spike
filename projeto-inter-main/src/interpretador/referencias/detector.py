@@ -47,8 +47,21 @@ LIMITES = {
     "perder", "revisando", "murmurou", "morria", "abandonou", "desistiu", "enviado",
     "acredita", "construiu", "transformando", "frear", "já", "enviou",
     "respondeu", "criticou", "desistiria", "insistiu", "revisou",
+    "leu", "viaja", "viaje", "trabalha", "escreveu", "saiu", "correu", "choveu",
+    "fracassou", "permaneceu", "falou", "perguntou", "reagiu", "chegou",
 }
-INICIOS_DE_PERIODO = {"Quando", "Durante", "Apesar", "No", "Na", "Você", "Claro", "Enquanto", "Embora", "Porque", "Pois"}
+INICIOS_DE_PERIODO = {
+    "Quando", "Durante", "Apesar", "No", "Na", "Você", "Claro", "Enquanto",
+    "Embora", "Porque", "Pois", "Ontem", "Hoje", "Amanhã", "Talvez",
+}
+FORMAS_VERBAIS = {
+    "abandonou", "acredita", "assinasse", "assinado", "assinou", "bombardeou",
+    "construiu", "desistiu", "encontrada", "encontrado", "enviou", "enviado",
+    "esgotando", "frear", "morreu", "morria", "murmurou", "percebeu", "perder",
+    "revisando", "sentou", "seria", "transformando", "respondeu", "criticou",
+    "insistiu", "leu", "viaja", "viaje", "trabalha", "escreveu", "saiu", "correu",
+    "choveu", "fracassou", "permaneceu", "falou", "perguntou", "reagiu", "chegou",
+}
 
 TERMOS_PESSOA = {"gerente", "engenheira", "profissional", "diretor", "auditor", "auditores", "mensageiro", "alguém", "pessoa"}
 TERMOS_LUGAR = {"praça", "banco", "campo"}
@@ -169,7 +182,19 @@ def _detectar_descricoes(texto: str, origem: MentionOrigin, candidatos: dict[tup
 def _detectar_descricoes_complexas(texto: str, origem: MentionOrigin, candidatos: dict[tuple[int, int, str], Candidate]) -> None:
     padrao = re.compile(r"\balguém\s+que\s+[^,.!?;]+", re.IGNORECASE)
     for match in padrao.finditer(texto):
-        trecho = match.group().strip()
+        trecho_bruto = match.group()
+        tokens = _tokens(trecho_bruto)
+        verbos_finitos = 0
+        fim_local = len(trecho_bruto.rstrip())
+        for token in tokens[2:]:
+            forma = token.normalizado
+            if forma not in FORMAS_VERBAIS or forma.endswith(("ando", "endo", "indo")):
+                continue
+            verbos_finitos += 1
+            if verbos_finitos > 1:
+                fim_local = token.inicio
+                break
+        trecho = trecho_bruto[:fim_local].rstrip()
         fim = match.start() + len(trecho)
         _adicionar(candidatos, Candidate(trecho, match.start(), fim, "descricao_complexa", origem, 0.78))
 

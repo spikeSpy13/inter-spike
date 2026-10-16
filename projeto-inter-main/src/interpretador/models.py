@@ -1,6 +1,6 @@
-from typing import Literal
+from typing import Literal, Self
 
-from pydantic import BaseModel, Field, field_validator
+from pydantic import BaseModel, Field, field_validator, model_validator
 
 
 class AnalysisRequest(BaseModel):
@@ -10,8 +10,7 @@ class AnalysisRequest(BaseModel):
     @field_validator("paragrafo")
     @classmethod
     def validar_paragrafo(cls, value: str) -> str:
-        value = value.strip()
-        if not value:
+        if not value.strip():
             raise ValueError("O parágrafo não pode estar vazio.")
         return value
 
@@ -20,14 +19,19 @@ class AnalysisRequest(BaseModel):
     def normalizar_contexto(cls, value: str | None) -> str | None:
         if value is None:
             return None
-        value = value.strip()
-        return value or None
+        return value if value.strip() else None
 
 
 class Span(BaseModel):
     inicio: int = Field(ge=0)
     fim: int = Field(gt=0)
     unidade: Literal["pontos_de_codigo_unicode"] = "pontos_de_codigo_unicode"
+
+    @model_validator(mode="after")
+    def validar_ordem(self) -> Self:
+        if self.fim <= self.inicio:
+            raise ValueError("O fim do intervalo deve ser maior que o início.")
+        return self
 
 
 class Evidence(BaseModel):
@@ -51,7 +55,7 @@ class Operators(BaseModel):
 class Attribution(BaseModel):
     fonte: str
     modo: str
-    estado: Literal["afirmada", "percebida", "citada", "questionada", "hipotetica"]
+    estado: Literal["afirmada", "percebida", "citada", "questionada", "hipotetica", "pressuposta"]
 
 
 class Proposition(BaseModel):

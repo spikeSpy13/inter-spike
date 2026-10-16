@@ -45,6 +45,34 @@ def extrair_operadores_escopo(texto: str, proposicoes: list[Proposition]) -> lis
                 proposicao.polaridade = "negativa"
 
         forma = proposicao.forma_textual.casefold()
+        prefixo = texto[proposicao.evidencia.intervalo.inicio:proposicao.predicado_intervalo.inicio]
+        modais_antepostos = list(re.finditer(
+            r"\b(pode|poderia|deve|deveria)\b",
+            prefixo,
+            re.IGNORECASE,
+        ))
+        if modais_antepostos:
+            match = modais_antepostos[-1]
+            marcador = match.group()
+            inicio = proposicao.evidencia.intervalo.inicio + match.start()
+            fim = proposicao.evidencia.intervalo.inicio + match.end()
+            subtipo = {
+                "pode": "possibilidade",
+                "poderia": "possibilidade_irrealis",
+                "deve": "necessidade_ou_probabilidade",
+                "deveria": "expectativa",
+            }[marcador.casefold()]
+            operadores.append(ScopeOperator(
+                id=f"O{len(operadores) + 1}",
+                tipo="modalidade",
+                subtipo=subtipo,
+                marcador=texto[inicio:fim],
+                escopo=[proposicao.id],
+                evidencia=_evidencia(texto, inicio, fim),
+                confianca=0.9,
+            ))
+            modalidades_por_proposicao[proposicao.id].append(subtipo)
+
         if forma in {"seria", "poderia", "deveria"}:
             escopo = [proposicao.id]
             complemento = _proxima(proposicoes, proposicao)
@@ -81,7 +109,6 @@ def extrair_operadores_escopo(texto: str, proposicoes: list[Proposition]) -> lis
             ))
             modalidades_por_proposicao[complemento.id].append("capacidade_dinamica")
 
-        prefixo = texto[proposicao.evidencia.intervalo.inicio:proposicao.predicado_intervalo.inicio]
         talvez = list(re.finditer(r"\btalvez\b", prefixo, re.IGNORECASE))
         if talvez:
             match = talvez[-1]

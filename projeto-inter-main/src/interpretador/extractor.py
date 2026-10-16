@@ -58,10 +58,18 @@ VERBOS = {
     "queria": "querer", "disse": "dizer", "afirmou": "afirmar", "contou": "contar",
     "pensou": "pensar", "imaginou": "imaginar", "viu": "ver", "ouviu": "ouvir",
     "chegou": "chegar", "fez": "fazer", "tinha": "ter", "tem": "ter",
-    "terá": "ter", "sofreu": "sofrer", "reagiu": "reagir",
+    "terá": "ter", "sofreu": "sofrer", "reagiu": "reagir", "respondeu": "responder",
+    "criticou": "criticar", "insistiu": "insistir", "acabava": "acabar", "acabou": "acabar",
+    "leu": "ler", "viaja": "viajar", "viaje": "viajar", "trabalha": "trabalhar",
+    "escreveu": "escrever", "saiu": "sair", "correu": "correr", "choveu": "chover",
+    "fracassou": "fracassar", "permaneceu": "permanecer", "falou": "falar",
+    "perguntou": "perguntar", "chegaria": "chegar", "frearia": "frear",
+    "abandonar": "abandonar", "assinar": "assinar", "enviar": "enviar",
+    "desistir": "desistir", "viajar": "viajar", "trabalhar": "trabalhar",
 }
 
 AUXILIARES = {"havia", "tivesse", "foi", "era", "seria", "estava", "está", "tinha", "terá", "sido"}
+AUXILIARES_MODAIS = {"pode", "poderia", "deve", "deveria", "quer", "queria"}
 VERBOS_FALA = {"dizer", "afirmar", "contar", "murmurar", "perguntar"}
 VERBOS_COGNICAO = {"perceber", "acreditar", "pensar", "imaginar", "ver", "ouvir"}
 MODAIS = {
@@ -74,7 +82,7 @@ INICIOS_NAO_NOMINAIS = {"Quando", "Durante", "Apesar", "No", "Na", "Você", "Cla
 NOMES_DE_PAPEL = {"gerente", "engenheira", "profissional", "diretor", "auditores", "bateria", "documento", "burocracia", "alguém"}
 NAO_VERBOS = {
     "quando", "enquanto", "segundo", "comando", "demanda", "anda", "ainda",
-    "conteúdo", "sentido", "partido", "estado", "resultado", "cuidado",
+    "conteúdo", "sentido", "partido", "estado", "resultado", "cuidado", "contrabando",
 }
 
 TOKEN_RE = re.compile(r"[^\W\d_]+(?:[-'][^\W\d_]+)*", re.UNICODE)
@@ -104,18 +112,10 @@ def lematizar(token: Token) -> str | None:
         return None
     if palavra in VERBOS:
         return VERBOS[palavra]
-    if palavra.endswith("ando") and len(palavra) > 5:
-        return palavra[:-4] + "ar"
-    if palavra.endswith("endo") and len(palavra) > 5:
-        return palavra[:-4] + "er"
-    if palavra.endswith("indo") and len(palavra) > 5:
-        return palavra[:-4] + "ir"
     if re.search(r"(?:aram|eram|iram|avam)$", palavra) and len(palavra) > 6:
         return palavra[:-4] + "r"
     if re.search(r"(?:asse|esse|isse)$", palavra) and len(palavra) > 6:
         return palavra[:-4] + "r"
-    if palavra.endswith("ou") and len(palavra) > 4:
-        return palavra[:-2] + "ar"
     return None
 
 
@@ -197,6 +197,25 @@ def participante_de_descricao_complexa(
     return DetectedParticipant(nucleo.texto, nucleo.intervalo.inicio, nucleo.intervalo.fim)
 
 
+def participante_de_mencao_anterior(
+    mencoes: list[Mention], token: Token, inicio_periodo: int
+) -> DetectedParticipant | None:
+    candidatas = [
+        mencao for mencao in mencoes
+        if mencao.origem == "paragrafo"
+        and mencao.mencao_pai_id is None
+        and inicio_periodo <= mencao.intervalo.inicio
+        and mencao.intervalo.fim <= token.inicio
+    ]
+    if not candidatas:
+        return None
+    mencao = max(
+        candidatas,
+        key=lambda item: (item.intervalo.fim, item.intervalo.fim - item.intervalo.inicio),
+    )
+    return DetectedParticipant(mencao.texto, mencao.intervalo.inicio, mencao.intervalo.fim)
+
+
 def complemento(texto: str, token: Token, fim_evidencia: int) -> str | None:
     cauda = texto[token.fim:fim_evidencia]
     cauda = re.sub(r"^\s+(?:a|o|ao|à|os|as|um|uma|de|do|da)\s+", "", cauda, flags=re.IGNORECASE)
@@ -216,9 +235,10 @@ def complemento(texto: str, token: Token, fim_evidencia: int) -> str | None:
 def participante_posposto(texto: str, inicio: int, fim: int) -> DetectedParticipant | None:
     trecho = texto[inicio:fim]
     match = re.search(
-        r"\b(o|a|os|as|um|uma)\s+(gerente|engenheira|profissional|diretor|auditores)\b",
+        r"\b(?:(?:o|a|os|as|um|uma)\s+"
+        r"(?:gerente|engenheira|profissional|diretor|auditores)\b|"
+        r"[A-ZÁÉÍÓÚÂÊÔÃÕÇ][^\W\d_]*(?:[-'][^\W\d_]+)*)",
         trecho,
-        re.IGNORECASE,
     )
     if not match:
         return None
@@ -228,7 +248,10 @@ def participante_posposto(texto: str, inicio: int, fim: int) -> DetectedParticip
 
 
 def extrair_operadores(texto: str, token: Token, inicio_evidencia: int, fim_evidencia: int) -> Operators:
-    esquerda = texto[max(inicio_evidencia, token.inicio - 55):token.inicio].casefold()
+    esquerda = texto[max(inicio_evidencia, token.inicio - 90):token.inicio].casefold()
+    coordenadores = list(re.finditer(r"\b(?:e|mas|porém)\b", esquerda, re.IGNORECASE))
+    if coordenadores:
+        esquerda = esquerda[coordenadores[-1].end():]
     negacoes = re.findall(r"\b(não|nunca|jamais|nenhum|nenhuma|nem)\b", esquerda)
     return Operators(negacao=negacoes[-1] if negacoes else None, modalidade=None)
 
@@ -290,10 +313,9 @@ def encontrar_mencao(
 
 
 def analisar_paragrafo(texto: str, contexto_anterior: str | None = None) -> AnalysisResponse:
-    texto = texto.strip()
-    if not texto:
+    if not texto.strip():
         raise ValueError("O parágrafo não pode estar vazio.")
-    contexto_anterior = contexto_anterior.strip() if contexto_anterior else None
+    contexto_anterior = contexto_anterior if contexto_anterior and contexto_anterior.strip() else None
 
     mencoes_contexto = (
         detectar_mencoes(contexto_anterior, "contexto_anterior", 1)
@@ -320,16 +342,22 @@ def analisar_paragrafo(texto: str, contexto_anterior: str | None = None) -> Anal
             proximo = tokens[indice + 2]
         if token.normalizado in AUXILIARES and proximo and lematizar(proximo) and proximo.inicio - token.fim < 18:
             continue
+        if token.normalizado in AUXILIARES_MODAIS and proximo and lematizar(proximo) and proximo.inicio - token.fim < 18:
+            continue
 
         periodo = next((item for item in periodos if item.inicio <= token.inicio < item.fim), periodos[0])
         inicio, fim = intervalo_evidencia(texto, periodo, token)
         participante_detectado = (
             participante_de_descricao_complexa(mencoes_paragrafo, token)
+            or participante_de_mencao_anterior(mencoes_paragrafo, token, periodo.inicio)
             or participante_anteposto(texto, periodo.inicio, token.inicio)
             or participante_mais_proximo(texto, tokens, indice, periodo.inicio)
         )
-        if participante_detectado is None and lema in VERBOS_FALA:
-            participante_detectado = participante_posposto(texto, token.fim, periodo.fim)
+        if lema in VERBOS_FALA:
+            participante_detectado = (
+                participante_posposto(texto, token.fim, periodo.fim)
+                or participante_detectado
+            )
         participante = participante_detectado.texto if participante_detectado else "participante não resolvido"
         objeto = complemento(texto, token, fim)
         operadores = extrair_operadores(texto, token, inicio, fim)

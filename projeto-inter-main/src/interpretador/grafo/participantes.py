@@ -40,6 +40,19 @@ def _mencoes_na_evidencia(proposicao: Proposition, mencoes: list[Mention]) -> li
     )
 
 
+def _esta_na_voz_passiva(texto: str, proposicao: Proposition) -> bool:
+    forma = proposicao.forma_textual.casefold()
+    if not forma.endswith(("ado", "ada", "ados", "adas", "ido", "ida", "idos", "idas", "to", "ta", "tos", "tas")):
+        return False
+    prefixo = texto[proposicao.evidencia.intervalo.inicio:proposicao.predicado_intervalo.inicio]
+    return bool(re.search(
+        r"\b(?:foi|foram|era|eram|estava|estavam|tivesse|tinham|havia)"
+        r"(?:\s+(?:sido|sendo))?\s*$",
+        prefixo,
+        re.IGNORECASE,
+    ))
+
+
 def enriquecer_participantes(
     texto: str,
     proposicoes: list[Proposition],
@@ -47,7 +60,7 @@ def enriquecer_participantes(
     referente_por_mencao: dict[str, str],
 ) -> None:
     for proposicao in proposicoes:
-        passiva = proposicao.predicado == "enviar" and proposicao.forma_textual.casefold() == "enviado"
+        passiva = _esta_na_voz_passiva(texto, proposicao)
         if proposicao.participantes:
             principal = proposicao.participantes[0]
             mencao_principal = next((item for item in mencoes if item.id == principal.mencao_id), None)
@@ -59,6 +72,7 @@ def enriquecer_participantes(
         candidatas = [
             item for item in _mencoes_na_evidencia(proposicao, mencoes)
             if item.id not in existentes
+            and item.mencao_pai_id is None
             and item.intervalo.inicio >= proposicao.predicado_intervalo.fim
             and not (
                 item.intervalo.inicio <= proposicao.predicado_intervalo.inicio
@@ -69,13 +83,19 @@ def enriquecer_participantes(
         for mencao in candidatas:
             entre = texto[proposicao.predicado_intervalo.fim:mencao.intervalo.inicio].casefold()
             papel: str | None = None
-            if proposicao.predicado == "enviar":
+            if passiva and re.search(r"\b(?:por|pelo|pela|pelos|pelas)\s+$", entre):
+                papel = "agente"
+            elif proposicao.predicado == "enviar":
                 if re.search(r"\bpor\s+$", entre):
                     papel = "agente"
                 elif re.search(r"\b(?:ao|à|para)\s+$", entre):
                     papel = "destinatario"
                 elif re.search(r"\b(?:através\s+de|por\s+meio\s+de)\s+$", entre):
                     papel = "meio"
+                elif not passiva and not any(
+                    item.papel == "paciente" for item in proposicao.participantes
+                ):
+                    papel = "paciente"
             elif proposicao.predicado in {"abandonar", "frear"}:
                 papel = "paciente"
             elif proposicao.predicado in {"construir", "desistir"}:
@@ -85,5 +105,5 @@ def enriquecer_participantes(
                 continue
             proposicao.participantes.append(_participante(mencao, papel, referente_por_mencao))
             existentes.add(mencao.id)
-            if papel in {"paciente", "tema"}:
+            if proposicao.predicado != "enviar" and papel in {"paciente", "tema"}:
                 break

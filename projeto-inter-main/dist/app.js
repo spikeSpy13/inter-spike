@@ -15,6 +15,23 @@ const graphMap = document.querySelector("#graph-map");
 const referenceMap = document.querySelector("#reference-map");
 const mentionMap = document.querySelector("#mention-map");
 const resultStats = document.querySelector("#result-stats");
+const analysisAlerts = document.querySelector("#analysis-alerts");
+const analyzeLabel = analyzeButton.querySelector("span");
+
+let activeController = null;
+let activeRequestId = 0;
+
+function setBusy(busy) {
+  analyzeButton.disabled = busy;
+  analyzeLabel.textContent = busy ? "Analisando…" : "Analisar estrutura";
+}
+
+function cancelActiveAnalysis() {
+  activeRequestId += 1;
+  if (activeController) activeController.abort();
+  activeController = null;
+  setBusy(false);
+}
 
 function updateCount() {
   const count = [...paragraphInput.value].length;
@@ -53,6 +70,19 @@ function humanize(value) {
   return String(value || "").replaceAll("_", " ");
 }
 
+function evidenceLabel(evidence) {
+  if (!evidence?.intervalo) return "sem intervalo de evidência";
+  return `[${evidence.intervalo.inicio}, ${evidence.intervalo.fim})`;
+}
+
+function renderAlerts(alerts) {
+  const items = Array.isArray(alerts) ? alerts : [];
+  analysisAlerts.hidden = items.length === 0;
+  analysisAlerts.querySelector("ul").innerHTML = items
+    .map(item => `<li>${escapeHtml(item)}</li>`)
+    .join("");
+}
+
 function renderGraph(data) {
   const propById = new Map(data.proposicoes.map(item => [item.id, item]));
   const referentById = new Map(data.referentes.map(item => [item.id, item]));
@@ -65,21 +95,21 @@ function renderGraph(data) {
   const operators = data.operadores_escopo.map(item => `
     <li class="graph-item operator-item ${escapeHtml(item.tipo)}">
       <span class="graph-id">${escapeHtml(item.id)}</span>
-      <div><strong>${escapeHtml(humanize(item.subtipo))}</strong><small>${escapeHtml(item.tipo)} · “${escapeHtml(item.marcador)}”</small></div>
+      <div><strong>${escapeHtml(humanize(item.subtipo))}</strong><small>${escapeHtml(item.tipo)} · “${escapeHtml(item.marcador)}” · ${Math.round(item.confianca * 100)}% · ${escapeHtml(evidenceLabel(item.evidencia))}</small></div>
       <span class="scope-list">${item.escopo.map(id => escapeHtml(id)).join(" · ")}</span>
     </li>
   `).join("");
   const frames = data.quadros_atribuicao.map(item => `
     <li class="graph-item attribution-item">
       <span class="graph-id">${escapeHtml(item.id)}</span>
-      <div><strong>${escapeHtml(humanize(item.modo))}</strong><small>${escapeHtml(item.fonte.rotulo)} · ${escapeHtml(item.estado)}</small></div>
+      <div><strong>${escapeHtml(humanize(item.modo))}</strong><small>${escapeHtml(item.fonte.rotulo)} · ${escapeHtml(item.estado)} · ${Math.round(item.confianca * 100)}%</small></div>
       <span class="scope-list">${item.escopo.map(id => escapeHtml(id)).join(" · ")}</span>
     </li>
   `).join("");
   const relations = data.relacoes.map(item => `
     <li class="relation-item">
       <span class="relation-endpoint">${escapeHtml(endpoint(item.origem_id))}</span>
-      <span class="relation-type">${escapeHtml(humanize(item.tipo))}${item.marcador ? `<small>“${escapeHtml(item.marcador)}”</small>` : ""}</span>
+      <span class="relation-type">${escapeHtml(humanize(item.tipo))}<small>${item.marcador ? `“${escapeHtml(item.marcador)}” · ` : ""}${Math.round(item.confianca * 100)}% · ${escapeHtml(evidenceLabel(item.evidencia))}</small></span>
       <span class="relation-arrow" aria-hidden="true">→</span>
       <span class="relation-endpoint">${escapeHtml(endpoint(item.destino_id))}</span>
     </li>
@@ -142,6 +172,7 @@ function renderDecision(resolution, mentionById, referentById) {
       <div class="decision-body">
         <p><strong>Relação:</strong> ${escapeHtml(resolution.tipo_relacao)} · ${Math.round(resolution.confianca * 100)}% de confiança</p>
         <ul class="reason-list">${resolution.razoes.map(reason => `<li>${escapeHtml(reason)}</li>`).join("")}</ul>
+        ${resolution.evidencias.length ? `<p><strong>Evidências:</strong> ${resolution.evidencias.map(item => `${escapeHtml(item.mencao_id)} ${escapeHtml(evidenceLabel(item))}`).join(" · ")}</p>` : ""}
         ${alternatives ? `<div class="alternatives"><strong>Alternativas consideradas</strong><ul>${alternatives}</ul></div>` : ""}
       </div>
     </details>
@@ -196,7 +227,7 @@ function renderMentionGroup(title, mentions, sourceLabel, resolutionByMention) {
       <span class="mention-id">${escapeHtml(mention.id)}</span>
       <span class="mention-text">“${escapeHtml(mention.texto)}” ${referent}</span>
       <span class="mention-type">${escapeHtml(typeLabel(mention.tipo))}</span>
-      <span class="mention-meta">${escapeHtml(mention.caracteristicas.classe_semantica)} · [${mention.intervalo.inicio}, ${mention.intervalo.fim})${mention.mencao_pai_id ? ` · dentro de ${escapeHtml(mention.mencao_pai_id)}` : ""}</span>
+      <span class="mention-meta">${escapeHtml(mention.caracteristicas.classe_semantica)} · ${Math.round(mention.confianca_deteccao * 100)}% · [${mention.intervalo.inicio}, ${mention.intervalo.fim})${mention.mencao_pai_id ? ` · dentro de ${escapeHtml(mention.mencao_pai_id)}` : ""}</span>
     </li>
   `}).join("");
   return `
@@ -300,6 +331,7 @@ function renderError(message) {
   referenceMap.innerHTML = "";
   mentionMap.innerHTML = "";
   propositionList.innerHTML = `<li class="error-state">${escapeHtml(message)}</li>`;
+  renderAlerts([]);
   resultStats.hidden = true;
 }
 
@@ -312,25 +344,30 @@ async function renderAnalysis() {
     return;
   }
 
-  const label = analyzeButton.querySelector("span");
-  const originalLabel = label.textContent;
-  analyzeButton.disabled = true;
-  label.textContent = "Analisando…";
+  if (activeController) activeController.abort();
+  const requestId = ++activeRequestId;
+  const controller = new AbortController();
+  activeController = controller;
+  setBusy(true);
 
   try {
     const response = await fetch("/api/analisar", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ paragrafo: text, contexto_anterior: context || null })
+      body: JSON.stringify({ paragrafo: text, contexto_anterior: context || null }),
+      signal: controller.signal
     });
     const data = await response.json();
+    if (requestId !== activeRequestId) return;
     if (!response.ok) throw new Error(data.detail?.[0]?.msg || data.detail || "Não foi possível analisar o parágrafo.");
+    if (data.schema_version !== "0.4.0") throw new Error(`Versão de resposta incompatível: ${data.schema_version || "ausente"}.`);
 
     emptyState.hidden = true;
     analysisOutput.hidden = false;
     renderGraph(data);
     renderReferences(data.referentes, data.resolucoes, data.mencoes);
     renderMentions(data.mencoes, data.resolucoes);
+    renderAlerts(data.alertas);
     if (data.proposicoes.length) renderPropositions(data.proposicoes, data.quadros_atribuicao);
     else propositionList.innerHTML = `<li class="error-state">${escapeHtml(data.alertas[0] || "Nenhuma proposição identificada.")}</li>`;
 
@@ -345,17 +382,26 @@ async function renderAnalysis() {
       <span class="mini-chip">${summary.relacoes} relações</span>
       <span class="mini-chip">${summary.negacoes} negações</span>
       <span class="mini-chip">${summary.atribuicoes_marcadas} atribuídas</span>
+      <span class="mini-chip">contrato ${escapeHtml(data.schema_version)}</span>
     `;
     resultStats.hidden = false;
   } catch (error) {
+    if (error.name === "AbortError") return;
+    if (requestId !== activeRequestId) return;
     renderError(error.message || "Falha inesperada durante a análise.");
   } finally {
-    analyzeButton.disabled = false;
-    label.textContent = originalLabel;
+    if (requestId === activeRequestId) {
+      activeController = null;
+      setBusy(false);
+    }
   }
 }
 
-paragraphInput.addEventListener("input", updateCount);
+paragraphInput.addEventListener("input", () => {
+  updateCount();
+  cancelActiveAnalysis();
+});
+contextInput.addEventListener("input", cancelActiveAnalysis);
 analyzeButton.addEventListener("click", renderAnalysis);
 exampleButton.addEventListener("click", () => {
   paragraphInput.value = exampleParagraph;
@@ -365,12 +411,14 @@ exampleButton.addEventListener("click", () => {
   renderAnalysis();
 });
 clearButton.addEventListener("click", () => {
+  cancelActiveAnalysis();
   paragraphInput.value = "";
   contextInput.value = "";
   updateCount();
   emptyState.hidden = false;
   analysisOutput.hidden = true;
   resultStats.hidden = true;
+  renderAlerts([]);
   paragraphInput.focus();
 });
 
