@@ -131,6 +131,32 @@ class Paraphrase(BaseModel):
     alertas: list[str] = Field(default_factory=list)
 
 
+class FidelityFinding(BaseModel):
+    codigo: Literal[
+        "afirmacao_sem_apoio",
+        "conteudo_essencial_ausente",
+        "operador_essencial_ausente",
+        "relacao_essencial_ausente",
+        "participante_essencial_ausente",
+        "evidencia_invalida",
+        "transformacao_nao_autorizada",
+        "saida_nao_reconstruivel",
+    ]
+    severidade: Literal["alerta"] = "alerta"
+    alvo_id: str
+    mensagem: str
+    ids_afetados: list[str] = Field(default_factory=list)
+    evidencias: list[Evidence] = Field(default_factory=list)
+
+
+class FidelityCheck(BaseModel):
+    estado: Literal["sem_alertas_detectados", "revisao_necessaria", "indeterminada"]
+    metodo: Literal["cobertura_estrutural_v1"] = "cobertura_estrutural_v1"
+    alvos_verificados: list[str]
+    achados: list[FidelityFinding] = Field(default_factory=list)
+    limitacoes: list[str]
+
+
 class AnalysisSummary(BaseModel):
     proposicoes: int
     mencoes: int
@@ -144,10 +170,11 @@ class AnalysisSummary(BaseModel):
     conteudo_essencial: int
     sintese_caracteres: int
     parafrases: int
+    achados_fidelidade: int
 
 
 class AnalysisResponse(BaseModel):
-    schema_version: Literal["0.8.0"] = "0.8.0"
+    schema_version: Literal["0.9.0"] = "0.9.0"
     paragrafo: str
     contexto_anterior: str | None = None
     proposicoes: list[Proposition]
@@ -161,6 +188,7 @@ class AnalysisResponse(BaseModel):
     conteudo_essencial_ids: list[str]
     sintese: Synthesis
     parafrases: list[Paraphrase] = Field(default_factory=list)
+    checagem: FidelityCheck
     resumo: AnalysisSummary
     alertas: list[str]
 
@@ -204,7 +232,7 @@ class JsonAnalysisRequest(BaseModel):
 
 
 class JsonAnalysisResponse(BaseModel):
-    schema_version: Literal["0.8.0"] = "0.8.0"
+    schema_version: Literal["0.9.0"] = "0.9.0"
     fonte: DocumentSource
     paragrafo: DocumentParagraph
     analise: AnalysisResponse

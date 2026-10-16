@@ -18,6 +18,7 @@ const resultStats = document.querySelector("#result-stats");
 const analysisAlerts = document.querySelector("#analysis-alerts");
 const centralIdea = document.querySelector("#central-idea");
 const synthesis = document.querySelector("#synthesis");
+const fidelityCheck = document.querySelector("#fidelity-check");
 const analyzeLabel = analyzeButton.querySelector("span");
 const jsonFileInput = document.querySelector("#json-file");
 const jsonStatus = document.querySelector("#json-status");
@@ -261,6 +262,31 @@ function renderSynthesis(item, paraphrases) {
       <h4>Paráfrases opcionais</h4>
       ${paraphraseCards || `<p class="paraphrase-state">Nenhuma equivalência discursiva segura se aplica a esta síntese.</p>`}
     </section>
+  `;
+}
+
+function renderFidelityCheck(check) {
+  const stateLabels = {
+    sem_alertas_detectados: "sem alertas detectados",
+    revisao_necessaria: "revisão necessária",
+    indeterminada: "indeterminada"
+  };
+  const findings = check.achados.map(item => `
+    <li>
+      <div><strong>${escapeHtml(humanize(item.codigo))}</strong><span>${escapeHtml(item.alvo_id)}</span></div>
+      <p>${escapeHtml(item.mensagem)}</p>
+      ${item.ids_afetados.length ? `<small>${item.ids_afetados.map(id => escapeHtml(id)).join(" · ")}</small>` : ""}
+    </li>
+  `).join("");
+  fidelityCheck.dataset.state = check.estado;
+  fidelityCheck.innerHTML = `
+    <header>
+      <div><h3 id="fidelity-title">Checagem de fidelidade</h3><p>Cobertura estrutural da síntese e das paráfrases.</p></div>
+      <span>${escapeHtml(stateLabels[check.estado] || humanize(check.estado))}</span>
+    </header>
+    <p class="checked-targets">Alvos verificados: ${check.alvos_verificados.map(id => `<strong>${escapeHtml(id)}</strong>`).join(" · ")}</p>
+    ${findings ? `<ul class="fidelity-findings">${findings}</ul>` : `<p class="fidelity-clear">Nenhuma perda de cobertura ou afirmação sem apoio foi detectada pelas regras atuais.</p>`}
+    <ul class="fidelity-limitations">${check.limitacoes.map(item => `<li>${escapeHtml(item)}</li>`).join("")}</ul>
   `;
 }
 
@@ -513,6 +539,7 @@ function renderError(message) {
   graphMap.innerHTML = "";
   centralIdea.innerHTML = "";
   synthesis.innerHTML = "";
+  fidelityCheck.innerHTML = "";
   referenceMap.innerHTML = "";
   mentionMap.innerHTML = "";
   propositionList.innerHTML = `<li class="error-state">${escapeHtml(message)}</li>`;
@@ -550,16 +577,17 @@ async function renderAnalysis() {
     const responseData = await response.json();
     if (requestId !== activeRequestId) return;
     if (!response.ok) throw new Error(errorMessage(responseData, "Não foi possível analisar o parágrafo."));
-    if (structured && responseData.schema_version !== "0.8.0") {
+    if (structured && responseData.schema_version !== "0.9.0") {
       throw new Error(`Versão do fluxo estruturado incompatível: ${responseData.schema_version || "ausente"}.`);
     }
     const data = structured ? responseData.analise : responseData;
-    if (data.schema_version !== "0.8.0") throw new Error(`Versão de resposta incompatível: ${data.schema_version || "ausente"}.`);
+    if (data.schema_version !== "0.9.0") throw new Error(`Versão de resposta incompatível: ${data.schema_version || "ausente"}.`);
 
     emptyState.hidden = true;
     analysisOutput.hidden = false;
     renderCentralIdea(data.ideia_central, data.conteudo_essencial_ids);
     renderSynthesis(data.sintese, data.parafrases);
+    renderFidelityCheck(data.checagem);
     renderGraph(data);
     renderReferences(data.referentes, data.resolucoes, data.mencoes);
     renderMentions(data.mencoes, data.resolucoes);
@@ -581,6 +609,7 @@ async function renderAnalysis() {
       <span class="mini-chip essential">${summary.conteudo_essencial} essenciais</span>
       <span class="mini-chip synthesis">${summary.sintese_caracteres} caracteres na síntese</span>
       <span class="mini-chip synthesis">${summary.parafrases} ${summary.parafrases === 1 ? "paráfrase" : "paráfrases"}</span>
+      <span class="mini-chip ${summary.achados_fidelidade ? "warning" : "check"}">${summary.achados_fidelidade} alertas de fidelidade</span>
       ${structured ? `<span class="mini-chip source">documento ${escapeHtml(responseData.fonte.documento_id)} · ${escapeHtml(responseData.paragrafo.rotulo)}</span>` : ""}
       <span class="mini-chip">contrato ${escapeHtml(data.schema_version)}</span>
     `;

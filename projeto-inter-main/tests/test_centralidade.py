@@ -19,7 +19,7 @@ class CentralIdeaTests(unittest.TestCase):
         resultado = analisar_paragrafo(PARAGRAFO)
         ideia = resultado.ideia_central
 
-        self.assertEqual(resultado.schema_version, "0.8.0")
+        self.assertEqual(resultado.schema_version, "0.9.0")
         self.assertEqual(ideia.estado, "proposta")
         self.assertEqual(ideia.proposicao_ids, ["P1", "P2"])
         self.assertEqual(resultado.conteudo_essencial_ids, ["P1", "P2"])

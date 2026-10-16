@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "interpretador-proposicoes"
-version = "0.8.0"
-description = "Interpretação, síntese e paráfrases verificáveis fundamentadas em português."
+version = "0.9.0"
+description = "Interpretação e geração com checagem explicável de fidelidade em português."
 requires-python = ">=3.12"
 dependencies = [
   "fastapi>=0.115,<1",

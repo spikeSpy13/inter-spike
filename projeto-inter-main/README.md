@@ -6,7 +6,7 @@ O primeiro recorte do produto é deliberadamente pequeno: interpretar **um pará
 
 ## Estado atual
 
-O projeto concluiu a **Etapa 1 — ingestão e validação**, a **Etapa 2 — interpretação de um parágrafo** e a **Etapa 3 — geração de textos**. A versão `0.8.0` acrescenta paráfrases opcionais por equivalências discursivas controladas e valida cada transformação contra o grafo e a síntese de origem. O motor e a API são escritos em Python; a interface funcional está em `dist/`. Os anexos originais foram preservados em:
+O projeto concluiu a **Etapa 1 — ingestão e validação**, a **Etapa 2 — interpretação**, a **Etapa 3 — geração de textos** e a **Etapa 4 — checagem de fidelidade**. A versão `0.9.0` verifica a síntese e cada paráfrase contra o texto original e o registro interpretativo, com achados explicáveis por alvo e ID afetado. O motor e a API são escritos em Python; a interface funcional está em `dist/`. Os anexos originais foram preservados em:
 
 - `fixtures/vetorizacao-28.json`: exemplo real de entrada;
 - `docs/referencias/arquitetura_interpretacao_fundamentada_v1.pdf`: referência conceitual.
@@ -15,7 +15,7 @@ O plano e os critérios de aceite estão em [`docs/01-escopo-e-etapas.md`](docs/
 
 ## Interface atual
 
-A página aceita o arquivo JSON de `09_vetorizacao`, valida sua estrutura e permite selecionar um parágrafo. O texto livre e o contexto anterior continuam disponíveis. A análise produz proposições, menções, grupos de referentes `R1/R2`, um grafo com operadores, quadros de atribuição e relações, além da ideia central proposta, da síntese extrativa e das paráfrases aplicáveis. Cada decisão mostra confiança, razões, alternativas e evidências. Síntese e paráfrases informam quais proposições, operadores, relações e participantes foram preservados.
+A página aceita o arquivo JSON de `09_vetorizacao`, valida sua estrutura e permite selecionar um parágrafo. O texto livre e o contexto anterior continuam disponíveis. A análise produz proposições, menções, grupos de referentes `R1/R2`, um grafo com operadores, quadros de atribuição e relações, além da ideia central proposta, da síntese extrativa e das paráfrases aplicáveis. A checagem mostra seu estado, os alvos verificados, eventuais achados e a limitação do método.
 
 Esta versão continua sendo um extrator heurístico demonstrativo. Resoluções ambíguas ou sem antecedente permanecem explícitas; confiança não representa uma probabilidade calibrada.
 
@@ -60,6 +60,12 @@ Quando não há conteúdo essencial, a síntese fica `indeterminada`. Períodos 
 O contrato de análise `0.8.0` preenche `parafrases` somente quando uma equivalência discursiva aprovada se aplica a um marcador confirmado pelo grafo. A estratégia `substituicao_discursiva_controlada_v1` cobre coordenação negativa (`nem` → `e também não`) e justificativa causal (`pois` ↔ `porque`). Cada saída declara o trecho substituído, o novo marcador, os operadores e relações preservados, a cobertura herdada da síntese e sua confiança.
 
 O validador reconstrói a paráfrase a partir do original e das transformações declaradas. Ele rejeita equivalências desconhecidas, texto adicional, transformações sobre predicados ou participantes e qualquer perda de cobertura. Quando nenhuma regra segura é aplicável, `parafrases` fica vazia; isso evita forçar uma reformulação sem suporte do contrato atual.
+
+### Checagem de fidelidade `0.9.0`
+
+O contrato de análise `0.9.0` acrescenta `checagem`, com os estados `sem_alertas_detectados`, `revisao_necessaria` e `indeterminada`. O método `cobertura_estrutural_v1` confere evidências, texto reconstruível, proposições, operadores, relações, participantes e transformações de cada saída. Cada achado registra um código estável, o alvo, uma mensagem e os IDs afetados.
+
+Afirmações acrescentadas, cobertura removida, evidências divergentes e transformações desconhecidas produzem alertas. O estado `sem_alertas_detectados` significa apenas que as regras atuais não encontraram essas falhas; o próprio contrato declara que a checagem não certifica equivalência semântica geral.
 
 ## Baixar e executar
 

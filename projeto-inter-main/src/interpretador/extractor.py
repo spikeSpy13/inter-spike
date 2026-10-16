@@ -19,6 +19,7 @@ from .referencias.resolvedor import resolver_referencias
 from .grafo import construir_grafo
 from .centralidade import propor_ideia_central
 from .geracao import gerar_parafrases, gerar_sintese
+from .fidelidade import checar_fidelidade
 
 
 @dataclass(frozen=True)
@@ -415,6 +416,15 @@ def analisar_paragrafo(texto: str, contexto_anterior: str | None = None) -> Anal
         grafo.relacoes,
         sintese,
     )
+    checagem = checar_fidelidade(
+        texto,
+        proposicoes,
+        conteudo_essencial_ids,
+        grafo.operadores,
+        grafo.relacoes,
+        sintese,
+        parafrases,
+    )
 
     alertas: list[str] = []
     if not proposicoes:
@@ -446,6 +456,7 @@ def analisar_paragrafo(texto: str, contexto_anterior: str | None = None) -> Anal
         conteudo_essencial_ids=conteudo_essencial_ids,
         sintese=sintese,
         parafrases=parafrases,
+        checagem=checagem,
         resumo=AnalysisSummary(
             proposicoes=len(proposicoes),
             mencoes=len(mencoes),
@@ -461,6 +472,7 @@ def analisar_paragrafo(texto: str, contexto_anterior: str | None = None) -> Anal
             conteudo_essencial=len(conteudo_essencial_ids),
             sintese_caracteres=len(sintese.texto or ""),
             parafrases=len(parafrases),
+            achados_fidelidade=len(checagem.achados),
         ),
         alertas=alertas,
     )

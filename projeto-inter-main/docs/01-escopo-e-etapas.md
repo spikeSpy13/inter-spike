@@ -27,7 +27,7 @@ Algumas representações compartilham o mesmo artefato quando o recorte textual 
 
 ## Sequência de implementação
 
-O protótipo foi desenvolvido primeiro pelo fluxo de texto colado. A estabilização `0.4.1` consolidou o grafo proposicional; a versão `0.5.0` ligou a ingestão estruturada à fixture `09_vetorizacao`; a versão `0.6.0` completou a seleção explicável da ideia central e do conteúdo essencial; a versão `0.7.0` passou a gerar uma síntese extrativa com cobertura verificável; e a versão `0.8.0` acrescentou paráfrases opcionais por transformações controladas.
+O protótipo foi desenvolvido primeiro pelo fluxo de texto colado. A estabilização `0.4.1` consolidou o grafo proposicional; a versão `0.5.0` ligou a ingestão estruturada à fixture `09_vetorizacao`; a versão `0.6.0` completou a seleção explicável da ideia central e do conteúdo essencial; a versão `0.7.0` passou a gerar uma síntese extrativa; a versão `0.8.0` acrescentou paráfrases opcionais; e a versão `0.9.0` implementou a checagem explicável de fidelidade.
 
 ### Etapa 1 — receber e validar
 
@@ -91,12 +91,20 @@ A estratégia `substituicao_discursiva_controlada_v1` só produz uma saída quan
 
 ### Etapa 4 — checar fidelidade
 
-- procurar afirmações sem apoio;
-- verificar perda de conteúdo essencial;
-- devolver alertas explicáveis e um estado de checagem;
-- nunca converter “sem alertas detectados” em certificado de correção.
+**Implementada — contrato de análise `0.9.0`.**
 
-Critério de aceite: alterações controladas que introduzam uma afirmação nova ou removam uma relação essencial geram alertas.
+- procurar afirmações sem apoio; **implementado**
+- verificar perda de conteúdo essencial; **implementado**
+- devolver alertas explicáveis e um estado de checagem; **implementado**
+- nunca converter “sem alertas detectados” em certificado de correção. **implementado**
+
+Critério de aceite: alterações controladas que introduzam uma afirmação nova ou removam uma relação essencial geram alertas. **Atendido por testes automatizados.**
+
+#### Checagem estrutural implementada
+
+O método `cobertura_estrutural_v1` verifica a síntese e cada paráfrase. Ele compara o texto reconstruível, as evidências e a cobertura declarada com proposições, operadores, relações e participantes essenciais. Também reaplica o validador de transformações das paráfrases. Os achados identificam o alvo, o código da falha e os IDs afetados; os estados possíveis são `sem_alertas_detectados`, `revisao_necessaria` e `indeterminada`.
+
+O contrato inclui explicitamente a limitação de que essa checagem não certifica equivalência semântica geral. Uma saída sem alertas detectados continua sujeita à revisão humana e à ampliação futura das regras.
 
 ### Etapa 5 — expor o aplicativo
 
@@ -127,7 +135,9 @@ O contrato de ingestão foi fechado em `0.5.0`. A saída completa das etapas seg
   "evidencias": [],
   "alertas": [],
   "checagem": {
-    "estado": "nao_executada"
+    "estado": "sem_alertas_detectados",
+    "achados": [],
+    "limitacoes": []
   }
 }
 ```
