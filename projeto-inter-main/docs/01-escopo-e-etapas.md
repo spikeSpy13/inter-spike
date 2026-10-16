@@ -27,9 +27,11 @@ Algumas representações compartilham o mesmo artefato quando o recorte textual 
 
 ## Sequência de implementação
 
-O protótipo foi desenvolvido primeiro pelo fluxo de texto colado. Por isso, partes avançadas da Etapa 2 já funcionam, enquanto a ingestão estruturada da Etapa 1 ainda precisa ser ligada à fixture `09_vetorizacao`. A estabilização `0.4.1` mantém o contrato de análise `0.4.0` e prepara essa integração.
+O protótipo foi desenvolvido primeiro pelo fluxo de texto colado. A estabilização `0.4.1` consolidou o contrato de análise `0.4.0`; a versão `0.5.0` ligou a ingestão estruturada à fixture `09_vetorizacao` e manteve o fluxo anterior para compatibilidade.
 
 ### Etapa 1 — receber e validar
+
+**Implementada — contrato de ingestão `0.5.0`.**
 
 - carregar o JSON sem perder o original;
 - confirmar versão, etapa, estado de validação e campos obrigatórios;
@@ -38,7 +40,7 @@ O protótipo foi desenvolvido primeiro pelo fluxo de texto colado. Por isso, par
 - criar uma visão interna enxuta para as etapas seguintes;
 - produzir erros legíveis quando a entrada for incompatível.
 
-Critério de aceite: a fixture fornecida é aceita; cópias com referência quebrada, vetor de dimensão incorreta ou intervalo inválido são rejeitadas com indicação precisa do problema.
+Critério de aceite: a fixture fornecida é aceita; cópias com referência quebrada, vetor de dimensão incorreta ou intervalo inválido são rejeitadas com indicação precisa do problema. **Atendido por testes automatizados.**
 
 ### Etapa 2 — interpretar um parágrafo
 
@@ -89,7 +91,7 @@ Critério de aceite: alterações controladas que introduzam uma afirmação nov
 
 ## Contrato preliminar de saída
 
-O formato será fechado após a Etapa 1, mas deverá conter pelo menos:
+O contrato de ingestão foi fechado em `0.5.0`. A saída completa das etapas seguintes deverá conter pelo menos:
 
 ```json
 {

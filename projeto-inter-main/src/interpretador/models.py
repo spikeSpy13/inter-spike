@@ -1,4 +1,4 @@
-from typing import Literal, Self
+from typing import Any, Literal, Self
 
 from pydantic import BaseModel, Field, field_validator, model_validator
 
@@ -98,6 +98,51 @@ class AnalysisResponse(BaseModel):
     relacoes: list["PropositionRelation"]
     resumo: AnalysisSummary
     alertas: list[str]
+
+
+class DocumentSource(BaseModel):
+    documento_id: int | str
+    schema_version: Literal["1.0.0"]
+    etapa: Literal["09_vetorizacao"]
+    caracteres_original: int
+
+
+class DocumentParagraph(BaseModel):
+    id: str
+    rotulo: str
+    ordem: int = Field(ge=0)
+    texto: str
+    intervalo_original: Span
+    representacao_id: str
+    artefato_id: str
+
+
+class IngestionSummary(BaseModel):
+    paragrafos: int
+    periodos: int
+    tokens: int
+    representacoes: int
+    artefatos: int
+    dimensao_vetores: int
+
+
+class IngestionResponse(BaseModel):
+    schema_version: Literal["0.5.0"] = "0.5.0"
+    fonte: DocumentSource
+    paragrafos: list[DocumentParagraph]
+    resumo: IngestionSummary
+
+
+class JsonAnalysisRequest(BaseModel):
+    documento: dict[str, Any]
+    paragrafo_id: str = Field(min_length=1, max_length=500)
+
+
+class JsonAnalysisResponse(BaseModel):
+    schema_version: Literal["0.5.0"] = "0.5.0"
+    fonte: DocumentSource
+    paragrafo: DocumentParagraph
+    analise: AnalysisResponse
 
 
 from .referencias.models import Mention, Referent, ReferenceResolution  # noqa: E402

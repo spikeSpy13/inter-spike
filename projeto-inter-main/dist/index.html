@@ -16,7 +16,7 @@
           <small>estrutura proposicional</small>
         </span>
       </a>
-      <span class="version-pill">Protótipo · etapa 2 · v0.4.1</span>
+      <span class="version-pill">Protótipo · etapas 1–2 · v0.5.0</span>
     </header>
 
     <main id="inicio">
@@ -24,7 +24,7 @@
         <p class="eyebrow">Leitura estruturada · português</p>
         <h1 id="page-title">Do parágrafo às<br /><em>proposições.</em></h1>
         <p class="hero-copy">
-          Identifique predicados, participantes, referentes e operadores sem perder o vínculo com o texto original.
+          Carregue a saída de vetorização, escolha um parágrafo e examine sua estrutura sem perder o vínculo com o texto original.
         </p>
       </section>
 
@@ -38,6 +38,28 @@
               </div>
               <span id="char-count" class="char-count">0 caracteres</span>
             </div>
+
+            <section class="json-loader" aria-labelledby="json-loader-title">
+              <div class="json-loader-heading">
+                <div>
+                  <strong id="json-loader-title">JSON de 09_vetorizacao</strong>
+                  <small>validação estrutural, referencial e vetorial</small>
+                </div>
+                <span id="json-status" class="json-status">nenhum arquivo</span>
+              </div>
+              <label class="file-picker" for="json-file">
+                <span>Selecionar arquivo JSON</span>
+                <small>O arquivo é processado localmente por esta API.</small>
+              </label>
+              <input id="json-file" class="sr-only" type="file" accept="application/json,.json" />
+              <div id="paragraph-picker" class="paragraph-picker" hidden>
+                <label for="json-paragraph">Parágrafo do documento</label>
+                <select id="json-paragraph"></select>
+                <p id="json-summary"></p>
+              </div>
+            </section>
+
+            <div class="input-divider"><span>parágrafo selecionado ou texto livre</span></div>
 
             <label class="sr-only" for="paragraph">Parágrafo para análise</label>
             <textarea

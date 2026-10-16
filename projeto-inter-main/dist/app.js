@@ -17,9 +17,19 @@ const mentionMap = document.querySelector("#mention-map");
 const resultStats = document.querySelector("#result-stats");
 const analysisAlerts = document.querySelector("#analysis-alerts");
 const analyzeLabel = analyzeButton.querySelector("span");
+const jsonFileInput = document.querySelector("#json-file");
+const jsonStatus = document.querySelector("#json-status");
+const paragraphPicker = document.querySelector("#paragraph-picker");
+const jsonParagraphSelect = document.querySelector("#json-paragraph");
+const jsonSummary = document.querySelector("#json-summary");
 
 let activeController = null;
 let activeRequestId = 0;
+let ingestionController = null;
+let loadedDocument = null;
+let ingestionResult = null;
+let jsonSelectionCurrent = false;
+let fillingFromJson = false;
 
 function setBusy(busy) {
   analyzeButton.disabled = busy;
@@ -73,6 +83,102 @@ function humanize(value) {
 function evidenceLabel(evidence) {
   if (!evidence?.intervalo) return "sem intervalo de evidência";
   return `[${evidence.intervalo.inicio}, ${evidence.intervalo.fim})`;
+}
+
+function errorMessage(data, fallback) {
+  const details = data?.detail;
+  if (Array.isArray(details)) {
+    return details
+      .slice(0, 4)
+      .map(item => {
+        if (item?.mensagem) return `${item.caminho || "$"}: ${item.mensagem}`;
+        return item?.msg || String(item);
+      })
+      .join(" · ");
+  }
+  return typeof details === "string" ? details : fallback;
+}
+
+function setJsonStatus(message, state = "idle") {
+  jsonStatus.textContent = message;
+  jsonStatus.dataset.state = state;
+}
+
+function resetJsonDocument() {
+  if (ingestionController) ingestionController.abort();
+  ingestionController = null;
+  loadedDocument = null;
+  ingestionResult = null;
+  jsonSelectionCurrent = false;
+  jsonFileInput.value = "";
+  jsonParagraphSelect.innerHTML = "";
+  paragraphPicker.hidden = true;
+  jsonSummary.textContent = "";
+  setJsonStatus("nenhum arquivo");
+}
+
+function selectJsonParagraph() {
+  if (!ingestionResult) return;
+  const paragraph = ingestionResult.paragrafos.find(item => item.id === jsonParagraphSelect.value);
+  if (!paragraph) return;
+  const previous = ingestionResult.paragrafos
+    .filter(item => item.ordem < paragraph.ordem)
+    .sort((a, b) => b.ordem - a.ordem)[0];
+  fillingFromJson = true;
+  paragraphInput.value = paragraph.texto;
+  contextInput.value = previous?.texto || "";
+  contextBox.open = Boolean(previous);
+  fillingFromJson = false;
+  jsonSelectionCurrent = true;
+  setJsonStatus(`${paragraph.rotulo} selecionado`, "valid");
+  updateCount();
+  cancelActiveAnalysis();
+}
+
+async function loadJsonFile() {
+  const file = jsonFileInput.files?.[0];
+  if (!file) return;
+  cancelActiveAnalysis();
+  if (ingestionController) ingestionController.abort();
+  const controller = new AbortController();
+  ingestionController = controller;
+  loadedDocument = null;
+  ingestionResult = null;
+  jsonSelectionCurrent = false;
+  paragraphPicker.hidden = true;
+  setJsonStatus("validando…", "loading");
+
+  try {
+    if (file.size > 25 * 1024 * 1024) throw new Error("O arquivo ultrapassa o limite de 25 MB desta interface.");
+    const raw = JSON.parse(await file.text());
+    const response = await fetch("/api/documentos/validar", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(raw),
+      signal: controller.signal
+    });
+    const data = await response.json();
+    if (!response.ok) throw new Error(errorMessage(data, "O JSON não passou pela validação."));
+    if (data.schema_version !== "0.5.0") throw new Error(`Versão de ingestão incompatível: ${data.schema_version || "ausente"}.`);
+
+    loadedDocument = raw;
+    ingestionResult = data;
+    jsonParagraphSelect.innerHTML = data.paragrafos.map(item => `
+      <option value="${escapeHtml(item.id)}">${escapeHtml(item.rotulo)} · [${item.intervalo_original.inicio}, ${item.intervalo_original.fim}) · ${[...item.texto].length} caracteres</option>
+    `).join("");
+    const summary = data.resumo;
+    jsonSummary.textContent = `Documento ${data.fonte.documento_id} · ${summary.paragrafos} parágrafos · ${summary.periodos} períodos · ${summary.tokens} tokens · ${summary.artefatos} vetores de ${summary.dimensao_vetores} dimensões`;
+    paragraphPicker.hidden = false;
+    setJsonStatus("JSON válido", "valid");
+    selectJsonParagraph();
+  } catch (error) {
+    if (error.name === "AbortError") return;
+    resetJsonDocument();
+    setJsonStatus(error instanceof SyntaxError ? "JSON malformado" : "arquivo rejeitado", "error");
+    renderError(error instanceof SyntaxError ? "O arquivo não contém JSON válido." : error.message);
+  } finally {
+    if (ingestionController === controller) ingestionController = null;
+  }
 }
 
 function renderAlerts(alerts) {
@@ -351,15 +457,24 @@ async function renderAnalysis() {
   setBusy(true);
 
   try {
-    const response = await fetch("/api/analisar", {
+    const structured = jsonSelectionCurrent && loadedDocument && jsonParagraphSelect.value;
+    const endpoint = structured ? "/api/analisar-json" : "/api/analisar";
+    const payload = structured
+      ? { documento: loadedDocument, paragrafo_id: jsonParagraphSelect.value }
+      : { paragrafo: text, contexto_anterior: context || null };
+    const response = await fetch(endpoint, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ paragrafo: text, contexto_anterior: context || null }),
+      body: JSON.stringify(payload),
       signal: controller.signal
     });
-    const data = await response.json();
+    const responseData = await response.json();
     if (requestId !== activeRequestId) return;
-    if (!response.ok) throw new Error(data.detail?.[0]?.msg || data.detail || "Não foi possível analisar o parágrafo.");
+    if (!response.ok) throw new Error(errorMessage(responseData, "Não foi possível analisar o parágrafo."));
+    if (structured && responseData.schema_version !== "0.5.0") {
+      throw new Error(`Versão de ingestão incompatível: ${responseData.schema_version || "ausente"}.`);
+    }
+    const data = structured ? responseData.analise : responseData;
     if (data.schema_version !== "0.4.0") throw new Error(`Versão de resposta incompatível: ${data.schema_version || "ausente"}.`);
 
     emptyState.hidden = true;
@@ -382,6 +497,7 @@ async function renderAnalysis() {
       <span class="mini-chip">${summary.relacoes} relações</span>
       <span class="mini-chip">${summary.negacoes} negações</span>
       <span class="mini-chip">${summary.atribuicoes_marcadas} atribuídas</span>
+      ${structured ? `<span class="mini-chip source">documento ${escapeHtml(responseData.fonte.documento_id)} · ${escapeHtml(responseData.paragrafo.rotulo)}</span>` : ""}
       <span class="mini-chip">contrato ${escapeHtml(data.schema_version)}</span>
     `;
     resultStats.hidden = false;
@@ -400,10 +516,23 @@ async function renderAnalysis() {
 paragraphInput.addEventListener("input", () => {
   updateCount();
   cancelActiveAnalysis();
+  if (!fillingFromJson && loadedDocument) {
+    jsonSelectionCurrent = false;
+    setJsonStatus("texto editado", "edited");
+  }
 });
-contextInput.addEventListener("input", cancelActiveAnalysis);
+contextInput.addEventListener("input", () => {
+  cancelActiveAnalysis();
+  if (!fillingFromJson && loadedDocument) {
+    jsonSelectionCurrent = false;
+    setJsonStatus("texto editado", "edited");
+  }
+});
 analyzeButton.addEventListener("click", renderAnalysis);
+jsonFileInput.addEventListener("change", loadJsonFile);
+jsonParagraphSelect.addEventListener("change", selectJsonParagraph);
 exampleButton.addEventListener("click", () => {
+  resetJsonDocument();
   paragraphInput.value = exampleParagraph;
   contextInput.value = exampleContext;
   contextBox.open = true;
@@ -412,6 +541,7 @@ exampleButton.addEventListener("click", () => {
 });
 clearButton.addEventListener("click", () => {
   cancelActiveAnalysis();
+  resetJsonDocument();
   paragraphInput.value = "";
   contextInput.value = "";
   updateCount();

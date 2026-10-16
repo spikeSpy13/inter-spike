@@ -88,6 +88,8 @@ class ApiTests(unittest.TestCase):
         caminhos = app.openapi()["paths"]
         self.assertIn("/health", caminhos)
         self.assertIn("/api/analisar", caminhos)
+        self.assertIn("/api/documentos/validar", caminhos)
+        self.assertIn("/api/analisar-json", caminhos)
 
     def test_fluxo_http_serializa_o_contrato(self) -> None:
         with self.requisitar(
@@ -103,6 +105,39 @@ class ApiTests(unittest.TestCase):
         with self.assertRaises(URLError) as erro:
             self.requisitar("/api/analisar", {"paragrafo": "   "})
         self.assertEqual(erro.exception.code, 422)
+
+    def test_http_rejeita_json_incompativel_com_erro_legivel(self) -> None:
+        with self.assertRaises(URLError) as erro:
+            self.requisitar("/api/documentos/validar", {"schema_version": "2.0.0"})
+        self.assertEqual(erro.exception.code, 422)
+        payload = json.loads(erro.exception.read())
+        self.assertIn("codigo", payload["detail"][0])
+        self.assertIn("caminho", payload["detail"][0])
+        self.assertIn("mensagem", payload["detail"][0])
+
+    def test_fluxo_http_aceita_fixture_vetorizada_real(self) -> None:
+        raiz = Path(__file__).resolve().parents[1]
+        documento = json.loads((raiz / "fixtures" / "vetorizacao-28.json").read_text())
+        with self.requisitar("/api/documentos/validar", documento) as resposta:
+            self.assertEqual(resposta.status, 200)
+            payload = json.load(resposta)
+        self.assertEqual(payload["schema_version"], "0.5.0")
+        self.assertEqual(payload["fonte"]["documento_id"], 28)
+        self.assertEqual([item["rotulo"] for item in payload["paragrafos"]], ["P1", "P2"])
+
+    def test_fluxo_http_analisa_paragrafo_selecionado_do_json(self) -> None:
+        raiz = Path(__file__).resolve().parents[1]
+        documento = json.loads((raiz / "fixtures" / "vetorizacao-28.json").read_text())
+        with self.requisitar(
+            "/api/analisar-json",
+            {"documento": documento, "paragrafo_id": "P2"},
+        ) as resposta:
+            self.assertEqual(resposta.status, 200)
+            payload = json.load(resposta)
+        self.assertEqual(payload["schema_version"], "0.5.0")
+        self.assertEqual(payload["paragrafo"]["rotulo"], "P2")
+        self.assertEqual(payload["analise"]["schema_version"], "0.4.0")
+        self.assertGreater(payload["analise"]["resumo"]["proposicoes"], 0)
 
     def test_interface_e_arquivos_estaticos_sao_servidos(self) -> None:
         with self.requisitar("/") as resposta:
