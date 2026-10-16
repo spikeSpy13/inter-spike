@@ -18,7 +18,7 @@ from .referencias.models import Mention
 from .referencias.resolvedor import resolver_referencias
 from .grafo import construir_grafo
 from .centralidade import propor_ideia_central
-from .geracao import gerar_sintese
+from .geracao import gerar_parafrases, gerar_sintese
 
 
 @dataclass(frozen=True)
@@ -408,6 +408,13 @@ def analisar_paragrafo(texto: str, contexto_anterior: str | None = None) -> Anal
         grafo.relacoes,
         ideia_central,
     )
+    parafrases = gerar_parafrases(
+        texto,
+        proposicoes,
+        grafo.operadores,
+        grafo.relacoes,
+        sintese,
+    )
 
     alertas: list[str] = []
     if not proposicoes:
@@ -438,7 +445,7 @@ def analisar_paragrafo(texto: str, contexto_anterior: str | None = None) -> Anal
         ideia_central=ideia_central,
         conteudo_essencial_ids=conteudo_essencial_ids,
         sintese=sintese,
-        parafrases=[],
+        parafrases=parafrases,
         resumo=AnalysisSummary(
             proposicoes=len(proposicoes),
             mencoes=len(mencoes),
@@ -453,6 +460,7 @@ def analisar_paragrafo(texto: str, contexto_anterior: str | None = None) -> Anal
             atribuicoes_marcadas=sum(prop.atribuicao.modo != "asserção narrativa" for prop in proposicoes),
             conteudo_essencial=len(conteudo_essencial_ids),
             sintese_caracteres=len(sintese.texto or ""),
+            parafrases=len(parafrases),
         ),
         alertas=alertas,
     )

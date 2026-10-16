@@ -27,7 +27,7 @@ Algumas representações compartilham o mesmo artefato quando o recorte textual 
 
 ## Sequência de implementação
 
-O protótipo foi desenvolvido primeiro pelo fluxo de texto colado. A estabilização `0.4.1` consolidou o grafo proposicional; a versão `0.5.0` ligou a ingestão estruturada à fixture `09_vetorizacao`; a versão `0.6.0` completou a seleção explicável da ideia central e do conteúdo essencial; e a versão `0.7.0` passou a gerar uma síntese extrativa com cobertura verificável.
+O protótipo foi desenvolvido primeiro pelo fluxo de texto colado. A estabilização `0.4.1` consolidou o grafo proposicional; a versão `0.5.0` ligou a ingestão estruturada à fixture `09_vetorizacao`; a versão `0.6.0` completou a seleção explicável da ideia central e do conteúdo essencial; a versão `0.7.0` passou a gerar uma síntese extrativa com cobertura verificável; e a versão `0.8.0` acrescentou paráfrases opcionais por transformações controladas.
 
 ### Etapa 1 — receber e validar
 
@@ -73,17 +73,21 @@ As relações e os operadores apontam para intervalos exatos do parágrafo. O va
 
 ### Etapa 3 — gerar textos
 
-**Em andamento — síntese implementada no contrato de análise `0.7.0`.**
+**Implementada — contrato de análise `0.8.0`.**
 
 - gerar uma síntese a partir do registro interpretativo; **implementado — contrato 0.7.0**
-- oferecer paráfrases opcionais como saídas independentes; **pendente**
+- oferecer paráfrases opcionais como saídas independentes; **implementado — contrato 0.8.0**
 - consultar o original durante a geração. **implementado — contrato 0.7.0**
 
-Critério de aceite: síntese e paráfrases preservam negação, modalidade, participantes e relações essenciais selecionadas. **Atendido para a síntese por testes automatizados; pendente para paráfrases.**
+Critério de aceite: síntese e paráfrases preservam negação, modalidade, participantes e relações essenciais selecionadas. **Atendido por testes automatizados para a síntese e para as equivalências de paráfrase suportadas.**
 
 #### Síntese extrativa implementada
 
 A estratégia `extrativa_conteudo_essencial_v1` seleciona períodos completos do original que contêm as proposições essenciais. Ela também exige cobertura das evidências de operadores e relações ligados a essas proposições e dos intervalos dos participantes. O contrato registra os IDs cobertos, os intervalos literais, a confiança herdada da ideia central e alertas de revisão. O validador rejeita texto sem apoio ou perda de qualquer elemento declarado como essencial.
+
+#### Paráfrases controladas implementadas
+
+A estratégia `substituicao_discursiva_controlada_v1` só produz uma saída quando o grafo confirma uma equivalência suportada: coordenação negativa (`nem` → `e também não`) ou justificativa causal (`pois` ↔ `porque`). A paráfrase herda toda a cobertura da síntese e registra cada transformação com seu intervalo original e os IDs semânticos preservados. O validador reconstrói a saída, impede alterações em participantes e predicados e rejeita texto não declarado. A ausência de uma regra segura resulta em uma lista vazia, conforme o caráter opcional desta saída.
 
 ### Etapa 4 — checar fidelidade
 

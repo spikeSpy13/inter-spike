@@ -1,7 +1,7 @@
 import unittest
 
 from interpretador.extractor import analisar_paragrafo
-from interpretador.geracao import validar_sintese
+from interpretador.geracao import validar_parafrase, validar_sintese
 
 
 PARAGRAFO = (
@@ -19,7 +19,7 @@ class SynthesisTests(unittest.TestCase):
         resultado = analisar_paragrafo(PARAGRAFO)
         sintese = resultado.sintese
 
-        self.assertEqual(resultado.schema_version, "0.7.0")
+        self.assertEqual(resultado.schema_version, "0.8.0")
         self.assertEqual(sintese.estado, "gerada")
         self.assertEqual(
             sintese.texto,
@@ -30,7 +30,16 @@ class SynthesisTests(unittest.TestCase):
         self.assertEqual(sintese.cobertura.operador_ids, ["O1", "O2"])
         self.assertEqual(sintese.cobertura.relacao_ids, ["L1", "L7"])
         self.assertTrue(sintese.cobertura.mencao_ids)
-        self.assertEqual(resultado.parafrases, [])
+        self.assertEqual(len(resultado.parafrases), 1)
+        parafrase = resultado.parafrases[0]
+        self.assertEqual(
+            parafrase.texto,
+            "Apesar daquele revés temporário, a profissional não abandonou o campo de batalha "
+            "e também não desistiu de buscar novos recursos para o projeto solar.",
+        )
+        self.assertEqual(parafrase.cobertura, sintese.cobertura)
+        self.assertEqual(parafrase.transformacoes[0].preserva_operador_ids, ["O2"])
+        self.assertEqual(parafrase.transformacoes[0].preserva_relacao_ids, ["L1"])
 
     def test_evidencias_da_sintese_reproduzem_o_original(self) -> None:
         resultado = analisar_paragrafo(PARAGRAFO)
@@ -48,6 +57,21 @@ class SynthesisTests(unittest.TestCase):
         self.assertEqual(resultado.sintese.cobertura.proposicao_ids, ["P1"])
         self.assertEqual(resultado.sintese.cobertura.operador_ids, ["O1"])
         self.assertIn("pode", resultado.sintese.texto)
+        self.assertEqual(resultado.parafrases, [])
+
+    def test_parafrase_causal_substitui_apenas_o_marcador_confirmado(self) -> None:
+        texto = "Ana abandonou o projeto, pois Beatriz desistiu do trabalho."
+        resultado = analisar_paragrafo(texto)
+
+        self.assertEqual(len(resultado.parafrases), 1)
+        parafrase = resultado.parafrases[0]
+        self.assertEqual(
+            parafrase.texto,
+            "Ana abandonou o projeto, porque Beatriz desistiu do trabalho.",
+        )
+        self.assertEqual(parafrase.transformacoes[0].original.texto, "pois")
+        self.assertEqual(parafrase.transformacoes[0].preserva_relacao_ids, ["L1"])
+        self.assertEqual(parafrase.transformacoes[0].preserva_operador_ids, [])
 
     def test_sem_conteudo_essencial_mantem_sintese_indeterminada(self) -> None:
         resultado = analisar_paragrafo("Um livro azul.")
@@ -68,6 +92,42 @@ class SynthesisTests(unittest.TestCase):
                 resultado.conteudo_essencial_ids,
                 resultado.operadores_escopo,
                 resultado.relacoes,
+                adulterada,
+            )
+
+    def test_validador_rejeita_acrescimo_na_parafrase(self) -> None:
+        resultado = analisar_paragrafo(
+            "Ana não abandonou o projeto nem desistiu do trabalho."
+        )
+        adulterada = resultado.parafrases[0].model_copy(
+            update={"texto": resultado.parafrases[0].texto + " O projeto foi aprovado."}
+        )
+
+        with self.assertRaisesRegex(ValueError, "além das transformações"):
+            validar_parafrase(
+                resultado.paragrafo,
+                resultado.proposicoes,
+                resultado.operadores_escopo,
+                resultado.relacoes,
+                resultado.sintese,
+                adulterada,
+            )
+
+    def test_validador_rejeita_equivalencia_nao_autorizada(self) -> None:
+        resultado = analisar_paragrafo(
+            "Ana não abandonou o projeto nem desistiu do trabalho."
+        )
+        adulterada = resultado.parafrases[0].model_copy(deep=True)
+        adulterada.transformacoes[0].substituicao = "ou"
+        adulterada.texto = "Ana não abandonou o projeto ou desistiu do trabalho."
+
+        with self.assertRaisesRegex(ValueError, "não autorizada"):
+            validar_parafrase(
+                resultado.paragrafo,
+                resultado.proposicoes,
+                resultado.operadores_escopo,
+                resultado.relacoes,
+                resultado.sintese,
                 adulterada,
             )
 

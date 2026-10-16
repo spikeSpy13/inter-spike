@@ -2,11 +2,11 @@
 
 Aplicativo para receber a saída da etapa `09_vetorizacao` e produzir interpretações rastreáveis ao texto original.
 
-O primeiro recorte do produto é deliberadamente pequeno: interpretar **um parágrafo**, propor sua ideia central e gerar uma síntese fiel, sempre acompanhadas de evidências e alertas de checagem.
+O primeiro recorte do produto é deliberadamente pequeno: interpretar **um parágrafo**, propor sua ideia central e gerar uma síntese fiel com paráfrases opcionais, sempre acompanhadas de evidências e alertas de checagem.
 
 ## Estado atual
 
-O projeto concluiu a **Etapa 1 — ingestão e validação** e a **Etapa 2 — interpretação de um parágrafo**. A **Etapa 3 — geração de textos** está em andamento: a versão `0.7.0` acrescenta uma síntese extrativa com cobertura verificável do conteúdo essencial ao fluxo estruturado de `09_vetorizacao`. O motor e a API são escritos em Python; a interface funcional está em `dist/`. Os anexos originais foram preservados em:
+O projeto concluiu a **Etapa 1 — ingestão e validação**, a **Etapa 2 — interpretação de um parágrafo** e a **Etapa 3 — geração de textos**. A versão `0.8.0` acrescenta paráfrases opcionais por equivalências discursivas controladas e valida cada transformação contra o grafo e a síntese de origem. O motor e a API são escritos em Python; a interface funcional está em `dist/`. Os anexos originais foram preservados em:
 
 - `fixtures/vetorizacao-28.json`: exemplo real de entrada;
 - `docs/referencias/arquitetura_interpretacao_fundamentada_v1.pdf`: referência conceitual.
@@ -15,7 +15,7 @@ O plano e os critérios de aceite estão em [`docs/01-escopo-e-etapas.md`](docs/
 
 ## Interface atual
 
-A página aceita o arquivo JSON de `09_vetorizacao`, valida sua estrutura e permite selecionar um parágrafo. O texto livre e o contexto anterior continuam disponíveis. A análise produz proposições, menções, grupos de referentes `R1/R2`, um grafo com operadores, quadros de atribuição e relações, além da ideia central proposta e da síntese extrativa. Cada decisão mostra confiança, razões, alternativas e evidências. A síntese informa quais proposições, operadores, relações e participantes foram preservados.
+A página aceita o arquivo JSON de `09_vetorizacao`, valida sua estrutura e permite selecionar um parágrafo. O texto livre e o contexto anterior continuam disponíveis. A análise produz proposições, menções, grupos de referentes `R1/R2`, um grafo com operadores, quadros de atribuição e relações, além da ideia central proposta, da síntese extrativa e das paráfrases aplicáveis. Cada decisão mostra confiança, razões, alternativas e evidências. Síntese e paráfrases informam quais proposições, operadores, relações e participantes foram preservados.
 
 Esta versão continua sendo um extrator heurístico demonstrativo. Resoluções ambíguas ou sem antecedente permanecem explícitas; confiança não representa uma probabilidade calibrada.
 
@@ -53,7 +53,13 @@ A hipótese usa um trecho do original como formulação, e todas as evidências 
 
 O contrato de análise `0.7.0` gera `sintese` a partir dos IDs de conteúdo essencial. A estratégia `extrativa_conteudo_essencial_v1` seleciona períodos completos do texto original que cobrem as proposições essenciais e as evidências de seus operadores e relações. O resultado declara a cobertura em `proposicao_ids`, `operador_ids`, `relacao_ids` e `mencao_ids`; o validador rejeita intervalos divergentes, texto acrescentado e perda dos elementos essenciais.
 
-Quando não há conteúdo essencial, a síntese fica `indeterminada`. Períodos não contíguos, contexto adicional e baixa confiança da ideia central geram alertas para revisão. `parafrases` permanece uma lista vazia nesta versão: a geração opcional de paráfrases terá um contrato de fidelidade próprio.
+Quando não há conteúdo essencial, a síntese fica `indeterminada`. Períodos não contíguos, contexto adicional e baixa confiança da ideia central geram alertas para revisão.
+
+### Paráfrases verificáveis `0.8.0`
+
+O contrato de análise `0.8.0` preenche `parafrases` somente quando uma equivalência discursiva aprovada se aplica a um marcador confirmado pelo grafo. A estratégia `substituicao_discursiva_controlada_v1` cobre coordenação negativa (`nem` → `e também não`) e justificativa causal (`pois` ↔ `porque`). Cada saída declara o trecho substituído, o novo marcador, os operadores e relações preservados, a cobertura herdada da síntese e sua confiança.
+
+O validador reconstrói a paráfrase a partir do original e das transformações declaradas. Ele rejeita equivalências desconhecidas, texto adicional, transformações sobre predicados ou participantes e qualquer perda de cobertura. Quando nenhuma regra segura é aplicável, `parafrases` fica vazia; isso evita forçar uma reformulação sem suporte do contrato atual.
 
 ## Baixar e executar
 

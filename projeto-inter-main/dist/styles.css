@@ -673,11 +673,47 @@ textarea.context-textarea:focus {
 }
 
 .synthesis-alerts li + li { margin-top: 3px; }
-.paraphrase-state {
+.paraphrase-section {
   margin: 13px 0 0;
   padding-top: 10px;
-  color: var(--muted);
   border-top: 1px solid var(--line);
+}
+
+.paraphrase-section h4 {
+  margin: 0 0 8px;
+  color: var(--muted);
+  font-size: 9px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.paraphrase-card {
+  padding: 11px;
+  border: 1px solid #cbd8d1;
+  border-radius: 10px;
+  background: linear-gradient(145deg, rgba(223, 236, 229, 0.42), #fbfaf6);
+}
+
+.paraphrase-card + .paraphrase-card { margin-top: 8px; }
+.paraphrase-card header { align-items: center; }
+.paraphrase-card header > strong {
+  color: var(--green);
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 9px;
+}
+.paraphrase-card blockquote {
+  margin: 10px 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 13px;
+  line-height: 1.5;
+}
+.paraphrase-card ul { margin: 0; padding: 0; list-style: none; }
+.paraphrase-card li { color: var(--muted); font-size: 9px; }
+.paraphrase-card li strong { display: block; color: var(--ink); }
+.paraphrase-card li small { display: block; margin-top: 2px; font-size: 8px; }
+.paraphrase-state {
+  margin: 0;
+  color: var(--muted);
   font-size: 9px;
 }
 

@@ -8,6 +8,8 @@ from .grafo.models import PropositionRelation, ScopeOperator
 from .models import (
     CentralIdea,
     Evidence,
+    Paraphrase,
+    ParaphraseTransformation,
     Proposition,
     Span,
     Synthesis,
@@ -247,3 +249,232 @@ def validar_sintese(
                 raise ValueError(
                     f"A síntese não cobre o participante {participante.mencao_id}."
                 )
+
+
+def _evidencia_equivalente(
+    evidencia: Evidence,
+    inicio: int,
+    fim: int,
+) -> bool:
+    return evidencia.intervalo.inicio == inicio and evidencia.intervalo.fim == fim
+
+
+def _aplicar_transformacoes(
+    texto: str,
+    sintese: Synthesis,
+    transformacoes: list[ParaphraseTransformation],
+) -> str:
+    partes: list[str] = []
+    for evidencia in sintese.evidencias:
+        inicio_evidencia = evidencia.intervalo.inicio
+        fim_evidencia = evidencia.intervalo.fim
+        aplicaveis = sorted(
+            (
+                item
+                for item in transformacoes
+                if inicio_evidencia <= item.original.intervalo.inicio
+                and item.original.intervalo.fim <= fim_evidencia
+            ),
+            key=lambda item: item.original.intervalo.inicio,
+        )
+        cursor = inicio_evidencia
+        trecho: list[str] = []
+        for transformacao in aplicaveis:
+            intervalo = transformacao.original.intervalo
+            trecho.append(texto[cursor:intervalo.inicio])
+            trecho.append(transformacao.substituicao)
+            cursor = intervalo.fim
+        trecho.append(texto[cursor:fim_evidencia])
+        partes.append("".join(trecho))
+    return " ".join(partes)
+
+
+def gerar_parafrases(
+    texto: str,
+    proposicoes: list[Proposition],
+    operadores: list[ScopeOperator],
+    relacoes: list[PropositionRelation],
+    sintese: Synthesis,
+) -> list[Paraphrase]:
+    """Gera apenas equivalências discursivas que podem ser validadas localmente."""
+
+    if sintese.estado != "gerada":
+        return []
+
+    operadores_por_id = {item.id: item for item in operadores}
+    relacoes_por_id = {item.id: item for item in relacoes}
+    candidatos: list[ParaphraseTransformation] = []
+
+    for operador_id in sintese.cobertura.operador_ids:
+        operador = operadores_por_id[operador_id]
+        if (
+            operador.tipo == "negacao"
+            and operador.subtipo == "coordenada"
+            and operador.marcador.casefold() == "nem"
+        ):
+            relacao_ids = [
+                item.id
+                for item in relacoes
+                if item.id in sintese.cobertura.relacao_ids
+                and item.tipo == "coordenacao_negativa"
+                and item.evidencia.intervalo == operador.evidencia.intervalo
+            ]
+            if relacao_ids:
+                candidatos.append(ParaphraseTransformation(
+                    original=Evidence(
+                        texto=operador.evidencia.texto,
+                        intervalo=operador.evidencia.intervalo,
+                    ),
+                    substituicao="e também não",
+                    preserva_operador_ids=[operador.id],
+                    preserva_relacao_ids=relacao_ids,
+                ))
+
+    equivalencias_causais = {"pois": "porque", "porque": "pois"}
+    for relacao_id in sintese.cobertura.relacao_ids:
+        relacao = relacoes_por_id[relacao_id]
+        marcador = (relacao.marcador or "").casefold()
+        if relacao.tipo != "justificativa_causal" or marcador not in equivalencias_causais:
+            continue
+        substituicao = equivalencias_causais[marcador]
+        if relacao.marcador and relacao.marcador[0].isupper():
+            substituicao = substituicao.capitalize()
+        candidatos.append(ParaphraseTransformation(
+            original=Evidence(
+                texto=relacao.evidencia.texto,
+                intervalo=relacao.evidencia.intervalo,
+            ),
+            substituicao=substituicao,
+            preserva_relacao_ids=[relacao.id],
+        ))
+
+    parafrases: list[Paraphrase] = []
+    for indice, transformacao in enumerate(candidatos, start=1):
+        confiancas = [sintese.confianca]
+        confiancas.extend(
+            operadores_por_id[item].confianca
+            for item in transformacao.preserva_operador_ids
+        )
+        confiancas.extend(
+            relacoes_por_id[item].confianca
+            for item in transformacao.preserva_relacao_ids
+        )
+        parafrase = Paraphrase(
+            id=f"PF{indice}",
+            texto=_aplicar_transformacoes(texto, sintese, [transformacao]),
+            proposicao_ids=list(sintese.cobertura.proposicao_ids),
+            evidencias=list(sintese.evidencias),
+            cobertura=sintese.cobertura.model_copy(deep=True),
+            transformacoes=[transformacao],
+            confianca=round(max(0, min(confiancas) - 0.03), 2),
+        )
+        validar_parafrase(
+            texto,
+            proposicoes,
+            operadores,
+            relacoes,
+            sintese,
+            parafrase,
+        )
+        parafrases.append(parafrase)
+    return parafrases
+
+
+def validar_parafrase(
+    texto: str,
+    proposicoes: list[Proposition],
+    operadores: list[ScopeOperator],
+    relacoes: list[PropositionRelation],
+    sintese: Synthesis,
+    parafrase: Paraphrase,
+) -> None:
+    if sintese.estado != "gerada":
+        raise ValueError("Não é possível validar paráfrase sem uma síntese gerada.")
+    if not parafrase.texto or parafrase.texto == sintese.texto:
+        raise ValueError("A paráfrase deve modificar a síntese de origem.")
+    if not parafrase.transformacoes:
+        raise ValueError("A paráfrase deve declarar ao menos uma transformação.")
+    if parafrase.evidencias != sintese.evidencias:
+        raise ValueError("A paráfrase deve manter as evidências da síntese de origem.")
+    if parafrase.cobertura != sintese.cobertura:
+        raise ValueError("A paráfrase deve manter toda a cobertura da síntese.")
+    if parafrase.proposicao_ids != sintese.cobertura.proposicao_ids:
+        raise ValueError("A paráfrase deve declarar todas as proposições essenciais.")
+
+    proposicoes_por_id = {item.id: item for item in proposicoes}
+    operadores_por_id = {item.id: item for item in operadores}
+    relacoes_por_id = {item.id: item for item in relacoes}
+    intervalos_anteriores: list[tuple[int, int]] = []
+    for transformacao in sorted(
+        parafrase.transformacoes,
+        key=lambda item: item.original.intervalo.inicio,
+    ):
+        intervalo = transformacao.original.intervalo
+        if texto[intervalo.inicio:intervalo.fim] != transformacao.original.texto:
+            raise ValueError("A transformação da paráfrase diverge do texto original.")
+        if not _abrange(parafrase.evidencias, intervalo.inicio, intervalo.fim):
+            raise ValueError("A transformação fica fora das evidências da síntese.")
+        if any(
+            inicio < intervalo.fim and intervalo.inicio < fim
+            for inicio, fim in intervalos_anteriores
+        ):
+            raise ValueError("As transformações da paráfrase não podem se sobrepor.")
+        intervalos_anteriores.append((intervalo.inicio, intervalo.fim))
+
+        for proposicao_id in parafrase.proposicao_ids:
+            proposicao = proposicoes_por_id[proposicao_id]
+            predicado = proposicao.predicado_intervalo
+            if intervalo.inicio < predicado.fim and predicado.inicio < intervalo.fim:
+                raise ValueError("A paráfrase não pode substituir um predicado essencial.")
+            for participante in proposicao.participantes:
+                participante_intervalo = participante.intervalo
+                if (
+                    intervalo.inicio < participante_intervalo.fim
+                    and participante_intervalo.inicio < intervalo.fim
+                ):
+                    raise ValueError("A paráfrase não pode substituir um participante essencial.")
+
+        original = transformacao.original.texto.casefold()
+        substituicao = transformacao.substituicao.casefold()
+        if original == "nem" and substituicao == "e também não":
+            operadores_esperados = [
+                item.id
+                for item in operadores
+                if item.id in parafrase.cobertura.operador_ids
+                and item.tipo == "negacao"
+                and item.subtipo == "coordenada"
+                and _evidencia_equivalente(item.evidencia, intervalo.inicio, intervalo.fim)
+            ]
+            relacoes_esperadas = [
+                item.id
+                for item in relacoes
+                if item.id in parafrase.cobertura.relacao_ids
+                and item.tipo == "coordenacao_negativa"
+                and _evidencia_equivalente(item.evidencia, intervalo.inicio, intervalo.fim)
+            ]
+        elif (original, substituicao) in {("pois", "porque"), ("porque", "pois")}:
+            operadores_esperados = []
+            relacoes_esperadas = [
+                item.id
+                for item in relacoes
+                if item.id in parafrase.cobertura.relacao_ids
+                and item.tipo == "justificativa_causal"
+                and _evidencia_equivalente(item.evidencia, intervalo.inicio, intervalo.fim)
+            ]
+        else:
+            raise ValueError("A paráfrase usa uma equivalência discursiva não autorizada.")
+
+        if not operadores_esperados and not relacoes_esperadas:
+            raise ValueError("A transformação não preserva um vínculo confirmado pelo grafo.")
+        if transformacao.preserva_operador_ids != operadores_esperados:
+            raise ValueError("A transformação não declara os operadores que preserva.")
+        if transformacao.preserva_relacao_ids != relacoes_esperadas:
+            raise ValueError("A transformação não declara as relações que preserva.")
+        if not set(transformacao.preserva_operador_ids) <= operadores_por_id.keys():
+            raise ValueError("A transformação aponta para operador inexistente.")
+        if not set(transformacao.preserva_relacao_ids) <= relacoes_por_id.keys():
+            raise ValueError("A transformação aponta para relação inexistente.")
+
+    reconstruida = _aplicar_transformacoes(texto, sintese, parafrase.transformacoes)
+    if parafrase.texto != reconstruida:
+        raise ValueError("A paráfrase contém texto além das transformações declaradas.")

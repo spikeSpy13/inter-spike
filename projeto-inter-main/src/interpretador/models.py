@@ -109,11 +109,26 @@ class Synthesis(BaseModel):
     alertas: list[str] = Field(default_factory=list)
 
 
+class ParaphraseTransformation(BaseModel):
+    tipo: Literal["equivalencia_discursiva"] = "equivalencia_discursiva"
+    original: Evidence
+    substituicao: str
+    preserva_operador_ids: list[str] = Field(default_factory=list)
+    preserva_relacao_ids: list[str] = Field(default_factory=list)
+
+
 class Paraphrase(BaseModel):
+    id: str
     texto: str
     proposicao_ids: list[str]
     evidencias: list[Evidence]
-    estrategia: str
+    cobertura: SynthesisCoverage
+    transformacoes: list[ParaphraseTransformation]
+    estrategia: Literal["substituicao_discursiva_controlada_v1"] = (
+        "substituicao_discursiva_controlada_v1"
+    )
+    confianca: float = Field(ge=0, le=1)
+    alertas: list[str] = Field(default_factory=list)
 
 
 class AnalysisSummary(BaseModel):
@@ -128,10 +143,11 @@ class AnalysisSummary(BaseModel):
     atribuicoes_marcadas: int
     conteudo_essencial: int
     sintese_caracteres: int
+    parafrases: int
 
 
 class AnalysisResponse(BaseModel):
-    schema_version: Literal["0.7.0"] = "0.7.0"
+    schema_version: Literal["0.8.0"] = "0.8.0"
     paragrafo: str
     contexto_anterior: str | None = None
     proposicoes: list[Proposition]
@@ -188,7 +204,7 @@ class JsonAnalysisRequest(BaseModel):
 
 
 class JsonAnalysisResponse(BaseModel):
-    schema_version: Literal["0.7.0"] = "0.7.0"
+    schema_version: Literal["0.8.0"] = "0.8.0"
     fonte: DocumentSource
     paragrafo: DocumentParagraph
     analise: AnalysisResponse

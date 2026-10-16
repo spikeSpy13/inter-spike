@@ -77,7 +77,7 @@ class ApiTests(unittest.TestCase):
 
     def test_endpoint_de_analise(self) -> None:
         resultado = analisar(AnalysisRequest(paragrafo="Helena percebeu o problema."))
-        self.assertEqual(resultado.schema_version, "0.7.0")
+        self.assertEqual(resultado.schema_version, "0.8.0")
         self.assertGreaterEqual(resultado.resumo.proposicoes, 1)
         self.assertGreaterEqual(resultado.resumo.referentes, 1)
         self.assertIsInstance(resultado.operadores_escopo, list)
@@ -86,6 +86,7 @@ class ApiTests(unittest.TestCase):
         self.assertEqual(resultado.ideia_central.estado, "proposta")
         self.assertTrue(resultado.conteudo_essencial_ids)
         self.assertEqual(resultado.sintese.estado, "gerada")
+        self.assertEqual(resultado.resumo.parafrases, len(resultado.parafrases))
 
     def test_rotas_publicadas_no_openapi(self) -> None:
         caminhos = app.openapi()["paths"]
@@ -101,11 +102,12 @@ class ApiTests(unittest.TestCase):
         ) as resposta:
             self.assertEqual(resposta.status, 200)
             payload = json.load(resposta)
-        self.assertEqual(payload["schema_version"], "0.7.0")
+        self.assertEqual(payload["schema_version"], "0.8.0")
         self.assertGreaterEqual(payload["resumo"]["proposicoes"], 1)
         self.assertIn("ideia_central", payload)
         self.assertIn("conteudo_essencial_ids", payload)
         self.assertIn("sintese", payload)
+        self.assertIn("parafrases", payload)
 
     def test_http_rejeita_paragrafo_vazio(self) -> None:
         with self.assertRaises(URLError) as erro:
@@ -140,10 +142,17 @@ class ApiTests(unittest.TestCase):
         ) as resposta:
             self.assertEqual(resposta.status, 200)
             payload = json.load(resposta)
-        self.assertEqual(payload["schema_version"], "0.7.0")
+        self.assertEqual(payload["schema_version"], "0.8.0")
         self.assertEqual(payload["paragrafo"]["rotulo"], "P2")
-        self.assertEqual(payload["analise"]["schema_version"], "0.7.0")
+        self.assertEqual(payload["analise"]["schema_version"], "0.8.0")
         self.assertEqual(payload["analise"]["sintese"]["estado"], "gerada")
+        self.assertEqual(len(payload["analise"]["parafrases"]), 1)
+        parafrase = payload["analise"]["parafrases"][0]
+        self.assertIn("e também não desistiu", parafrase["texto"])
+        self.assertEqual(
+            parafrase["transformacoes"][0]["preserva_operador_ids"],
+            ["O2"],
+        )
         self.assertGreater(payload["analise"]["resumo"]["proposicoes"], 0)
 
     def test_interface_e_arquivos_estaticos_sao_servidos(self) -> None:

@@ -231,6 +231,18 @@ function renderSynthesis(item, paraphrases) {
   const coverageGroup = (label, ids) => `
     <div><dt>${escapeHtml(label)}</dt><dd>${ids.length ? ids.map(id => `<span>${escapeHtml(id)}</span>`).join("") : `<em>nenhum</em>`}</dd></div>
   `;
+  const paraphraseCards = paraphrases.map(paraphrase => `
+    <article class="paraphrase-card">
+      <header><strong>${escapeHtml(paraphrase.id)}</strong><span>${Math.round(paraphrase.confianca * 100)}% confiança</span></header>
+      <blockquote>“${escapeHtml(paraphrase.texto)}”</blockquote>
+      <ul>${paraphrase.transformacoes.map(transformation => `
+        <li>
+          <strong>“${escapeHtml(transformation.original.texto)}” → “${escapeHtml(transformation.substituicao)}”</strong>
+          <small>${escapeHtml(evidenceLabel(transformation.original))} · preserva ${[...transformation.preserva_operador_ids, ...transformation.preserva_relacao_ids].map(id => escapeHtml(id)).join(" · ")}</small>
+        </li>
+      `).join("")}</ul>
+    </article>
+  `).join("");
   synthesis.innerHTML = `
     <header>
       <div><h3 id="synthesis-title">Síntese extrativa</h3><p>Períodos originais selecionados pelo conteúdo essencial.</p></div>
@@ -245,7 +257,10 @@ function renderSynthesis(item, paraphrases) {
       ${coverageGroup("Participantes", coverage.mencao_ids)}
     </dl>
     ${item.alertas.length ? `<ul class="synthesis-alerts">${item.alertas.map(alert => `<li>${escapeHtml(alert)}</li>`).join("")}</ul>` : ""}
-    <p class="paraphrase-state">${paraphrases.length ? `${paraphrases.length} paráfrases disponíveis` : "Paráfrases opcionais ainda não geradas."}</p>
+    <section class="paraphrase-section" aria-label="Paráfrases verificáveis">
+      <h4>Paráfrases opcionais</h4>
+      ${paraphraseCards || `<p class="paraphrase-state">Nenhuma equivalência discursiva segura se aplica a esta síntese.</p>`}
+    </section>
   `;
 }
 
@@ -535,11 +550,11 @@ async function renderAnalysis() {
     const responseData = await response.json();
     if (requestId !== activeRequestId) return;
     if (!response.ok) throw new Error(errorMessage(responseData, "Não foi possível analisar o parágrafo."));
-    if (structured && responseData.schema_version !== "0.7.0") {
+    if (structured && responseData.schema_version !== "0.8.0") {
       throw new Error(`Versão do fluxo estruturado incompatível: ${responseData.schema_version || "ausente"}.`);
     }
     const data = structured ? responseData.analise : responseData;
-    if (data.schema_version !== "0.7.0") throw new Error(`Versão de resposta incompatível: ${data.schema_version || "ausente"}.`);
+    if (data.schema_version !== "0.8.0") throw new Error(`Versão de resposta incompatível: ${data.schema_version || "ausente"}.`);
 
     emptyState.hidden = true;
     analysisOutput.hidden = false;
@@ -565,6 +580,7 @@ async function renderAnalysis() {
       <span class="mini-chip">${summary.atribuicoes_marcadas} atribuídas</span>
       <span class="mini-chip essential">${summary.conteudo_essencial} essenciais</span>
       <span class="mini-chip synthesis">${summary.sintese_caracteres} caracteres na síntese</span>
+      <span class="mini-chip synthesis">${summary.parafrases} ${summary.parafrases === 1 ? "paráfrase" : "paráfrases"}</span>
       ${structured ? `<span class="mini-chip source">documento ${escapeHtml(responseData.fonte.documento_id)} · ${escapeHtml(responseData.paragrafo.rotulo)}</span>` : ""}
       <span class="mini-chip">contrato ${escapeHtml(data.schema_version)}</span>
     `;
