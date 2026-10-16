@@ -1,0 +1,18 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "interpretador-proposicoes"
+version = "0.4.0"
+description = "Grafo explicável de proposições, referências, operadores e atribuições em português."
+requires-python = ">=3.12"
+dependencies = [
+  "fastapi>=0.115,<1",
+  "pydantic>=2.10,<3",
+  "uvicorn[standard]>=0.34,<1"
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+

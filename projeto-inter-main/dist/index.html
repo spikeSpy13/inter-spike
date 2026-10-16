@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Grafo explicável de proposições, referências, operadores e atribuições em português." />
+    <title>Interpretador de Proposições</title>
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="brand" href="#inicio" aria-label="Interpretador de Proposições — início">
+        <span class="brand-mark" aria-hidden="true">∴</span>
+        <span>
+          <strong>Interpretador</strong>
+          <small>estrutura proposicional</small>
+        </span>
+      </a>
+      <span class="version-pill">Protótipo · etapa 3</span>
+    </header>
+
+    <main id="inicio">
+      <section class="hero" aria-labelledby="page-title">
+        <p class="eyebrow">Leitura estruturada · português</p>
+        <h1 id="page-title">Do parágrafo às<br /><em>proposições.</em></h1>
+        <p class="hero-copy">
+          Identifique predicados, participantes, referentes e operadores sem perder o vínculo com o texto original.
+        </p>
+      </section>
+
+      <section class="workspace" aria-label="Área de análise">
+        <div class="input-column">
+          <div class="panel input-panel">
+            <div class="panel-heading">
+              <div>
+                <span class="step-number">01</span>
+                <h2>Parágrafo de entrada</h2>
+              </div>
+              <span id="char-count" class="char-count">0 caracteres</span>
+            </div>
+
+            <label class="sr-only" for="paragraph">Parágrafo para análise</label>
+            <textarea
+              id="paragraph"
+              maxlength="5000"
+              spellcheck="true"
+              placeholder="Cole ou escreva um parágrafo em português…"
+            ></textarea>
+
+            <details class="context-box">
+              <summary>
+                <span>Adicionar contexto anterior</span>
+                <small>opcional · usado apenas nas referências</small>
+              </summary>
+              <label for="previous-context">Texto anterior ao parágrafo analisado</label>
+              <textarea
+                id="previous-context"
+                class="context-textarea"
+                maxlength="10000"
+                spellcheck="true"
+                placeholder="Cole aqui o parágrafo anterior, se houver…"
+              ></textarea>
+            </details>
+
+            <div class="input-actions">
+              <button id="analyze" class="primary-button" type="button">
+                <span>Analisar estrutura</span>
+                <span aria-hidden="true">→</span>
+              </button>
+              <button id="example" class="text-button" type="button">Usar exemplo</button>
+              <button id="clear" class="text-button muted" type="button">Limpar</button>
+            </div>
+          </div>
+
+          <aside class="note-card">
+            <span class="note-icon" aria-hidden="true">i</span>
+            <p>
+              <strong>Como ler este protótipo</strong>
+              A extração é heurística e local. Cada hipótese traz evidência e confiança; resultados incertos permanecem explícitos.
+            </p>
+          </aside>
+        </div>
+
+        <div class="results-column">
+          <div class="results-heading">
+            <div>
+              <span class="step-number">02</span>
+              <h2>Estrutura extraída</h2>
+            </div>
+            <div id="result-stats" class="result-stats" hidden></div>
+          </div>
+
+          <div id="empty-state" class="empty-state">
+            <div class="empty-graphic" aria-hidden="true">
+              <span></span><span></span><span></span>
+            </div>
+            <h3>As proposições aparecerão aqui</h3>
+            <p>Insira um parágrafo e inicie a análise para ver a estrutura básica.</p>
+          </div>
+
+          <div id="analysis-output" class="analysis-output" aria-live="polite" hidden>
+            <section id="graph-map" class="reference-map graph-map" aria-labelledby="graph-title"></section>
+            <section id="reference-map" class="reference-map" aria-labelledby="reference-title"></section>
+            <section id="mention-map" class="reference-map mention-map" aria-labelledby="mention-title"></section>
+            <ol id="proposition-list" class="proposition-list"></ol>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <span>Interpretação fundamentada</span>
+      <span>Os intervalos usam início inclusivo e fim exclusivo.</span>
+    </footer>
+
+    <script src="/static/app.js" defer></script>
+  </body>
+</html>
