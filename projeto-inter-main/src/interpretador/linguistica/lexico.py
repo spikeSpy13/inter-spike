@@ -65,6 +65,7 @@ VERBOS.update({
     "chamou": "chamar", "apontou": "apontar", "deixei": "deixar", "corri": "correr",
     "arrumei": "arrumar", "imprimi": "imprimir", "voltei": "voltar", "deu": "dar",
     "retornei": "retornar", "parece": "parecer", "consegue": "conseguir",
+    "acenou": "acenar", "enxuguei": "enxugar",
     "cantou": "cantar", "cantaram": "cantar", "estudei": "estudar", "bebeu": "beber",
     "partiu": "partir", "escrevi": "escrever", "exigiu": "exigir",
 })

@@ -1,0 +1,834 @@
+{
+  "schema_registro": "1.0.0",
+  "natureza": "recorte_observado_nao_gabarito",
+  "data_registro": "2026-10-17",
+  "motor": {
+    "versao": "1.1.0.dev2",
+    "commit_base": "b9bee89a4a01305b1cd2e325d0c203f07c357d4b",
+    "fontes_sha256": "45ca61465b2a9e0fde8adf29c45accc723370eb54dd13908fede9392aa753721",
+    "algoritmo_fontes": "SHA-256 da concatenação, por caminho ordenado, de caminho relativo UTF-8 + NUL + conteúdo dos arquivos src/interpretador/**/*.py + NUL"
+  },
+  "entrada": {
+    "arquivo": "fixtures/vetorizacao-19.json",
+    "sha256": "cf4f74b418c5028f1c2b6688d06ae7f5eda0aa38a9ce1918082efc38d2d2dd2b"
+  },
+  "analises": {
+    "P1": {
+      "inicio_original": 0,
+      "proposicoes": [
+        {
+          "id": "P11",
+          "predicado": "dizer",
+          "forma_textual": "disse",
+          "predicado_intervalo": {
+            "inicio": 318,
+            "fim": 323,
+            "unidade": "pontos_de_codigo_unicode"
+          },
+          "descricao": "Ele · dizer",
+          "participantes": [
+            {
+              "papel": "agente",
+              "mencao": "Ele",
+              "mencao_id": "M9",
+              "intervalo": {
+                "inicio": 252,
+                "fim": 255,
+                "unidade": "pontos_de_codigo_unicode"
+              },
+              "referente_id": "R5",
+              "funcao_sintatica": "sujeito"
+            }
+          ],
+          "operadores": {
+            "negacao": null,
+            "modalidade": null
+          },
+          "atribuicao": {
+            "fonte": "narrador",
+            "modo": "asserção narrativa",
+            "estado": "afirmada"
+          },
+          "atribuicao_id": "A1",
+          "polaridade": "positiva",
+          "evidencia": {
+            "texto": "olhou para a pilha que eu já tinha enxugado e disse",
+            "intervalo": {
+              "inicio": 272,
+              "fim": 323,
+              "unidade": "pontos_de_codigo_unicode"
+            }
+          },
+          "confianca": 0.86,
+          "sujeito": {
+            "estado": "identificado",
+            "metodo": "dependencia_coordenacao",
+            "mencao_id": "M9",
+            "razoes": [
+              "Sujeito compartilhado pela dependência conj com 'olhou'.",
+              "Sujeito compartilhado pela dependência conj com 'passou'.",
+              "Dependência nsubj nominal liga a menção diretamente ao predicado, no mesmo período e escopo de citação."
+            ],
+            "evidencias": [
+              {
+                "texto": "Ele",
+                "intervalo": {
+                  "inicio": 252,
+                  "fim": 255,
+                  "unidade": "pontos_de_codigo_unicode"
+                }
+              },
+              {
+                "texto": "Ele",
+                "intervalo": {
+                  "inicio": 252,
+                  "fim": 255,
+                  "unidade": "pontos_de_codigo_unicode"
+                }
+              },
+              {
+                "texto": "passou",
+                "intervalo": {
+                  "inicio": 256,
+                  "fim": 262,
+                  "unidade": "pontos_de_codigo_unicode"
+                }
+              },
+              {
+                "texto": "olhou",
+                "intervalo": {
+                  "inicio": 272,
+                  "fim": 277,
+                  "unidade": "pontos_de_codigo_unicode"
+                }
+              },
+              {
+                "texto": "disse",
+                "intervalo": {
+                  "inicio": 318,
+                  "fim": 323,
+                  "unidade": "pontos_de_codigo_unicode"
+                }
+              }
+            ],
+            "candidato_ids": [
+              "M9"
+            ]
+          }
+        },
+        {
+          "id": "P24",
+          "predicado": "voltar",
+          "forma_textual": "voltasse",
+          "predicado_intervalo": {
+            "inicio": 608,
+            "fim": 616,
+            "unidade": "pontos_de_codigo_unicode"
+          },
+          "descricao": "ele · voltar · para pegar um copo e finalmente acenasse com a cabeça",
+          "participantes": [
+            {
+              "papel": "agente",
+              "mencao": "ele",
+              "mencao_id": "M18",
+              "intervalo": {
+                "inicio": 604,
+                "fim": 607,
+                "unidade": "pontos_de_codigo_unicode"
+              },
+              "referente_id": "R5",
+              "funcao_sintatica": "sujeito"
+            }
+          ],
+          "operadores": {
+            "negacao": null,
+            "modalidade": null
+          },
+          "atribuicao": {
+            "fonte": "narrador",
+            "modo": "asserção narrativa",
+            "estado": "afirmada"
+          },
+          "atribuicao_id": "A1",
+          "polaridade": "positiva",
+          "evidencia": {
+            "texto": "ele voltasse para pegar um copo e finalmente acenasse com a cabeça.",
+            "intervalo": {
+              "inicio": 604,
+              "fim": 671,
+              "unidade": "pontos_de_codigo_unicode"
+            }
+          },
+          "confianca": 0.86,
+          "sujeito": {
+            "estado": "identificado",
+            "metodo": "dependencia_sujeito_direto",
+            "mencao_id": "M18",
+            "razoes": [
+              "Dependência nsubj nominal liga a menção diretamente ao predicado, no mesmo período e escopo de citação."
+            ],
+            "evidencias": [
+              {
+                "texto": "ele",
+                "intervalo": {
+                  "inicio": 604,
+                  "fim": 607,
+                  "unidade": "pontos_de_codigo_unicode"
+                }
+              },
+              {
+                "texto": "ele",
+                "intervalo": {
+                  "inicio": 604,
+                  "fim": 607,
+                  "unidade": "pontos_de_codigo_unicode"
+                }
+              },
+              {
+                "texto": "voltasse",
+                "intervalo": {
+                  "inicio": 608,
+                  "fim": 616,
+                  "unidade": "pontos_de_codigo_unicode"
+                }
+              }
+            ],
+            "candidato_ids": [
+              "M18"
+            ]
+          }
+        },
+        {
+          "id": "P25",
+          "predicado": "pegar",
+          "forma_textual": "pegar",
+          "predicado_intervalo": {
+            "inicio": 622,
+            "fim": 627,
+            "unidade": "pontos_de_codigo_unicode"
+          },
+          "descricao": "ele · pegar · copo e finalmente acenasse com a cabeça",
+          "participantes": [
+            {
+              "papel": "agente",
+              "mencao": "ele",
+              "mencao_id": "M18",
+              "intervalo": {
+                "inicio": 604,
+                "fim": 607,
+                "unidade": "pontos_de_codigo_unicode"
+              },
+              "referente_id": "R5",
+              "funcao_sintatica": "sujeito"
+            }
+          ],
+          "operadores": {
+            "negacao": null,
+            "modalidade": null
+          },
+          "atribuicao": {
+            "fonte": "narrador",
+            "modo": "asserção narrativa",
+            "estado": "afirmada"
+          },
+          "atribuicao_id": "A1",
+          "polaridade": "positiva",
+          "evidencia": {
+            "texto": "ele voltasse para pegar um copo e finalmente acenasse com a cabeça.",
+            "intervalo": {
+              "inicio": 604,
+              "fim": 671,
+              "unidade": "pontos_de_codigo_unicode"
+            }
+          },
+          "confianca": 0.86,
+          "sujeito": {
+            "estado": "identificado",
+            "metodo": "dependencia_controle_sujeito",
+            "mencao_id": "M18",
+            "razoes": [
+              "Sujeito compartilhado pela dependência xcomp com 'voltasse'.",
+              "Dependência nsubj nominal liga a menção diretamente ao predicado, no mesmo período e escopo de citação."
+            ],
+            "evidencias": [
+              {
+                "texto": "ele",
+                "intervalo": {
+                  "inicio": 604,
+                  "fim": 607,
+                  "unidade": "pontos_de_codigo_unicode"
+                }
+              },
+              {
+                "texto": "ele",
+                "intervalo": {
+                  "inicio": 604,
+                  "fim": 607,
+                  "unidade": "pontos_de_codigo_unicode"
+                }
+              },
+              {
+                "texto": "voltasse",
+                "intervalo": {
+                  "inicio": 608,
+                  "fim": 616,
+                  "unidade": "pontos_de_codigo_unicode"
+                }
+              },
+              {
+                "texto": "pegar",
+                "intervalo": {
+                  "inicio": 622,
+                  "fim": 627,
+                  "unidade": "pontos_de_codigo_unicode"
+                }
+              }
+            ],
+            "candidato_ids": [
+              "M18"
+            ]
+          }
+        },
+        {
+          "id": "P26",
+          "predicado": "acenar",
+          "forma_textual": "acenasse",
+          "predicado_intervalo": {
+            "inicio": 649,
+            "fim": 657,
+            "unidade": "pontos_de_codigo_unicode"
+          },
+          "descricao": "ele · acenar · com a cabeça",
+          "participantes": [
+            {
+              "papel": "agente",
+              "mencao": "ele",
+              "mencao_id": "M18",
+              "intervalo": {
+                "inicio": 604,
+                "fim": 607,
+                "unidade": "pontos_de_codigo_unicode"
+              },
+              "referente_id": "R5",
+              "funcao_sintatica": "sujeito"
+            }
+          ],
+          "operadores": {
+            "negacao": null,
+            "modalidade": null
+          },
+          "atribuicao": {
+            "fonte": "narrador",
+            "modo": "asserção narrativa",
+            "estado": "afirmada"
+          },
+          "atribuicao_id": "A1",
+          "polaridade": "positiva",
+          "evidencia": {
+            "texto": "ele voltasse para pegar um copo e finalmente acenasse com a cabeça.",
+            "intervalo": {
+              "inicio": 604,
+              "fim": 671,
+              "unidade": "pontos_de_codigo_unicode"
+            }
+          },
+          "confianca": 0.86,
+          "sujeito": {
+            "estado": "identificado",
+            "metodo": "dependencia_coordenacao",
+            "mencao_id": "M18",
+            "razoes": [
+              "Sujeito compartilhado pela dependência conj com 'pegar'.",
+              "Sujeito compartilhado pela dependência xcomp com 'voltasse'.",
+              "Dependência nsubj nominal liga a menção diretamente ao predicado, no mesmo período e escopo de citação."
+            ],
+            "evidencias": [
+              {
+                "texto": "ele",
+                "intervalo": {
+                  "inicio": 604,
+                  "fim": 607,
+                  "unidade": "pontos_de_codigo_unicode"
+                }
+              },
+              {
+                "texto": "ele",
+                "intervalo": {
+                  "inicio": 604,
+                  "fim": 607,
+                  "unidade": "pontos_de_codigo_unicode"
+                }
+              },
+              {
+                "texto": "voltasse",
+                "intervalo": {
+                  "inicio": 608,
+                  "fim": 616,
+                  "unidade": "pontos_de_codigo_unicode"
+                }
+              },
+              {
+                "texto": "pegar",
+                "intervalo": {
+                  "inicio": 622,
+                  "fim": 627,
+                  "unidade": "pontos_de_codigo_unicode"
+                }
+              },
+              {
+                "texto": "acenasse",
+                "intervalo": {
+                  "inicio": 649,
+                  "fim": 657,
+                  "unidade": "pontos_de_codigo_unicode"
+                }
+              }
+            ],
+            "candidato_ids": [
+              "M18"
+            ]
+          }
+        }
+      ],
+      "quadros_fala": [
+        {
+          "id": "A2",
+          "fonte": {
+            "tipo": "referente",
+            "id": "R5",
+            "rotulo": "meu pai"
+          },
+          "modo": "fala_citada",
+          "estado": "citada",
+          "escopo": [
+            "P12"
+          ],
+          "evidencias": [
+            {
+              "texto": "\"Ainda tem marca de água nesse aqui.\"",
+              "intervalo": {
+                "inicio": 325,
+                "fim": 362,
+                "unidade": "pontos_de_codigo_unicode"
+              },
+              "origem": "paragrafo"
+            }
+          ],
+          "confianca": 0.94
+        }
+      ]
+    },
+    "P2": {
+      "inicio_original": 889,
+      "proposicoes": [
+        {
+          "id": "P1",
+          "predicado": "terminar",
+          "forma_textual": "terminei",
+          "predicado_intervalo": {
+            "inicio": 30,
+            "fim": 38,
+            "unidade": "pontos_de_codigo_unicode"
+          },
+          "descricao": "participante não resolvido · terminar · relatório de métricas",
+          "participantes": [],
+          "operadores": {
+            "negacao": null,
+            "modalidade": null
+          },
+          "atribuicao": {
+            "fonte": "narrador",
+            "modo": "asserção narrativa",
+            "estado": "afirmada"
+          },
+          "atribuicao_id": "A1",
+          "polaridade": "positiva",
+          "evidencia": {
+            "texto": "terminei o relatório de métricas e enviei para a Helena",
+            "intervalo": {
+              "inicio": 30,
+              "fim": 85,
+              "unidade": "pontos_de_codigo_unicode"
+            }
+          },
+          "confianca": 0.73,
+          "sujeito": {
+            "estado": "indeterminado",
+            "metodo": "abstencao",
+            "mencao_id": null,
+            "razoes": [
+              "Nenhum sujeito nominal direto ou cadeia de controle sustentada foi encontrado."
+            ],
+            "evidencias": [
+              {
+                "texto": "terminei",
+                "intervalo": {
+                  "inicio": 30,
+                  "fim": 38,
+                  "unidade": "pontos_de_codigo_unicode"
+                }
+              }
+            ],
+            "candidato_ids": []
+          }
+        },
+        {
+          "id": "P2",
+          "predicado": "enviar",
+          "forma_textual": "enviei",
+          "predicado_intervalo": {
+            "inicio": 65,
+            "fim": 71,
+            "unidade": "pontos_de_codigo_unicode"
+          },
+          "descricao": "participante não resolvido · enviar · para a Helena",
+          "participantes": [
+            {
+              "papel": "destinatario",
+              "mencao": "a Helena",
+              "mencao_id": "M30",
+              "intervalo": {
+                "inicio": 77,
+                "fim": 85,
+                "unidade": "pontos_de_codigo_unicode"
+              },
+              "referente_id": "R16",
+              "funcao_sintatica": null
+            }
+          ],
+          "operadores": {
+            "negacao": null,
+            "modalidade": null
+          },
+          "atribuicao": {
+            "fonte": "narrador",
+            "modo": "asserção narrativa",
+            "estado": "afirmada"
+          },
+          "atribuicao_id": "A1",
+          "polaridade": "positiva",
+          "evidencia": {
+            "texto": "terminei o relatório de métricas e enviei para a Helena",
+            "intervalo": {
+              "inicio": 30,
+              "fim": 85,
+              "unidade": "pontos_de_codigo_unicode"
+            }
+          },
+          "confianca": 0.73,
+          "sujeito": {
+            "estado": "indeterminado",
+            "metodo": "abstencao",
+            "mencao_id": null,
+            "razoes": [
+              "A cabeça da cadeia também não possui sujeito sustentado."
+            ],
+            "evidencias": [
+              {
+                "texto": "enviei",
+                "intervalo": {
+                  "inicio": 65,
+                  "fim": 71,
+                  "unidade": "pontos_de_codigo_unicode"
+                }
+              }
+            ],
+            "candidato_ids": []
+          }
+        },
+        {
+          "id": "P16",
+          "predicado": "ler",
+          "forma_textual": "leu",
+          "predicado_intervalo": {
+            "inicio": 574,
+            "fim": 577,
+            "unidade": "pontos_de_codigo_unicode"
+          },
+          "descricao": "Ela · ler · sem demonstrar qualquer reação e",
+          "participantes": [
+            {
+              "papel": "agente",
+              "mencao": "Ela",
+              "mencao_id": "M47",
+              "intervalo": {
+                "inicio": 555,
+                "fim": 558,
+                "unidade": "pontos_de_codigo_unicode"
+              },
+              "referente_id": null,
+              "funcao_sintatica": "sujeito"
+            }
+          ],
+          "operadores": {
+            "negacao": null,
+            "modalidade": null
+          },
+          "atribuicao": {
+            "fonte": "narrador",
+            "modo": "asserção narrativa",
+            "estado": "afirmada"
+          },
+          "atribuicao_id": "A1",
+          "polaridade": "positiva",
+          "evidencia": {
+            "texto": "leu sem demonstrar qualquer reação e",
+            "intervalo": {
+              "inicio": 574,
+              "fim": 610,
+              "unidade": "pontos_de_codigo_unicode"
+            }
+          },
+          "confianca": 0.86,
+          "sujeito": {
+            "estado": "identificado",
+            "metodo": "dependencia_coordenacao",
+            "mencao_id": "M47",
+            "razoes": [
+              "Sujeito compartilhado pela dependência conj com 'pegou'.",
+              "Dependência nsubj nominal liga a menção diretamente ao predicado, no mesmo período e escopo de citação."
+            ],
+            "evidencias": [
+              {
+                "texto": "Ela",
+                "intervalo": {
+                  "inicio": 555,
+                  "fim": 558,
+                  "unidade": "pontos_de_codigo_unicode"
+                }
+              },
+              {
+                "texto": "Ela",
+                "intervalo": {
+                  "inicio": 555,
+                  "fim": 558,
+                  "unidade": "pontos_de_codigo_unicode"
+                }
+              },
+              {
+                "texto": "pegou",
+                "intervalo": {
+                  "inicio": 559,
+                  "fim": 564,
+                  "unidade": "pontos_de_codigo_unicode"
+                }
+              },
+              {
+                "texto": "leu",
+                "intervalo": {
+                  "inicio": 574,
+                  "fim": 577,
+                  "unidade": "pontos_de_codigo_unicode"
+                }
+              }
+            ],
+            "candidato_ids": [
+              "M47"
+            ]
+          }
+        },
+        {
+          "id": "P17",
+          "predicado": "demonstrar",
+          "forma_textual": "demonstrar",
+          "predicado_intervalo": {
+            "inicio": 582,
+            "fim": 592,
+            "unidade": "pontos_de_codigo_unicode"
+          },
+          "descricao": "Ela · demonstrar · qualquer reação e",
+          "participantes": [
+            {
+              "papel": "agente",
+              "mencao": "Ela",
+              "mencao_id": "M47",
+              "intervalo": {
+                "inicio": 555,
+                "fim": 558,
+                "unidade": "pontos_de_codigo_unicode"
+              },
+              "referente_id": null,
+              "funcao_sintatica": "sujeito"
+            }
+          ],
+          "operadores": {
+            "negacao": null,
+            "modalidade": null
+          },
+          "atribuicao": {
+            "fonte": "narrador",
+            "modo": "asserção narrativa",
+            "estado": "afirmada"
+          },
+          "atribuicao_id": "A1",
+          "polaridade": "positiva",
+          "evidencia": {
+            "texto": "leu sem demonstrar qualquer reação e",
+            "intervalo": {
+              "inicio": 574,
+              "fim": 610,
+              "unidade": "pontos_de_codigo_unicode"
+            }
+          },
+          "confianca": 0.86,
+          "sujeito": {
+            "estado": "identificado",
+            "metodo": "dependencia_controle_sujeito",
+            "mencao_id": "M47",
+            "razoes": [
+              "Sujeito compartilhado pela dependência xcomp com 'leu'.",
+              "Sujeito compartilhado pela dependência conj com 'pegou'.",
+              "Dependência nsubj nominal liga a menção diretamente ao predicado, no mesmo período e escopo de citação."
+            ],
+            "evidencias": [
+              {
+                "texto": "Ela",
+                "intervalo": {
+                  "inicio": 555,
+                  "fim": 558,
+                  "unidade": "pontos_de_codigo_unicode"
+                }
+              },
+              {
+                "texto": "Ela",
+                "intervalo": {
+                  "inicio": 555,
+                  "fim": 558,
+                  "unidade": "pontos_de_codigo_unicode"
+                }
+              },
+              {
+                "texto": "pegou",
+                "intervalo": {
+                  "inicio": 559,
+                  "fim": 564,
+                  "unidade": "pontos_de_codigo_unicode"
+                }
+              },
+              {
+                "texto": "leu",
+                "intervalo": {
+                  "inicio": 574,
+                  "fim": 577,
+                  "unidade": "pontos_de_codigo_unicode"
+                }
+              },
+              {
+                "texto": "demonstrar",
+                "intervalo": {
+                  "inicio": 582,
+                  "fim": 592,
+                  "unidade": "pontos_de_codigo_unicode"
+                }
+              }
+            ],
+            "candidato_ids": [
+              "M47"
+            ]
+          }
+        },
+        {
+          "id": "P18",
+          "predicado": "dar",
+          "forma_textual": "deu",
+          "predicado_intervalo": {
+            "inicio": 621,
+            "fim": 624,
+            "unidade": "pontos_de_codigo_unicode"
+          },
+          "descricao": "Ela · dar · aquele mesmo aceno com a cabeça",
+          "participantes": [
+            {
+              "papel": "agente",
+              "mencao": "Ela",
+              "mencao_id": "M47",
+              "intervalo": {
+                "inicio": 555,
+                "fim": 558,
+                "unidade": "pontos_de_codigo_unicode"
+              },
+              "referente_id": null,
+              "funcao_sintatica": "sujeito"
+            }
+          ],
+          "operadores": {
+            "negacao": null,
+            "modalidade": null
+          },
+          "atribuicao": {
+            "fonte": "narrador",
+            "modo": "asserção narrativa",
+            "estado": "afirmada"
+          },
+          "atribuicao_id": "A1",
+          "polaridade": "positiva",
+          "evidencia": {
+            "texto": "deu aquele mesmo aceno com a cabeça.",
+            "intervalo": {
+              "inicio": 621,
+              "fim": 657,
+              "unidade": "pontos_de_codigo_unicode"
+            }
+          },
+          "confianca": 0.86,
+          "sujeito": {
+            "estado": "identificado",
+            "metodo": "dependencia_coordenacao",
+            "mencao_id": "M47",
+            "razoes": [
+              "Sujeito compartilhado pela dependência conj com 'leu'.",
+              "Sujeito compartilhado pela dependência conj com 'pegou'.",
+              "Dependência nsubj nominal liga a menção diretamente ao predicado, no mesmo período e escopo de citação."
+            ],
+            "evidencias": [
+              {
+                "texto": "Ela",
+                "intervalo": {
+                  "inicio": 555,
+                  "fim": 558,
+                  "unidade": "pontos_de_codigo_unicode"
+                }
+              },
+              {
+                "texto": "Ela",
+                "intervalo": {
+                  "inicio": 555,
+                  "fim": 558,
+                  "unidade": "pontos_de_codigo_unicode"
+                }
+              },
+              {
+                "texto": "pegou",
+                "intervalo": {
+                  "inicio": 559,
+                  "fim": 564,
+                  "unidade": "pontos_de_codigo_unicode"
+                }
+              },
+              {
+                "texto": "leu",
+                "intervalo": {
+                  "inicio": 574,
+                  "fim": 577,
+                  "unidade": "pontos_de_codigo_unicode"
+                }
+              },
+              {
+                "texto": "deu",
+                "intervalo": {
+                  "inicio": 621,
+                  "fim": 624,
+                  "unidade": "pontos_de_codigo_unicode"
+                }
+              }
+            ],
+            "candidato_ids": [
+              "M47"
+            ]
+          }
+        }
+      ],
+      "quadros_fala": []
+    }
+  }
+}

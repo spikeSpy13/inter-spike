@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import re
+from dataclasses import dataclass
 
 from ..models import Attribution, Proposition
 from ..referencias.models import Mention, ReferenceEvidence
@@ -10,6 +11,91 @@ from .models import AttributionFrame, AttributionSource, GraphEvidence
 
 
 VERBOS_FALA = r"(?:murmurou|disse|afirmou|contou|perguntou)"
+_CITACOES = re.compile(r'"[^"]*"|“[^”]*”', re.DOTALL)
+_VERBO_FALA = re.compile(rf"\b{VERBOS_FALA}\b", re.IGNORECASE)
+_DESTINATARIO_ANTES_CITACAO = re.compile(
+    r"\s+(?:a|ao|à|para)\s+(?:(?:o|a)\s+)?"
+    r"(?:[A-ZÁÀÂÃÉÊÍÓÔÕÚÇ][^\W\d_]*(?:\s+[A-ZÁÀÂÃÉÊÍÓÔÕÚÇ][^\W\d_]*)*"
+    r"|ele|ela|eles|elas|mim|ti|você)\s*:\s*",
+)
+
+
+@dataclass(frozen=True)
+class _EnquadramentoCitacao:
+    inicio: int
+    fim: int
+    verbo_inicio: int | None = None
+    verbo_fim: int | None = None
+
+
+def _enquadrar_citacoes(texto: str) -> list[_EnquadramentoCitacao]:
+    """Liga somente relatoras adjacentes a um par efetivo de aspas.
+
+    Uma relatora próxima em outra oração/período não basta para identificar
+    o falante. O mesmo recorte sustenta o quadro do grafo e os possessivos.
+    """
+    citacoes = list(_CITACOES.finditer(texto))
+    verbos = [
+        verbo for verbo in _VERBO_FALA.finditer(texto)
+        if not any(citacao.start() < verbo.start() < citacao.end() for citacao in citacoes)
+    ]
+    quadros = []
+    for citacao in citacoes:
+        posteriores = [
+            verbo for verbo in verbos
+            if verbo.start() >= citacao.end()
+            and re.fullmatch(r"\s*[,—–-]\s*", texto[citacao.end():verbo.start()])
+        ]
+        anteriores = [
+            verbo for verbo in verbos
+            if verbo.end() <= citacao.start()
+            and (
+                re.fullmatch(r"\s*(?::|[,—–-])?\s*", texto[verbo.end():citacao.start()])
+                or _DESTINATARIO_ANTES_CITACAO.fullmatch(texto[verbo.end():citacao.start()])
+            )
+        ]
+        relatora = posteriores[0] if posteriores else anteriores[-1] if anteriores else None
+        quadros.append(_EnquadramentoCitacao(
+            inicio=citacao.start(), fim=citacao.end(),
+            verbo_inicio=relatora.start() if relatora else None,
+            verbo_fim=relatora.end() if relatora else None,
+        ))
+    return quadros
+
+
+def _mencao_falante(
+    texto: str,
+    quadro: _EnquadramentoCitacao,
+    mencoes: list[Mention],
+    resultado: ResolutionResult,
+) -> Mention | None:
+    if quadro.verbo_inicio is None or quadro.verbo_fim is None:
+        return None
+    pessoas = [
+        item for item in mencoes
+        if item.caracteristicas.classe_semantica == "pessoa"
+        and item.mencao_pai_id is None
+        and resultado.referente_por_mencao.get(item.id)
+        and not (quadro.inicio < item.intervalo.inicio < quadro.fim)
+    ]
+    # A fonte pode preceder a relatora ("Ana disse:") ou segui-la
+    # ("..., disse Ana"). Não atravessamos outros constituintes.
+    anteriores = [
+        item for item in pessoas
+        if item.intervalo.fim <= quadro.verbo_inicio
+        and re.fullmatch(
+            r"\s*(?:(?:não|então|ainda|também|finalmente)\s+)*",
+            texto[item.intervalo.fim:quadro.verbo_inicio], re.IGNORECASE,
+        )
+    ]
+    posteriores = [
+        item for item in pessoas
+        if item.intervalo.inicio >= quadro.verbo_fim
+        and re.fullmatch(r"\s*", texto[quadro.verbo_fim:item.intervalo.inicio])
+    ]
+    if anteriores:
+        return max(anteriores, key=lambda item: item.intervalo.fim)
+    return min(posteriores, key=lambda item: item.intervalo.inicio) if posteriores else None
 
 
 def _evidencia_mencao(mencao: Mention) -> ReferenceEvidence:
@@ -60,36 +146,38 @@ def vincular_possessivos_a_fontes(
         fontes_textuais.insert(0, (contexto, "contexto_anterior"))
     for fonte_texto, origem in fontes_textuais:
         mencoes_origem = [item for item in mencoes if item.origem == origem]
-        for citacao in re.finditer(r'["“]([^"”]+)["”]', fonte_texto, re.DOTALL):
-            cauda_fim = fonte_texto.find(".", citacao.end())
-            if cauda_fim == -1:
-                cauda_fim = min(len(fonte_texto), citacao.end() + 180)
-            cauda = fonte_texto[citacao.end():cauda_fim]
-            verbo = re.search(VERBOS_FALA, cauda, re.IGNORECASE)
-            if not verbo:
+        citacoes = _enquadrar_citacoes(fonte_texto)
+        for citacao in citacoes:
+            fonte = _mencao_falante(fonte_texto, citacao, mencoes_origem, resultado)
+            if fonte is None:
                 continue
-            inicio_fonte = citacao.end() + verbo.end()
-            fontes = [
-                item for item in mencoes_origem
-                if item.caracteristicas.classe_semantica == "pessoa"
-                and inicio_fonte <= item.intervalo.inicio < cauda_fim
-                and resultado.referente_por_mencao.get(item.id)
-            ]
-            if not fontes:
-                continue
-            fonte = min(fontes, key=lambda item: item.intervalo.inicio)
             primeira_pessoa = [
                 item for item in mencoes_origem
-                if citacao.start() < item.intervalo.inicio < citacao.end()
+                if citacao.inicio < item.intervalo.inicio < citacao.fim
                 and item.texto.casefold() in {"meu", "minha", "meus", "minhas"}
             ]
             for mencao in primeira_pessoa:
                 _ligar_mencao_a_fonte(mencao, fonte, resultado, 0.94, "possessivo de primeira pessoa ligado ao falante da citação")
 
+            # A continuidade do relato posposto termina no período, numa
+            # nova citação ou numa mudança explícita de sujeito humano.
+            if citacao.verbo_inicio is None or citacao.verbo_inicio < citacao.fim:
+                continue
+            limite = re.search(r"[.!?;]|\b(?:mas|porém|entretanto|contudo)\b", fonte_texto[fonte.intervalo.fim:], re.IGNORECASE)
+            cauda_fim = fonte.intervalo.fim + limite.start() if limite else len(fonte_texto)
+            cauda_fim = min([cauda_fim, *[item.inicio for item in citacoes if item.inicio >= fonte.intervalo.fim]])
             continuidade = [
                 item for item in mencoes_origem
                 if fonte.intervalo.fim < item.intervalo.inicio < cauda_fim
                 and item.texto.casefold() in {"seu", "sua", "seus", "suas"}
+                and not any(
+                    outra.caracteristicas.classe_semantica == "pessoa"
+                    and fonte.intervalo.fim < outra.intervalo.inicio < item.intervalo.inicio
+                    and resultado.referente_por_mencao.get(outra.id) not in {
+                        None, resultado.referente_por_mencao.get(fonte.id),
+                    }
+                    for outra in mencoes_origem
+                )
             ]
             for mencao in continuidade:
                 _ligar_mencao_a_fonte(mencao, fonte, resultado, 0.82, "possessivo retomado na continuidade do quadro de fala")
@@ -122,6 +210,7 @@ def construir_quadros_atribuicao(
     mencoes: list[Mention],
 ) -> list[AttributionFrame]:
     grupos: dict[tuple[str, str, str], list[Proposition]] = {}
+    citacoes = _enquadrar_citacoes(texto)
     mencoes_por_id = {item.id: item for item in mencoes}
     rotulos_fontes: dict[str, str] = {}
     prioridades_rotulos: dict[str, int] = {}
@@ -143,21 +232,28 @@ def construir_quadros_atribuicao(
             (
                 participante.referente_id
                 for participante in proposicao.participantes
-                if participante.referente_id
+                if participante.referente_id and participante.funcao_sintatica == "sujeito"
             ),
             "FONTE_NAO_RESOLVIDA",
         )
 
     def fonte_da_citacao(proposicao: Proposition) -> str:
-        relatoras = [
-            item for item in proposicoes
-            if item.predicado in {"dizer", "afirmar", "contar", "murmurar", "perguntar"}
-            and item.predicado_intervalo.inicio > proposicao.predicado_intervalo.inicio
-            and item.predicado_intervalo.inicio - proposicao.predicado_intervalo.fim <= 220
-        ]
-        if not relatoras:
+        quadro = next((
+            item for item in citacoes
+            if item.inicio < proposicao.predicado_intervalo.inicio < item.fim
+        ), None)
+        if quadro is None or quadro.verbo_inicio is None:
             return "FONTE_NAO_RESOLVIDA"
-        return fonte_da_proposicao(min(relatoras, key=lambda item: item.predicado_intervalo.inicio))
+        relatora = next((
+            item for item in proposicoes
+            if item.predicado_intervalo.inicio == quadro.verbo_inicio
+            and item.predicado_intervalo.fim == quadro.verbo_fim
+        ), None)
+        if relatora is None:
+            return "FONTE_NAO_RESOLVIDA"
+        # Somente o sujeito da oração relatora é fonte; um objeto ou o
+        # sujeito dentro da citação não pode ocupar seu lugar.
+        return fonte_da_proposicao(relatora)
 
     for proposicao in proposicoes:
         if _dentro_de_descricao_complexa(proposicao, mencoes):
@@ -167,14 +263,14 @@ def construir_quadros_atribuicao(
                 modo="informação de fundo",
                 estado="pressuposta",
             )
-        elif "?" in proposicao.evidencia.texto:
-            chave = ("pergunta", "questionada", "ENUNCIADOR")
-            proposicao.atribuicao = Attribution(fonte="enunciador", modo="pergunta", estado="questionada")
         elif proposicao.atribuicao.modo == "fala citada":
             fonte_id = fonte_da_citacao(proposicao)
             chave = ("fala_citada", "citada", fonte_id)
             if fonte_id in rotulos_fontes:
                 proposicao.atribuicao.fonte = rotulos_fontes[fonte_id]
+        elif "?" in proposicao.evidencia.texto:
+            chave = ("pergunta", "questionada", "ENUNCIADOR")
+            proposicao.atribuicao = Attribution(fonte="enunciador", modo="pergunta", estado="questionada")
         elif proposicao.atribuicao.modo in {"percepção", "conteúdo percebido"}:
             chave = ("percepcao", "percebida", fonte_da_proposicao(proposicao))
             proposicao.atribuicao.estado = "percebida"

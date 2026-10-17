@@ -48,6 +48,16 @@ class Participant(BaseModel):
     mencao_id: str
     intervalo: Span
     referente_id: str | None = None
+    funcao_sintatica: Literal["sujeito"] | None = None
+
+
+class SubjectSelection(BaseModel):
+    estado: Literal["identificado", "indeterminado"]
+    metodo: str
+    mencao_id: str | None = None
+    razoes: list[str]
+    evidencias: list[Evidence] = Field(default_factory=list)
+    candidato_ids: list[str] = Field(default_factory=list)
 
 
 class Operators(BaseModel):
@@ -74,6 +84,7 @@ class Proposition(BaseModel):
     polaridade: Literal["positiva", "negativa"] = "positiva"
     evidencia: Evidence
     confianca: float = Field(ge=0, le=1)
+    sujeito: SubjectSelection | None = None
 
 
 class CentralIdeaAlternative(BaseModel):
@@ -171,6 +182,7 @@ class ExecutionParameters(BaseModel):
     usa_contexto_anterior: bool
     origem_linguistica: str | None = None
     adaptador_linguistico: str | None = None
+    seletor_sujeito: str | None = None
 
 
 class ExecutionCosts(BaseModel):

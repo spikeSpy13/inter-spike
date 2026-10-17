@@ -570,6 +570,11 @@ function renderPropositions(propositions, frames, essentialIds) {
             <dt>Participante principal</dt>
             <dd>${participantText}</dd>
           </div>
+          ${prop.sujeito ? `<div class="field full">
+            <dt>Sujeito da oração · ${escapeHtml(humanize(prop.sujeito.estado))}</dt>
+            <dd>${escapeHtml(prop.sujeito.razoes.join(" "))}</dd>
+            <small>${prop.sujeito.evidencias.map(item => `“${escapeHtml(item.texto)}” · ${escapeHtml(evidenceLabel(item))}`).join(" · ")}</small>
+          </div>` : ""}
           <div class="field">
             <dt>Menção vinculada</dt>
             <dd>${mentionText}</dd>

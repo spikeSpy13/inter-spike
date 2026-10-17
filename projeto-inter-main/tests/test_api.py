@@ -89,7 +89,7 @@ class ApiTests(unittest.TestCase):
         self.assertEqual(resultado.resumo.parafrases, len(resultado.parafrases))
         self.assertEqual(resultado.checagem.estado, "sem_alertas_detectados")
         self.assertEqual(resultado.resumo.achados_fidelidade, 0)
-        self.assertEqual(resultado.execucao.versao_motor, "1.1.0.dev1")
+        self.assertEqual(resultado.execucao.versao_motor, "1.1.0.dev2")
         self.assertGreaterEqual(resultado.execucao.duracao_ms, 0)
         self.assertEqual(resultado.execucao.custos.chamadas_externas, 0)
 
@@ -115,7 +115,7 @@ class ApiTests(unittest.TestCase):
         self.assertIn("parafrases", payload)
         self.assertIn("checagem", payload)
         self.assertIn("execucao", payload)
-        self.assertEqual(payload["execucao"]["versao_motor"], "1.1.0.dev1")
+        self.assertEqual(payload["execucao"]["versao_motor"], "1.1.0.dev2")
         self.assertEqual(payload["execucao"]["custos"]["custo_estimado"], 0)
 
     def test_http_rejeita_paragrafo_vazio(self) -> None:
@@ -187,6 +187,10 @@ class ApiTests(unittest.TestCase):
         self.assertEqual(gostasse["lema"], "gostar")
         self.assertTrue(base["diagnosticos"])
         self.assertEqual(analise["execucao"]["parametros"]["adaptador_linguistico"], "base_linguistica_v1")
+        acenar = next(p for p in analise["proposicoes"] if p["forma_textual"] == "acenasse")
+        self.assertEqual(acenar["sujeito"]["estado"], "identificado")
+        sujeito = next(p for p in acenar["participantes"] if p["funcao_sintatica"] == "sujeito")
+        self.assertEqual((sujeito["mencao"], sujeito["papel"]), ("ele", "agente"))
 
     def test_http_rejeita_cabeca_sintatica_inexistente(self) -> None:
         raiz = Path(__file__).resolve().parents[1]

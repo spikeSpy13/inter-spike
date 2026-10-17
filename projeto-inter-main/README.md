@@ -6,7 +6,7 @@ O primeiro recorte do produto é deliberadamente pequeno: interpretar **um pará
 
 ## Estado atual
 
-A versão em desenvolvimento é `1.1.0.dev1`, primeira entrega da revisão linguística. O adaptador integra anotações do JSON, conserva as predições recebidas, registra conflitos e compartilha lemas e classes com a extração e a detecção de menções. A interface permite inspecionar os tokens e os diagnósticos. Sujeitos, correferência e novos tipos de relação ainda serão revisados nas próximas entregas.
+A versão em desenvolvimento é `1.1.0.dev2`, com seleção de sujeitos por oração e revisão das fontes de fala. O adaptador integra anotações do JSON, conserva as predições recebidas, registra conflitos e compartilha lemas e classes com a extração e a detecção de menções. A interface permite inspecionar tokens, diagnósticos e razões da escolha de cada sujeito. Correferência geral, construções ambíguas e novos tipos de relação continuam nas próximas entregas.
 
 O projeto concluiu as cinco etapas do primeiro ciclo na versão `1.0.0`: receber e validar a vetorização, interpretar um parágrafo, gerar textos, checar sua fidelidade e expor o fluxo pela API e pela interface. Cada resposta também registra a versão do motor, as estratégias e os parâmetros usados, a duração medida e os custos da execução. O motor e a API são escritos em Python; a interface funcional está em `dist/`. Os anexos originais foram preservados em:
 
@@ -21,6 +21,8 @@ A revisão de qualidade linguística proposta para a próxima versão está em [
 A reprodução do documento 19, com respostas completas do motor 1.0.0, falhas observadas e conflitos nas anotações recebidas, está em [`docs/03-documento-19-linha-de-base.md`](docs/03-documento-19-linha-de-base.md).
 
 A entrega do adaptador e a comparação com a referência estão em [`docs/04-entrega-adaptador-linguistico.md`](docs/04-entrega-adaptador-linguistico.md).
+
+A correção de sujeitos, papéis e fontes de fala está em [`docs/05-sujeitos-e-papeis-oracionais.md`](docs/05-sujeitos-e-papeis-oracionais.md).
 
 ## Interface atual
 
@@ -87,6 +89,12 @@ O motor atual é heurístico e local. Por isso, cada análise informa zero chama
 O contrato de análise continua em `1.0.0`, com a extensão opcional `analise_linguistica`. Ela contém bases separadas do parágrafo e do contexto anterior, tokens com coordenadas locais, predições recebidas, lemas/classes adotados, decisões e diagnósticos. O motor informa a versão `1.1.0.dev1` e identifica o adaptador e a origem linguística nos parâmetros de execução.
 
 IDs, recortes, cabeças e ciclos sintáticos são validados antes do uso. Anotações ausentes usam o léxico local com limitação explícita; anotações estruturalmente inválidas retornam HTTP 422 com código e caminho. A integridade de uma anotação não certifica sua correção linguística. A ampliação de cobertura verbal não equivale à resolução de todos os erros de interpretação.
+
+### Sujeitos e fala `1.1.0.dev2`
+
+Cada proposição passa a incluir a extensão opcional `sujeito`, com estado, método, menção, razões e evidências. O participante correspondente recebe `funcao_sintatica: "sujeito"`, independente de seu papel semântico. Sujeitos compartilhados usam cadeias sustentadas de coordenação ou controle; objetos próximos não são promovidos a sujeito. Casos sem evidência suficiente ficam indeterminados.
+
+No documento 19, “acenasse” recebe “ele”; “leu”, “demonstrar” e “deu” recebem “Ela”; “disse” conserva “Ele” e a fala aponta para “meu pai”. Relatoras anteriores ou posteriores precisam estar vinculadas à citação, sem buscar uma fonte em outro período. A versão final 1.1.0 ainda depende dos critérios do plano de revisão.
 
 ## Baixar e executar
 

@@ -27,6 +27,21 @@ def validar_grafo(
         if len({item.id for item in itens}) != len(itens):
             raise ValueError(f"IDs de {nome} duplicados.")
     for proposicao in proposicoes:
+        selecao = proposicao.sujeito
+        if selecao:
+            sujeitos = [item for item in proposicao.participantes if item.funcao_sintatica == "sujeito"]
+            if selecao.estado == "identificado":
+                mencao = mencoes_por_id.get(selecao.mencao_id)
+                if not mencao or mencao.origem != "paragrafo":
+                    raise ValueError(f"Sujeito de {proposicao.id} aponta para menção inválida.")
+                if len(sujeitos) != 1 or sujeitos[0].mencao_id != selecao.mencao_id:
+                    raise ValueError(f"Seleção e participante sujeito divergem em {proposicao.id}.")
+            elif selecao.mencao_id is not None or sujeitos:
+                raise ValueError(f"Sujeito indeterminado possui vínculo em {proposicao.id}.")
+            for evidencia_sujeito in selecao.evidencias:
+                intervalo = evidencia_sujeito.intervalo
+                if texto[intervalo.inicio:intervalo.fim] != evidencia_sujeito.texto:
+                    raise ValueError(f"Evidência do sujeito inválida em {proposicao.id}.")
         evidencia = proposicao.evidencia
         if texto[evidencia.intervalo.inicio:evidencia.intervalo.fim] != evidencia.texto:
             raise ValueError(f"Evidência inválida na proposição {proposicao.id}.")
