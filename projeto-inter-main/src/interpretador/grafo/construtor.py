@@ -5,7 +5,7 @@ from dataclasses import dataclass
 from ..models import Proposition
 from ..referencias.models import Mention
 from ..referencias.resolvedor import ResolutionResult
-from .atribuicoes import construir_quadros_atribuicao, vincular_possessivos_a_fontes
+from .atribuicoes import construir_quadros_atribuicao, vincular_primeira_pessoa_a_fontes
 from .models import AttributionFrame, PropositionRelation, ScopeOperator
 from .operadores import extrair_operadores_escopo
 from .participantes import enriquecer_participantes
@@ -27,7 +27,7 @@ def construir_grafo(
     mencoes: list[Mention],
     referencias: ResolutionResult,
 ) -> GraphResult:
-    vincular_possessivos_a_fontes(texto, contexto_anterior, mencoes, referencias)
+    vincular_primeira_pessoa_a_fontes(texto, contexto_anterior, mencoes, referencias)
     enriquecer_participantes(texto, proposicoes, mencoes, referencias.referente_por_mencao)
     operadores = extrair_operadores_escopo(texto, proposicoes)
     quadros = construir_quadros_atribuicao(texto, proposicoes, mencoes)

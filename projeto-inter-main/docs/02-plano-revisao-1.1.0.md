@@ -1,6 +1,6 @@
 # Plano de revisão — versão 1.1.0
 
-Data: 17/10/2026. Estado: em implementação; segunda entrega disponível em `1.1.0.dev2`. A publicação final `1.1.0` continua condicionada aos critérios deste plano.
+Data: 17/10/2026. Estado: em implementação; terceira entrega disponível em `1.1.0.dev3`. A publicação final `1.1.0` continua condicionada aos critérios deste plano.
 
 Base: motor 1.0.0, commit `ac47662`, PDF “Interpretador de Proposições f.pdf” e JSON original `vetorizacao-19.json`, recebido e validado em 17/10/2026. O objetivo desta revisão é melhorar a qualidade linguística e explicitar os limites da análise, preservando evidências, API, interface e execução local. A reprodução dos dois parágrafos, as respostas completas e o catálogo inicial estão no [registro do documento 19](03-documento-19-linha-de-base.md).
 
@@ -29,6 +29,8 @@ A validação do código revelou uma causa transversal: a fixture de vetorizaç�
 Progresso da primeira entrega: adaptador, validação estrutural, compartilhamento lexical, diagnósticos e regressões dos documentos 19/28 implementados. Também foram corrigidos recortes de aspas e casos específicos de vazamento de negação, e bloqueadas relações entre períodos distintos. A anotação do corpus reservado, a revisão geral de sujeitos/correferência e os novos tipos de relação permanecem pendentes. Evidências e limites estão no [relatório da entrega](04-entrega-adaptador-linguistico.md).
 
 Progresso da segunda entrega: sujeitos explícitos e compartilhados, abstenção justificada, distinção entre sujeito e papel semântico, vozes ativa/passiva, limites dos argumentos e fontes de fala foram revisados para os casos cobertos. Os alvos “um copo”/“acenasse”, “a folha”/“leu” e o sujeito de “disse” estão corrigidos e testados. A revisão não esgota construções sintáticas ambíguas. O [relatório de sujeitos e papéis](05-sujeitos-e-papeis-oracionais.md) registra os resultados e os limites.
+
+Progresso da terceira entrega: primeira pessoa narrativa, primeira pessoa em citação e retomadas de terceira pessoa com um único antecedente humano compatível foram revisadas. As pendências agora distinguem causas por código e explicação textual. No documento 19, o narrador permanece separado de “meu pai”, e `ela/Ela/dela` no segundo parágrafo apontam para Helena. O [relatório de referências](06-resolucao-referencial.md) registra os controles e limites.
 
 ### 1. Fixar a referência e a avaliação
 
@@ -149,4 +151,4 @@ Executar os seis blocos em alterações pequenas, mantendo o fluxo verificável 
 
 Continuam fora do escopo: interpretar documentos longos integralmente, treinar embeddings, certificar equivalência semântica geral e introduzir serviços pagos como dependência obrigatória. Qualquer componente linguístico adicional deve ter instalação reproduzível, licença e custo avaliados.
 
-Entregas já registradas: entrada original do documento 19, linha de base dos dois parágrafos, catálogo inicial, adaptador linguístico, seleção de sujeitos e fontes de fala, com testes de comportamento. Os agentes incorretos de “acenasse” e “leu” foram corrigidos. A próxima entrega deve avançar na resolução referencial e na descrição das pendências, mantendo o corpus de avaliação e as construções sintáticas ainda não cobertas como itens explícitos do plano.
+Entregas já registradas: entrada original do documento 19, linha de base dos dois parágrafos, catálogo inicial, adaptador linguístico, seleção de sujeitos e fontes de fala, e resolução referencial explicável, com testes de comportamento. Os agentes incorretos de “acenasse” e “leu” foram corrigidos; narrador, pai e Helena permanecem em cadeias distintas e fundamentadas. A próxima entrega deve ampliar as relações proposicionais, mantendo o corpus de avaliação e as construções sintáticas ainda não cobertas como itens explícitos do plano.

@@ -147,7 +147,7 @@ def _numero(texto: str, tipo: MentionType) -> str:
     primeira = texto.split(maxsplit=1)[0].casefold()
     if tipo == "pronome_possessivo" and primeira in POSSESSIVOS_ADNOMINAIS:
         return "indeterminado"
-    if primeira in {"os", "as", "uns", "umas", "aqueles", "aquelas", "eles", "elas", "deles", "delas", "seus", "suas", "meus", "minhas"}:
+    if primeira in {"os", "as", "uns", "umas", "aqueles", "aquelas", "nós", "vocês", "eles", "elas", "deles", "delas", "seus", "suas", "meus", "minhas"}:
         return "plural"
     if primeira in DETERMINANTES | PRONOMES_PESSOAIS | PRONOMES_POSSESSIVOS:
         return "singular"

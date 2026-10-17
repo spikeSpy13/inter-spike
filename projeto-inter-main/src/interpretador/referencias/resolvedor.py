@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import re
 from dataclasses import dataclass
 
 from .candidatos import gerar_candidatos
@@ -16,6 +17,9 @@ from .validator import validar_referencias
 
 
 PALAVRAS_FUNCIONAIS = {"o", "a", "os", "as", "um", "uma", "uns", "umas", "de", "do", "da", "dos", "das", "que"}
+PRIMEIRA_PESSOA = {"eu", "nós", "meu", "minha", "meus", "minhas"}
+SEGUNDA_PESSOA = {"tu", "você", "vocês"}
+_CITACOES = re.compile(r'"[^"]*"|“[^”]*”', re.DOTALL)
 
 
 def _palavras_de_conteudo(texto: str) -> set[str]:
@@ -62,11 +66,27 @@ def _rotulo_preferido(atual: str, candidata: Mention, referente: Referent, por_i
     return atual
 
 
-def resolver_referencias(mencoes: list[Mention]) -> ResolutionResult:
+def _esta_em_citacao(mencao: Mention, textos: dict[str, str]) -> bool:
+    texto = textos.get(mencao.origem)
+    if not texto:
+        return False
+    return any(
+        citacao.start() < mencao.intervalo.inicio < citacao.end()
+        for citacao in _CITACOES.finditer(texto)
+    )
+
+
+def resolver_referencias(
+    mencoes: list[Mention],
+    texto: str | None = None,
+    contexto_anterior: str | None = None,
+) -> ResolutionResult:
     referentes: list[Referent] = []
     resolucoes: list[ReferenceResolution] = []
     referente_por_mencao: dict[str, str] = {}
     confiancas: dict[str, list[float]] = {}
+    textos = {"paragrafo": texto or "", "contexto_anterior": contexto_anterior or ""}
+    participante_discursivo: dict[str, str] = {}
 
     def novo_referente(mencao: Mention) -> str:
         referente_id = f"R{len(referentes) + 1}"
@@ -81,18 +101,90 @@ def resolver_referencias(mencoes: list[Mention]) -> ResolutionResult:
         confiancas[referente_id] = [mencao.confianca_deteccao]
         return referente_id
 
+    def ligar_ao_participante_discursivo(mencao: Mention, papel: str = "narrador") -> str:
+        referente_id = participante_discursivo.get(papel)
+        if referente_id is None:
+            referente_id = f"R{len(referentes) + 1}"
+            referentes.append(Referent(
+                id=referente_id,
+                rotulo=papel,
+                classe_semantica="pessoa",
+                tipo="participante_discursivo",
+                mencoes=[],
+                confianca=0.96,
+            ))
+            participante_discursivo[papel] = referente_id
+            confiancas[referente_id] = []
+        referente = next(item for item in referentes if item.id == referente_id)
+        referente.mencoes.append(mencao.id)
+        referente_por_mencao[mencao.id] = referente_id
+        confiancas[referente_id].append(0.96)
+        referente.confianca = round(sum(confiancas[referente_id]) / len(confiancas[referente_id]), 2)
+        return referente_id
+
     anteriores: list[Mention] = []
     por_id = {mencao.id: mencao for mencao in mencoes}
     for mencao in mencoes:
+        forma = mencao.texto.casefold()
+        em_citacao = _esta_em_citacao(mencao, textos)
+        if forma in PRIMEIRA_PESSOA and not em_citacao:
+            referente_id = ligar_ao_participante_discursivo(mencao)
+            resolucoes.append(ReferenceResolution(
+                mencao_id=mencao.id,
+                referente_id=referente_id,
+                estado="resolvida",
+                tipo_relacao="possuidor" if mencao.tipo == "pronome_possessivo" else "identidade",
+                confianca=0.96,
+                razoes=[
+                    "primeira pessoa vinculada ao papel discursivo de narrador",
+                    "a identidade externa do narrador não foi inferida",
+                ],
+                evidencias=[_evidencia(mencao)],
+            ))
+            anteriores.append(mencao)
+            continue
+
+        if forma in PRIMEIRA_PESSOA and em_citacao:
+            resolucoes.append(ReferenceResolution(
+                mencao_id=mencao.id,
+                estado="nao_resolvida",
+                tipo_relacao="possuidor" if mencao.tipo == "pronome_possessivo" else "identidade",
+                confianca=0.0,
+                motivo_pendencia="fonte_fala_desconhecida",
+                razoes=["primeira pessoa em fala citada depende da identificação textual do falante"],
+                evidencias=[_evidencia(mencao)],
+            ))
+            anteriores.append(mencao)
+            continue
+
+        if forma in SEGUNDA_PESSOA:
+            resolucoes.append(ReferenceResolution(
+                mencao_id=mencao.id,
+                estado="nao_resolvida",
+                tipo_relacao="identidade",
+                confianca=0.0,
+                motivo_pendencia="exoforia",
+                razoes=["pronome de segunda pessoa depende da situação de fala e não possui antecedente textual seguro"],
+                evidencias=[_evidencia(mencao)],
+            ))
+            anteriores.append(mencao)
+            continue
+
         buscar = _deve_buscar_antecedente(mencao, anteriores)
         hipoteses_por_referente: dict[str, ReferenceCandidate] = {}
+        candidatos_compativeis = gerar_candidatos(mencao, anteriores) if buscar else []
         if buscar:
-            for candidato, distancia in gerar_candidatos(mencao, anteriores):
+            for candidato, distancia in candidatos_compativeis:
                 referente_id = referente_por_mencao.get(candidato.id)
                 if not referente_id:
                     continue
+                referente_atual = next(item for item in referentes if item.id == referente_id)
+                if (
+                    mencao.tipo in {"pronome_pessoal", "pronome_possessivo"}
+                    and referente_atual.tipo == "participante_discursivo"
+                ):
+                    continue
                 if set(mencao.texto.casefold().split()) & PAPEIS_HUMANOS:
-                    referente_atual = next(item for item in referentes if item.id == referente_id)
                     membros_com_papel = [
                         por_id[item] for item in referente_atual.mencoes
                         if set(por_id[item].texto.casefold().split()) & PAPEIS_HUMANOS
@@ -115,6 +207,17 @@ def resolver_referencias(mencoes: list[Mention]) -> ResolutionResult:
             key=lambda item: item.pontuacao,
             reverse=True,
         )
+        if len(hipoteses) == 1 and mencao.tipo == "pronome_pessoal":
+            unica = hipoteses[0]
+            antecedente = por_id[unica.antecedente_mencao_id]
+            if (
+                antecedente.tipo in {"nome_proprio", "descricao_nominal", "descricao_complexa"}
+                and antecedente.caracteristicas.classe_semantica == "pessoa"
+            ):
+                hipoteses[0] = unica.model_copy(update={
+                    "pontuacao": round(min(unica.pontuacao + 0.08, 0.98), 2),
+                    "razoes": [*unica.razoes, "único referente humano compatível"],
+                })
         limiar = 0.50 if mencao.tipo == "pronome_possessivo" else 0.68 if mencao.tipo == "pronome_pessoal" else 0.72
         melhor = hipoteses[0] if hipoteses else None
         margem = melhor.pontuacao - hipoteses[1].pontuacao if melhor and len(hipoteses) > 1 else 1.0
@@ -146,17 +249,39 @@ def resolver_referencias(mencoes: list[Mention]) -> ResolutionResult:
                 estado="ambigua",
                 tipo_relacao="possuidor" if mencao.tipo == "pronome_possessivo" else "identidade",
                 confianca=melhor.pontuacao,
+                motivo_pendencia="ambiguidade",
                 razoes=["há mais de um referente com pontuação semelhante"],
                 alternativas=hipoteses[:3],
                 evidencias=[_evidencia(mencao)],
             ))
         elif mencao.tipo in {"pronome_pessoal", "pronome_possessivo"}:
+            if melhor:
+                motivo = "evidencia_insuficiente"
+                razoes = [
+                    f"melhor candidato obteve {melhor.pontuacao:.2f}, abaixo do limiar {limiar:.2f}",
+                    "a ligação foi mantida pendente para evitar uma associação fraca",
+                ]
+            elif anteriores and not candidatos_compativeis:
+                motivo = "candidatos_incompativeis"
+                restricoes = {
+                    razao
+                    for anterior in anteriores
+                    for razao in verificar_compatibilidade(mencao, anterior)[1]
+                }
+                razoes = [
+                    "as menções anteriores não satisfazem as restrições referenciais",
+                    *sorted(restricoes)[:3],
+                ]
+            else:
+                motivo = "ausencia_antecedente"
+                razoes = ["não há antecedente textual anterior com um referente utilizável"]
             resolucoes.append(ReferenceResolution(
                 mencao_id=mencao.id,
                 estado="nao_resolvida",
                 tipo_relacao="possuidor" if mencao.tipo == "pronome_possessivo" else "identidade",
                 confianca=melhor.pontuacao if melhor else 0.0,
-                razoes=["nenhum antecedente atingiu o limiar de decisão"],
+                motivo_pendencia=motivo,
+                razoes=razoes,
                 alternativas=hipoteses[:3],
                 evidencias=[_evidencia(mencao)],
             ))

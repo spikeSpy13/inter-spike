@@ -16,6 +16,15 @@ MentionType = Literal[
 
 ResolutionState = Literal["resolvida", "ambigua", "nao_resolvida", "novo_referente"]
 ReferenceRelation = Literal["identidade", "possuidor", "introducao"]
+PendingReason = Literal[
+    "ambiguidade",
+    "ausencia_antecedente",
+    "candidatos_incompativeis",
+    "evidencia_insuficiente",
+    "exoforia",
+    "fonte_fala_desconhecida",
+]
+ReferentType = Literal["entidade_textual", "participante_discursivo"]
 
 
 class MentionFeatures(BaseModel):
@@ -56,6 +65,7 @@ class ReferenceResolution(BaseModel):
     tipo_relacao: ReferenceRelation
     confianca: float = Field(ge=0, le=1)
     antecedente_mencao_id: str | None = None
+    motivo_pendencia: PendingReason | None = None
     razoes: list[str]
     alternativas: list[ReferenceCandidate] = Field(default_factory=list)
     evidencias: list[ReferenceEvidence] = Field(default_factory=list)
@@ -65,6 +75,7 @@ class Referent(BaseModel):
     id: str
     rotulo: str
     classe_semantica: Literal["pessoa", "objeto", "lugar", "evento", "desconhecida"]
+    tipo: ReferentType = "entidade_textual"
     mencoes: list[str]
     confianca: float = Field(ge=0, le=1)
 

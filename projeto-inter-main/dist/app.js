@@ -424,7 +424,7 @@ function renderReferenceCard(referent, mentionById, resolutionByMention) {
         <span class="referent-confidence">${Math.round(referent.confianca * 100)}%</span>
       </div>
       <h4>${escapeHtml(referent.rotulo)}</h4>
-      <p>${escapeHtml(referent.classe_semantica)} · ${referent.mencoes.length} ${referent.mencoes.length === 1 ? "menção" : "menções"}</p>
+      <p>${referent.tipo ? `${escapeHtml(humanize(referent.tipo))} · ` : ""}${escapeHtml(referent.classe_semantica)} · ${referent.mencoes.length} ${referent.mencoes.length === 1 ? "menção" : "menções"}</p>
       <ul>${mentionChips}</ul>
     </article>
   `;
@@ -446,6 +446,7 @@ function renderDecision(resolution, mentionById, referentById) {
       </summary>
       <div class="decision-body">
         <p><strong>Relação:</strong> ${escapeHtml(resolution.tipo_relacao)} · ${Math.round(resolution.confianca * 100)}% de confiança</p>
+        ${resolution.motivo_pendencia ? `<p><strong>Motivo da pendência:</strong> ${escapeHtml(humanize(resolution.motivo_pendencia))}</p>` : ""}
         <ul class="reason-list">${resolution.razoes.map(reason => `<li>${escapeHtml(reason)}</li>`).join("")}</ul>
         ${resolution.evidencias.length ? `<p><strong>Evidências:</strong> ${resolution.evidencias.map(item => `${escapeHtml(item.mencao_id)} ${escapeHtml(evidenceLabel(item))}`).join(" · ")}</p>` : ""}
         ${alternatives ? `<div class="alternatives"><strong>Alternativas consideradas</strong><ul>${alternatives}</ul></div>` : ""}

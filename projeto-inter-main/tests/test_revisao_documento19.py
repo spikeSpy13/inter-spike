@@ -52,6 +52,33 @@ class Documento19RevisionTests(unittest.TestCase):
         self.assertFalse(any(item.rotulo in falsas for item in analise.referentes))
         self.assertTrue(any(item.texto == "meu pai" and item.caracteristicas.classe_semantica == "pessoa" for item in analise.mencoes))
 
+    def test_primeira_pessoa_e_terceira_pessoa_tem_referentes_distintos(self) -> None:
+        analise = self.respostas["P1"].analise
+        mencoes = {item.id: item for item in analise.mencoes}
+        narrador = next(item for item in analise.referentes if item.tipo == "participante_discursivo")
+        pai = next(item for item in analise.referentes if item.rotulo == "meu pai")
+        self.assertEqual(narrador.rotulo, "narrador")
+        self.assertTrue({"eu", "meu", "minha"} <= {mencoes[item].texto.casefold() for item in narrador.mencoes})
+        self.assertTrue({"ele", "dele"} <= {mencoes[item].texto.casefold() for item in pai.mencoes})
+        self.assertFalse(set(narrador.mencoes) & set(pai.mencoes))
+
+    def test_pronomes_de_helena_no_segundo_paragrafo_sao_resolvidos(self) -> None:
+        analise = self.respostas["P2"].analise
+        mencoes = {item.id: item for item in analise.mencoes}
+        helena = next(item for item in analise.referentes if item.rotulo == "Helena")
+        superficies = {
+            mencoes[item].texto.casefold()
+            for item in helena.mencoes
+            if mencoes[item].origem == "paragrafo"
+        }
+        self.assertTrue({"ela", "dela"} <= superficies)
+        pendentes = [
+            item for item in analise.resolucoes
+            if item.estado in {"ambigua", "nao_resolvida"}
+            and mencoes[item.mencao_id].origem == "paragrafo"
+        ]
+        self.assertEqual(pendentes, [])
+
     def test_auxiliar_nao_substitui_predicado_lexical(self) -> None:
         formas = {p.forma_textual for p in self.respostas["P1"].analise.proposicoes}
         self.assertIn("enxugado", formas)

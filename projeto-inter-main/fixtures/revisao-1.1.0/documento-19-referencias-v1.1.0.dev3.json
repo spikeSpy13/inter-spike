@@ -1,0 +1,1944 @@
+{
+  "schema_registro": "1.0.0",
+  "natureza": "recorte_observado_nao_gabarito",
+  "data_registro": "2026-10-17",
+  "motor": {
+    "versao": "1.1.0.dev3",
+    "commit_base": "f9a8560c3e3102150706aa02ebc861938f6b1f2f",
+    "fontes_sha256": "326ff22bbaccc11bb18021946f01f3c3edcd73a341effb2e17c217fa4eeeb8bd",
+    "algoritmo_fontes": "SHA-256 da concatenação, por caminho ordenado, de caminho relativo UTF-8 + NUL + conteúdo dos arquivos src/interpretador/**/*.py + NUL"
+  },
+  "entrada": {
+    "arquivo": "fixtures/vetorizacao-19.json",
+    "sha256": "cf4f74b418c5028f1c2b6688d06ae7f5eda0aa38a9ce1918082efc38d2d2dd2b"
+  },
+  "analises": {
+    "P1": {
+      "resumo_pronomes_locais": {
+        "total": 14,
+        "resolvidas": 14,
+        "ambiguas": 0,
+        "nao_resolvidas": 0
+      },
+      "mencoes_relevantes": [
+        {
+          "id": "M2",
+          "texto": "eu",
+          "tipo": "pronome_pessoal",
+          "origem": "paragrafo",
+          "intervalo": {
+            "inicio": 111,
+            "fim": 113,
+            "unidade": "pontos_de_codigo_unicode"
+          },
+          "caracteristicas": {
+            "classe_semantica": "pessoa",
+            "genero": "indeterminado",
+            "numero": "singular"
+          },
+          "confianca_deteccao": 0.99,
+          "mencao_pai_id": null
+        },
+        {
+          "id": "M4",
+          "texto": "meus",
+          "tipo": "pronome_possessivo",
+          "origem": "paragrafo",
+          "intervalo": {
+            "inicio": 144,
+            "fim": 148,
+            "unidade": "pontos_de_codigo_unicode"
+          },
+          "caracteristicas": {
+            "classe_semantica": "desconhecida",
+            "genero": "indeterminado",
+            "numero": "indeterminado"
+          },
+          "confianca_deteccao": 0.99,
+          "mencao_pai_id": "M3"
+        },
+        {
+          "id": "M7",
+          "texto": "meu pai",
+          "tipo": "descricao_nominal",
+          "origem": "paragrafo",
+          "intervalo": {
+            "inicio": 229,
+            "fim": 236,
+            "unidade": "pontos_de_codigo_unicode"
+          },
+          "caracteristicas": {
+            "classe_semantica": "pessoa",
+            "genero": "masculino",
+            "numero": "singular"
+          },
+          "confianca_deteccao": 0.82,
+          "mencao_pai_id": null
+        },
+        {
+          "id": "M8",
+          "texto": "meu",
+          "tipo": "pronome_possessivo",
+          "origem": "paragrafo",
+          "intervalo": {
+            "inicio": 229,
+            "fim": 232,
+            "unidade": "pontos_de_codigo_unicode"
+          },
+          "caracteristicas": {
+            "classe_semantica": "desconhecida",
+            "genero": "indeterminado",
+            "numero": "indeterminado"
+          },
+          "confianca_deteccao": 0.99,
+          "mencao_pai_id": "M7"
+        },
+        {
+          "id": "M9",
+          "texto": "Ele",
+          "tipo": "pronome_pessoal",
+          "origem": "paragrafo",
+          "intervalo": {
+            "inicio": 252,
+            "fim": 255,
+            "unidade": "pontos_de_codigo_unicode"
+          },
+          "caracteristicas": {
+            "classe_semantica": "pessoa",
+            "genero": "masculino",
+            "numero": "singular"
+          },
+          "confianca_deteccao": 0.99,
+          "mencao_pai_id": null
+        },
+        {
+          "id": "M11",
+          "texto": "eu",
+          "tipo": "pronome_pessoal",
+          "origem": "paragrafo",
+          "intervalo": {
+            "inicio": 295,
+            "fim": 297,
+            "unidade": "pontos_de_codigo_unicode"
+          },
+          "caracteristicas": {
+            "classe_semantica": "pessoa",
+            "genero": "indeterminado",
+            "numero": "singular"
+          },
+          "confianca_deteccao": 0.99,
+          "mencao_pai_id": null
+        },
+        {
+          "id": "M12",
+          "texto": "Eu",
+          "tipo": "pronome_pessoal",
+          "origem": "paragrafo",
+          "intervalo": {
+            "inicio": 363,
+            "fim": 365,
+            "unidade": "pontos_de_codigo_unicode"
+          },
+          "caracteristicas": {
+            "classe_semantica": "pessoa",
+            "genero": "indeterminado",
+            "numero": "singular"
+          },
+          "confianca_deteccao": 0.99,
+          "mencao_pai_id": null
+        },
+        {
+          "id": "M16",
+          "texto": "eu",
+          "tipo": "pronome_pessoal",
+          "origem": "paragrafo",
+          "intervalo": {
+            "inicio": 480,
+            "fim": 482,
+            "unidade": "pontos_de_codigo_unicode"
+          },
+          "caracteristicas": {
+            "classe_semantica": "pessoa",
+            "genero": "indeterminado",
+            "numero": "singular"
+          },
+          "confianca_deteccao": 0.99,
+          "mencao_pai_id": null
+        },
+        {
+          "id": "M17",
+          "texto": "dele",
+          "tipo": "pronome_possessivo",
+          "origem": "paragrafo",
+          "intervalo": {
+            "inicio": 550,
+            "fim": 554,
+            "unidade": "pontos_de_codigo_unicode"
+          },
+          "caracteristicas": {
+            "classe_semantica": "desconhecida",
+            "genero": "masculino",
+            "numero": "singular"
+          },
+          "confianca_deteccao": 0.99,
+          "mencao_pai_id": null
+        },
+        {
+          "id": "M18",
+          "texto": "ele",
+          "tipo": "pronome_pessoal",
+          "origem": "paragrafo",
+          "intervalo": {
+            "inicio": 604,
+            "fim": 607,
+            "unidade": "pontos_de_codigo_unicode"
+          },
+          "caracteristicas": {
+            "classe_semantica": "pessoa",
+            "genero": "masculino",
+            "numero": "singular"
+          },
+          "confianca_deteccao": 0.99,
+          "mencao_pai_id": null
+        },
+        {
+          "id": "M21",
+          "texto": "eu",
+          "tipo": "pronome_pessoal",
+          "origem": "paragrafo",
+          "intervalo": {
+            "inicio": 681,
+            "fim": 683,
+            "unidade": "pontos_de_codigo_unicode"
+          },
+          "caracteristicas": {
+            "classe_semantica": "pessoa",
+            "genero": "indeterminado",
+            "numero": "singular"
+          },
+          "confianca_deteccao": 0.99,
+          "mencao_pai_id": null
+        },
+        {
+          "id": "M23",
+          "texto": "minha",
+          "tipo": "pronome_possessivo",
+          "origem": "paragrafo",
+          "intervalo": {
+            "inicio": 692,
+            "fim": 697,
+            "unidade": "pontos_de_codigo_unicode"
+          },
+          "caracteristicas": {
+            "classe_semantica": "desconhecida",
+            "genero": "indeterminado",
+            "numero": "indeterminado"
+          },
+          "confianca_deteccao": 0.99,
+          "mencao_pai_id": "M22"
+        },
+        {
+          "id": "M24",
+          "texto": "eu",
+          "tipo": "pronome_pessoal",
+          "origem": "paragrafo",
+          "intervalo": {
+            "inicio": 764,
+            "fim": 766,
+            "unidade": "pontos_de_codigo_unicode"
+          },
+          "caracteristicas": {
+            "classe_semantica": "pessoa",
+            "genero": "indeterminado",
+            "numero": "singular"
+          },
+          "confianca_deteccao": 0.99,
+          "mencao_pai_id": null
+        },
+        {
+          "id": "M25",
+          "texto": "dele",
+          "tipo": "pronome_possessivo",
+          "origem": "paragrafo",
+          "intervalo": {
+            "inicio": 790,
+            "fim": 794,
+            "unidade": "pontos_de_codigo_unicode"
+          },
+          "caracteristicas": {
+            "classe_semantica": "desconhecida",
+            "genero": "masculino",
+            "numero": "singular"
+          },
+          "confianca_deteccao": 0.99,
+          "mencao_pai_id": null
+        },
+        {
+          "id": "M27",
+          "texto": "ele",
+          "tipo": "pronome_pessoal",
+          "origem": "paragrafo",
+          "intervalo": {
+            "inicio": 846,
+            "fim": 849,
+            "unidade": "pontos_de_codigo_unicode"
+          },
+          "caracteristicas": {
+            "classe_semantica": "pessoa",
+            "genero": "masculino",
+            "numero": "singular"
+          },
+          "confianca_deteccao": 0.99,
+          "mencao_pai_id": null
+        }
+      ],
+      "referentes_relevantes": [
+        {
+          "id": "R2",
+          "rotulo": "narrador",
+          "classe_semantica": "pessoa",
+          "tipo": "participante_discursivo",
+          "mencoes": [
+            "M2",
+            "M4",
+            "M8",
+            "M11",
+            "M12",
+            "M16",
+            "M21",
+            "M23",
+            "M24"
+          ],
+          "confianca": 0.96
+        },
+        {
+          "id": "R6",
+          "rotulo": "meu pai",
+          "classe_semantica": "pessoa",
+          "tipo": "entidade_textual",
+          "mencoes": [
+            "M7",
+            "M9",
+            "M17",
+            "M18",
+            "M25",
+            "M27"
+          ],
+          "confianca": 0.84
+        }
+      ],
+      "resolucoes_pronominais": [
+        {
+          "mencao_id": "M2",
+          "referente_id": "R2",
+          "estado": "resolvida",
+          "tipo_relacao": "identidade",
+          "confianca": 0.96,
+          "antecedente_mencao_id": null,
+          "motivo_pendencia": null,
+          "razoes": [
+            "primeira pessoa vinculada ao papel discursivo de narrador",
+            "a identidade externa do narrador não foi inferida"
+          ],
+          "alternativas": [],
+          "evidencias": [
+            {
+              "mencao_id": "M2",
+              "texto": "eu",
+              "origem": "paragrafo",
+              "intervalo": {
+                "inicio": 111,
+                "fim": 113,
+                "unidade": "pontos_de_codigo_unicode"
+              }
+            }
+          ]
+        },
+        {
+          "mencao_id": "M4",
+          "referente_id": "R2",
+          "estado": "resolvida",
+          "tipo_relacao": "possuidor",
+          "confianca": 0.96,
+          "antecedente_mencao_id": null,
+          "motivo_pendencia": null,
+          "razoes": [
+            "primeira pessoa vinculada ao papel discursivo de narrador",
+            "a identidade externa do narrador não foi inferida"
+          ],
+          "alternativas": [],
+          "evidencias": [
+            {
+              "mencao_id": "M4",
+              "texto": "meus",
+              "origem": "paragrafo",
+              "intervalo": {
+                "inicio": 144,
+                "fim": 148,
+                "unidade": "pontos_de_codigo_unicode"
+              }
+            }
+          ]
+        },
+        {
+          "mencao_id": "M8",
+          "referente_id": "R2",
+          "estado": "resolvida",
+          "tipo_relacao": "possuidor",
+          "confianca": 0.96,
+          "antecedente_mencao_id": null,
+          "motivo_pendencia": null,
+          "razoes": [
+            "primeira pessoa vinculada ao papel discursivo de narrador",
+            "a identidade externa do narrador não foi inferida"
+          ],
+          "alternativas": [],
+          "evidencias": [
+            {
+              "mencao_id": "M8",
+              "texto": "meu",
+              "origem": "paragrafo",
+              "intervalo": {
+                "inicio": 229,
+                "fim": 232,
+                "unidade": "pontos_de_codigo_unicode"
+              }
+            }
+          ]
+        },
+        {
+          "mencao_id": "M9",
+          "referente_id": "R6",
+          "estado": "resolvida",
+          "tipo_relacao": "identidade",
+          "confianca": 0.89,
+          "antecedente_mencao_id": "M7",
+          "motivo_pendencia": null,
+          "razoes": [
+            "mesma classe semântica: pessoa",
+            "gênero compatível",
+            "número compatível",
+            "antecedente recente",
+            "mesma unidade textual",
+            "único referente humano compatível"
+          ],
+          "alternativas": [],
+          "evidencias": [
+            {
+              "mencao_id": "M7",
+              "texto": "meu pai",
+              "origem": "paragrafo",
+              "intervalo": {
+                "inicio": 229,
+                "fim": 236,
+                "unidade": "pontos_de_codigo_unicode"
+              }
+            },
+            {
+              "mencao_id": "M9",
+              "texto": "Ele",
+              "origem": "paragrafo",
+              "intervalo": {
+                "inicio": 252,
+                "fim": 255,
+                "unidade": "pontos_de_codigo_unicode"
+              }
+            }
+          ]
+        },
+        {
+          "mencao_id": "M11",
+          "referente_id": "R2",
+          "estado": "resolvida",
+          "tipo_relacao": "identidade",
+          "confianca": 0.96,
+          "antecedente_mencao_id": null,
+          "motivo_pendencia": null,
+          "razoes": [
+            "primeira pessoa vinculada ao papel discursivo de narrador",
+            "a identidade externa do narrador não foi inferida"
+          ],
+          "alternativas": [],
+          "evidencias": [
+            {
+              "mencao_id": "M11",
+              "texto": "eu",
+              "origem": "paragrafo",
+              "intervalo": {
+                "inicio": 295,
+                "fim": 297,
+                "unidade": "pontos_de_codigo_unicode"
+              }
+            }
+          ]
+        },
+        {
+          "mencao_id": "M12",
+          "referente_id": "R2",
+          "estado": "resolvida",
+          "tipo_relacao": "identidade",
+          "confianca": 0.96,
+          "antecedente_mencao_id": null,
+          "motivo_pendencia": null,
+          "razoes": [
+            "primeira pessoa vinculada ao papel discursivo de narrador",
+            "a identidade externa do narrador não foi inferida"
+          ],
+          "alternativas": [],
+          "evidencias": [
+            {
+              "mencao_id": "M12",
+              "texto": "Eu",
+              "origem": "paragrafo",
+              "intervalo": {
+                "inicio": 363,
+                "fim": 365,
+                "unidade": "pontos_de_codigo_unicode"
+              }
+            }
+          ]
+        },
+        {
+          "mencao_id": "M16",
+          "referente_id": "R2",
+          "estado": "resolvida",
+          "tipo_relacao": "identidade",
+          "confianca": 0.96,
+          "antecedente_mencao_id": null,
+          "motivo_pendencia": null,
+          "razoes": [
+            "primeira pessoa vinculada ao papel discursivo de narrador",
+            "a identidade externa do narrador não foi inferida"
+          ],
+          "alternativas": [],
+          "evidencias": [
+            {
+              "mencao_id": "M16",
+              "texto": "eu",
+              "origem": "paragrafo",
+              "intervalo": {
+                "inicio": 480,
+                "fim": 482,
+                "unidade": "pontos_de_codigo_unicode"
+              }
+            }
+          ]
+        },
+        {
+          "mencao_id": "M17",
+          "referente_id": "R6",
+          "estado": "resolvida",
+          "tipo_relacao": "possuidor",
+          "confianca": 0.7,
+          "antecedente_mencao_id": "M7",
+          "motivo_pendencia": null,
+          "razoes": [
+            "candidato humano para o papel de possuidor",
+            "gênero compatível",
+            "número compatível",
+            "antecedente disponível no contexto",
+            "mesma unidade textual"
+          ],
+          "alternativas": [],
+          "evidencias": [
+            {
+              "mencao_id": "M7",
+              "texto": "meu pai",
+              "origem": "paragrafo",
+              "intervalo": {
+                "inicio": 229,
+                "fim": 236,
+                "unidade": "pontos_de_codigo_unicode"
+              }
+            },
+            {
+              "mencao_id": "M17",
+              "texto": "dele",
+              "origem": "paragrafo",
+              "intervalo": {
+                "inicio": 550,
+                "fim": 554,
+                "unidade": "pontos_de_codigo_unicode"
+              }
+            }
+          ]
+        },
+        {
+          "mencao_id": "M18",
+          "referente_id": "R6",
+          "estado": "resolvida",
+          "tipo_relacao": "identidade",
+          "confianca": 0.96,
+          "antecedente_mencao_id": "M9",
+          "motivo_pendencia": null,
+          "razoes": [
+            "mesma classe semântica: pessoa",
+            "gênero compatível",
+            "número compatível",
+            "antecedente disponível no contexto",
+            "mesma unidade textual",
+            "mesma realização lexical"
+          ],
+          "alternativas": [],
+          "evidencias": [
+            {
+              "mencao_id": "M9",
+              "texto": "Ele",
+              "origem": "paragrafo",
+              "intervalo": {
+                "inicio": 252,
+                "fim": 255,
+                "unidade": "pontos_de_codigo_unicode"
+              }
+            },
+            {
+              "mencao_id": "M18",
+              "texto": "ele",
+              "origem": "paragrafo",
+              "intervalo": {
+                "inicio": 604,
+                "fim": 607,
+                "unidade": "pontos_de_codigo_unicode"
+              }
+            }
+          ]
+        },
+        {
+          "mencao_id": "M21",
+          "referente_id": "R2",
+          "estado": "resolvida",
+          "tipo_relacao": "identidade",
+          "confianca": 0.96,
+          "antecedente_mencao_id": null,
+          "motivo_pendencia": null,
+          "razoes": [
+            "primeira pessoa vinculada ao papel discursivo de narrador",
+            "a identidade externa do narrador não foi inferida"
+          ],
+          "alternativas": [],
+          "evidencias": [
+            {
+              "mencao_id": "M21",
+              "texto": "eu",
+              "origem": "paragrafo",
+              "intervalo": {
+                "inicio": 681,
+                "fim": 683,
+                "unidade": "pontos_de_codigo_unicode"
+              }
+            }
+          ]
+        },
+        {
+          "mencao_id": "M23",
+          "referente_id": "R2",
+          "estado": "resolvida",
+          "tipo_relacao": "possuidor",
+          "confianca": 0.96,
+          "antecedente_mencao_id": null,
+          "motivo_pendencia": null,
+          "razoes": [
+            "primeira pessoa vinculada ao papel discursivo de narrador",
+            "a identidade externa do narrador não foi inferida"
+          ],
+          "alternativas": [],
+          "evidencias": [
+            {
+              "mencao_id": "M23",
+              "texto": "minha",
+              "origem": "paragrafo",
+              "intervalo": {
+                "inicio": 692,
+                "fim": 697,
+                "unidade": "pontos_de_codigo_unicode"
+              }
+            }
+          ]
+        },
+        {
+          "mencao_id": "M24",
+          "referente_id": "R2",
+          "estado": "resolvida",
+          "tipo_relacao": "identidade",
+          "confianca": 0.96,
+          "antecedente_mencao_id": null,
+          "motivo_pendencia": null,
+          "razoes": [
+            "primeira pessoa vinculada ao papel discursivo de narrador",
+            "a identidade externa do narrador não foi inferida"
+          ],
+          "alternativas": [],
+          "evidencias": [
+            {
+              "mencao_id": "M24",
+              "texto": "eu",
+              "origem": "paragrafo",
+              "intervalo": {
+                "inicio": 764,
+                "fim": 766,
+                "unidade": "pontos_de_codigo_unicode"
+              }
+            }
+          ]
+        },
+        {
+          "mencao_id": "M25",
+          "referente_id": "R6",
+          "estado": "resolvida",
+          "tipo_relacao": "possuidor",
+          "confianca": 0.7,
+          "antecedente_mencao_id": "M7",
+          "motivo_pendencia": null,
+          "razoes": [
+            "candidato humano para o papel de possuidor",
+            "gênero compatível",
+            "número compatível",
+            "antecedente disponível no contexto",
+            "mesma unidade textual"
+          ],
+          "alternativas": [],
+          "evidencias": [
+            {
+              "mencao_id": "M7",
+              "texto": "meu pai",
+              "origem": "paragrafo",
+              "intervalo": {
+                "inicio": 229,
+                "fim": 236,
+                "unidade": "pontos_de_codigo_unicode"
+              }
+            },
+            {
+              "mencao_id": "M25",
+              "texto": "dele",
+              "origem": "paragrafo",
+              "intervalo": {
+                "inicio": 790,
+                "fim": 794,
+                "unidade": "pontos_de_codigo_unicode"
+              }
+            }
+          ]
+        },
+        {
+          "mencao_id": "M27",
+          "referente_id": "R6",
+          "estado": "resolvida",
+          "tipo_relacao": "identidade",
+          "confianca": 0.96,
+          "antecedente_mencao_id": "M18",
+          "motivo_pendencia": null,
+          "razoes": [
+            "mesma classe semântica: pessoa",
+            "gênero compatível",
+            "número compatível",
+            "antecedente disponível no contexto",
+            "mesma unidade textual",
+            "mesma realização lexical"
+          ],
+          "alternativas": [],
+          "evidencias": [
+            {
+              "mencao_id": "M18",
+              "texto": "ele",
+              "origem": "paragrafo",
+              "intervalo": {
+                "inicio": 604,
+                "fim": 607,
+                "unidade": "pontos_de_codigo_unicode"
+              }
+            },
+            {
+              "mencao_id": "M27",
+              "texto": "ele",
+              "origem": "paragrafo",
+              "intervalo": {
+                "inicio": 846,
+                "fim": 849,
+                "unidade": "pontos_de_codigo_unicode"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "P2": {
+      "resumo_pronomes_locais": {
+        "total": 8,
+        "resolvidas": 8,
+        "ambiguas": 0,
+        "nao_resolvidas": 0
+      },
+      "mencoes_relevantes": [
+        {
+          "id": "M2",
+          "texto": "eu",
+          "tipo": "pronome_pessoal",
+          "origem": "contexto_anterior",
+          "intervalo": {
+            "inicio": 111,
+            "fim": 113,
+            "unidade": "pontos_de_codigo_unicode"
+          },
+          "caracteristicas": {
+            "classe_semantica": "pessoa",
+            "genero": "indeterminado",
+            "numero": "singular"
+          },
+          "confianca_deteccao": 0.99,
+          "mencao_pai_id": null
+        },
+        {
+          "id": "M4",
+          "texto": "meus",
+          "tipo": "pronome_possessivo",
+          "origem": "contexto_anterior",
+          "intervalo": {
+            "inicio": 144,
+            "fim": 148,
+            "unidade": "pontos_de_codigo_unicode"
+          },
+          "caracteristicas": {
+            "classe_semantica": "desconhecida",
+            "genero": "indeterminado",
+            "numero": "indeterminado"
+          },
+          "confianca_deteccao": 0.99,
+          "mencao_pai_id": "M3"
+        },
+        {
+          "id": "M7",
+          "texto": "meu pai",
+          "tipo": "descricao_nominal",
+          "origem": "contexto_anterior",
+          "intervalo": {
+            "inicio": 229,
+            "fim": 236,
+            "unidade": "pontos_de_codigo_unicode"
+          },
+          "caracteristicas": {
+            "classe_semantica": "pessoa",
+            "genero": "masculino",
+            "numero": "singular"
+          },
+          "confianca_deteccao": 0.82,
+          "mencao_pai_id": null
+        },
+        {
+          "id": "M8",
+          "texto": "meu",
+          "tipo": "pronome_possessivo",
+          "origem": "contexto_anterior",
+          "intervalo": {
+            "inicio": 229,
+            "fim": 232,
+            "unidade": "pontos_de_codigo_unicode"
+          },
+          "caracteristicas": {
+            "classe_semantica": "desconhecida",
+            "genero": "indeterminado",
+            "numero": "indeterminado"
+          },
+          "confianca_deteccao": 0.99,
+          "mencao_pai_id": "M7"
+        },
+        {
+          "id": "M9",
+          "texto": "Ele",
+          "tipo": "pronome_pessoal",
+          "origem": "contexto_anterior",
+          "intervalo": {
+            "inicio": 252,
+            "fim": 255,
+            "unidade": "pontos_de_codigo_unicode"
+          },
+          "caracteristicas": {
+            "classe_semantica": "pessoa",
+            "genero": "masculino",
+            "numero": "singular"
+          },
+          "confianca_deteccao": 0.99,
+          "mencao_pai_id": null
+        },
+        {
+          "id": "M11",
+          "texto": "eu",
+          "tipo": "pronome_pessoal",
+          "origem": "contexto_anterior",
+          "intervalo": {
+            "inicio": 295,
+            "fim": 297,
+            "unidade": "pontos_de_codigo_unicode"
+          },
+          "caracteristicas": {
+            "classe_semantica": "pessoa",
+            "genero": "indeterminado",
+            "numero": "singular"
+          },
+          "confianca_deteccao": 0.99,
+          "mencao_pai_id": null
+        },
+        {
+          "id": "M12",
+          "texto": "Eu",
+          "tipo": "pronome_pessoal",
+          "origem": "contexto_anterior",
+          "intervalo": {
+            "inicio": 363,
+            "fim": 365,
+            "unidade": "pontos_de_codigo_unicode"
+          },
+          "caracteristicas": {
+            "classe_semantica": "pessoa",
+            "genero": "indeterminado",
+            "numero": "singular"
+          },
+          "confianca_deteccao": 0.99,
+          "mencao_pai_id": null
+        },
+        {
+          "id": "M16",
+          "texto": "eu",
+          "tipo": "pronome_pessoal",
+          "origem": "contexto_anterior",
+          "intervalo": {
+            "inicio": 480,
+            "fim": 482,
+            "unidade": "pontos_de_codigo_unicode"
+          },
+          "caracteristicas": {
+            "classe_semantica": "pessoa",
+            "genero": "indeterminado",
+            "numero": "singular"
+          },
+          "confianca_deteccao": 0.99,
+          "mencao_pai_id": null
+        },
+        {
+          "id": "M17",
+          "texto": "dele",
+          "tipo": "pronome_possessivo",
+          "origem": "contexto_anterior",
+          "intervalo": {
+            "inicio": 550,
+            "fim": 554,
+            "unidade": "pontos_de_codigo_unicode"
+          },
+          "caracteristicas": {
+            "classe_semantica": "desconhecida",
+            "genero": "masculino",
+            "numero": "singular"
+          },
+          "confianca_deteccao": 0.99,
+          "mencao_pai_id": null
+        },
+        {
+          "id": "M18",
+          "texto": "ele",
+          "tipo": "pronome_pessoal",
+          "origem": "contexto_anterior",
+          "intervalo": {
+            "inicio": 604,
+            "fim": 607,
+            "unidade": "pontos_de_codigo_unicode"
+          },
+          "caracteristicas": {
+            "classe_semantica": "pessoa",
+            "genero": "masculino",
+            "numero": "singular"
+          },
+          "confianca_deteccao": 0.99,
+          "mencao_pai_id": null
+        },
+        {
+          "id": "M21",
+          "texto": "eu",
+          "tipo": "pronome_pessoal",
+          "origem": "contexto_anterior",
+          "intervalo": {
+            "inicio": 681,
+            "fim": 683,
+            "unidade": "pontos_de_codigo_unicode"
+          },
+          "caracteristicas": {
+            "classe_semantica": "pessoa",
+            "genero": "indeterminado",
+            "numero": "singular"
+          },
+          "confianca_deteccao": 0.99,
+          "mencao_pai_id": null
+        },
+        {
+          "id": "M23",
+          "texto": "minha",
+          "tipo": "pronome_possessivo",
+          "origem": "contexto_anterior",
+          "intervalo": {
+            "inicio": 692,
+            "fim": 697,
+            "unidade": "pontos_de_codigo_unicode"
+          },
+          "caracteristicas": {
+            "classe_semantica": "desconhecida",
+            "genero": "indeterminado",
+            "numero": "indeterminado"
+          },
+          "confianca_deteccao": 0.99,
+          "mencao_pai_id": "M22"
+        },
+        {
+          "id": "M24",
+          "texto": "eu",
+          "tipo": "pronome_pessoal",
+          "origem": "contexto_anterior",
+          "intervalo": {
+            "inicio": 764,
+            "fim": 766,
+            "unidade": "pontos_de_codigo_unicode"
+          },
+          "caracteristicas": {
+            "classe_semantica": "pessoa",
+            "genero": "indeterminado",
+            "numero": "singular"
+          },
+          "confianca_deteccao": 0.99,
+          "mencao_pai_id": null
+        },
+        {
+          "id": "M25",
+          "texto": "dele",
+          "tipo": "pronome_possessivo",
+          "origem": "contexto_anterior",
+          "intervalo": {
+            "inicio": 790,
+            "fim": 794,
+            "unidade": "pontos_de_codigo_unicode"
+          },
+          "caracteristicas": {
+            "classe_semantica": "desconhecida",
+            "genero": "masculino",
+            "numero": "singular"
+          },
+          "confianca_deteccao": 0.99,
+          "mencao_pai_id": null
+        },
+        {
+          "id": "M27",
+          "texto": "ele",
+          "tipo": "pronome_pessoal",
+          "origem": "contexto_anterior",
+          "intervalo": {
+            "inicio": 846,
+            "fim": 849,
+            "unidade": "pontos_de_codigo_unicode"
+          },
+          "caracteristicas": {
+            "classe_semantica": "pessoa",
+            "genero": "masculino",
+            "numero": "singular"
+          },
+          "confianca_deteccao": 0.99,
+          "mencao_pai_id": null
+        },
+        {
+          "id": "M31",
+          "texto": "Helena",
+          "tipo": "nome_proprio",
+          "origem": "paragrafo",
+          "intervalo": {
+            "inicio": 79,
+            "fim": 85,
+            "unidade": "pontos_de_codigo_unicode"
+          },
+          "caracteristicas": {
+            "classe_semantica": "pessoa",
+            "genero": "feminino",
+            "numero": "indeterminado"
+          },
+          "confianca_deteccao": 0.93,
+          "mencao_pai_id": "M30"
+        },
+        {
+          "id": "M37",
+          "texto": "minha",
+          "tipo": "pronome_possessivo",
+          "origem": "paragrafo",
+          "intervalo": {
+            "inicio": 202,
+            "fim": 207,
+            "unidade": "pontos_de_codigo_unicode"
+          },
+          "caracteristicas": {
+            "classe_semantica": "desconhecida",
+            "genero": "indeterminado",
+            "numero": "indeterminado"
+          },
+          "confianca_deteccao": 0.99,
+          "mencao_pai_id": "M36"
+        },
+        {
+          "id": "M38",
+          "texto": "ela",
+          "tipo": "pronome_pessoal",
+          "origem": "paragrafo",
+          "intervalo": {
+            "inicio": 237,
+            "fim": 240,
+            "unidade": "pontos_de_codigo_unicode"
+          },
+          "caracteristicas": {
+            "classe_semantica": "pessoa",
+            "genero": "feminino",
+            "numero": "singular"
+          },
+          "confianca_deteccao": 0.99,
+          "mencao_pai_id": null
+        },
+        {
+          "id": "M40",
+          "texto": "Eu",
+          "tipo": "pronome_pessoal",
+          "origem": "paragrafo",
+          "intervalo": {
+            "inicio": 344,
+            "fim": 346,
+            "unidade": "pontos_de_codigo_unicode"
+          },
+          "caracteristicas": {
+            "classe_semantica": "pessoa",
+            "genero": "indeterminado",
+            "numero": "singular"
+          },
+          "confianca_deteccao": 0.99,
+          "mencao_pai_id": null
+        },
+        {
+          "id": "M45",
+          "texto": "dela",
+          "tipo": "pronome_possessivo",
+          "origem": "paragrafo",
+          "intervalo": {
+            "inicio": 505,
+            "fim": 509,
+            "unidade": "pontos_de_codigo_unicode"
+          },
+          "caracteristicas": {
+            "classe_semantica": "desconhecida",
+            "genero": "feminino",
+            "numero": "singular"
+          },
+          "confianca_deteccao": 0.99,
+          "mencao_pai_id": "M44"
+        },
+        {
+          "id": "M47",
+          "texto": "Ela",
+          "tipo": "pronome_pessoal",
+          "origem": "paragrafo",
+          "intervalo": {
+            "inicio": 555,
+            "fim": 558,
+            "unidade": "pontos_de_codigo_unicode"
+          },
+          "caracteristicas": {
+            "classe_semantica": "pessoa",
+            "genero": "feminino",
+            "numero": "singular"
+          },
+          "confianca_deteccao": 0.99,
+          "mencao_pai_id": null
+        },
+        {
+          "id": "M53",
+          "texto": "minha",
+          "tipo": "pronome_possessivo",
+          "origem": "paragrafo",
+          "intervalo": {
+            "inicio": 674,
+            "fim": 679,
+            "unidade": "pontos_de_codigo_unicode"
+          },
+          "caracteristicas": {
+            "classe_semantica": "desconhecida",
+            "genero": "indeterminado",
+            "numero": "indeterminado"
+          },
+          "confianca_deteccao": 0.99,
+          "mencao_pai_id": "M52"
+        },
+        {
+          "id": "M56",
+          "texto": "eu",
+          "tipo": "pronome_pessoal",
+          "origem": "paragrafo",
+          "intervalo": {
+            "inicio": 746,
+            "fim": 748,
+            "unidade": "pontos_de_codigo_unicode"
+          },
+          "caracteristicas": {
+            "classe_semantica": "pessoa",
+            "genero": "indeterminado",
+            "numero": "singular"
+          },
+          "confianca_deteccao": 0.99,
+          "mencao_pai_id": null
+        },
+        {
+          "id": "M60",
+          "texto": "minha",
+          "tipo": "pronome_possessivo",
+          "origem": "paragrafo",
+          "intervalo": {
+            "inicio": 813,
+            "fim": 818,
+            "unidade": "pontos_de_codigo_unicode"
+          },
+          "caracteristicas": {
+            "classe_semantica": "desconhecida",
+            "genero": "indeterminado",
+            "numero": "indeterminado"
+          },
+          "confianca_deteccao": 0.99,
+          "mencao_pai_id": "M59"
+        }
+      ],
+      "referentes_relevantes": [
+        {
+          "id": "R2",
+          "rotulo": "narrador",
+          "classe_semantica": "pessoa",
+          "tipo": "participante_discursivo",
+          "mencoes": [
+            "M2",
+            "M4",
+            "M8",
+            "M11",
+            "M12",
+            "M16",
+            "M21",
+            "M23",
+            "M24",
+            "M37",
+            "M40",
+            "M53",
+            "M56",
+            "M60"
+          ],
+          "confianca": 0.96
+        },
+        {
+          "id": "R6",
+          "rotulo": "meu pai",
+          "classe_semantica": "pessoa",
+          "tipo": "entidade_textual",
+          "mencoes": [
+            "M7",
+            "M9",
+            "M17",
+            "M18",
+            "M25",
+            "M27"
+          ],
+          "confianca": 0.84
+        },
+        {
+          "id": "R18",
+          "rotulo": "Helena",
+          "classe_semantica": "pessoa",
+          "tipo": "entidade_textual",
+          "mencoes": [
+            "M31",
+            "M38",
+            "M45",
+            "M47"
+          ],
+          "confianca": 0.82
+        }
+      ],
+      "resolucoes_pronominais": [
+        {
+          "mencao_id": "M2",
+          "referente_id": "R2",
+          "estado": "resolvida",
+          "tipo_relacao": "identidade",
+          "confianca": 0.96,
+          "antecedente_mencao_id": null,
+          "motivo_pendencia": null,
+          "razoes": [
+            "primeira pessoa vinculada ao papel discursivo de narrador",
+            "a identidade externa do narrador não foi inferida"
+          ],
+          "alternativas": [],
+          "evidencias": [
+            {
+              "mencao_id": "M2",
+              "texto": "eu",
+              "origem": "contexto_anterior",
+              "intervalo": {
+                "inicio": 111,
+                "fim": 113,
+                "unidade": "pontos_de_codigo_unicode"
+              }
+            }
+          ]
+        },
+        {
+          "mencao_id": "M4",
+          "referente_id": "R2",
+          "estado": "resolvida",
+          "tipo_relacao": "possuidor",
+          "confianca": 0.96,
+          "antecedente_mencao_id": null,
+          "motivo_pendencia": null,
+          "razoes": [
+            "primeira pessoa vinculada ao papel discursivo de narrador",
+            "a identidade externa do narrador não foi inferida"
+          ],
+          "alternativas": [],
+          "evidencias": [
+            {
+              "mencao_id": "M4",
+              "texto": "meus",
+              "origem": "contexto_anterior",
+              "intervalo": {
+                "inicio": 144,
+                "fim": 148,
+                "unidade": "pontos_de_codigo_unicode"
+              }
+            }
+          ]
+        },
+        {
+          "mencao_id": "M8",
+          "referente_id": "R2",
+          "estado": "resolvida",
+          "tipo_relacao": "possuidor",
+          "confianca": 0.96,
+          "antecedente_mencao_id": null,
+          "motivo_pendencia": null,
+          "razoes": [
+            "primeira pessoa vinculada ao papel discursivo de narrador",
+            "a identidade externa do narrador não foi inferida"
+          ],
+          "alternativas": [],
+          "evidencias": [
+            {
+              "mencao_id": "M8",
+              "texto": "meu",
+              "origem": "contexto_anterior",
+              "intervalo": {
+                "inicio": 229,
+                "fim": 232,
+                "unidade": "pontos_de_codigo_unicode"
+              }
+            }
+          ]
+        },
+        {
+          "mencao_id": "M9",
+          "referente_id": "R6",
+          "estado": "resolvida",
+          "tipo_relacao": "identidade",
+          "confianca": 0.89,
+          "antecedente_mencao_id": "M7",
+          "motivo_pendencia": null,
+          "razoes": [
+            "mesma classe semântica: pessoa",
+            "gênero compatível",
+            "número compatível",
+            "antecedente recente",
+            "mesma unidade textual",
+            "único referente humano compatível"
+          ],
+          "alternativas": [],
+          "evidencias": [
+            {
+              "mencao_id": "M7",
+              "texto": "meu pai",
+              "origem": "contexto_anterior",
+              "intervalo": {
+                "inicio": 229,
+                "fim": 236,
+                "unidade": "pontos_de_codigo_unicode"
+              }
+            },
+            {
+              "mencao_id": "M9",
+              "texto": "Ele",
+              "origem": "contexto_anterior",
+              "intervalo": {
+                "inicio": 252,
+                "fim": 255,
+                "unidade": "pontos_de_codigo_unicode"
+              }
+            }
+          ]
+        },
+        {
+          "mencao_id": "M11",
+          "referente_id": "R2",
+          "estado": "resolvida",
+          "tipo_relacao": "identidade",
+          "confianca": 0.96,
+          "antecedente_mencao_id": null,
+          "motivo_pendencia": null,
+          "razoes": [
+            "primeira pessoa vinculada ao papel discursivo de narrador",
+            "a identidade externa do narrador não foi inferida"
+          ],
+          "alternativas": [],
+          "evidencias": [
+            {
+              "mencao_id": "M11",
+              "texto": "eu",
+              "origem": "contexto_anterior",
+              "intervalo": {
+                "inicio": 295,
+                "fim": 297,
+                "unidade": "pontos_de_codigo_unicode"
+              }
+            }
+          ]
+        },
+        {
+          "mencao_id": "M12",
+          "referente_id": "R2",
+          "estado": "resolvida",
+          "tipo_relacao": "identidade",
+          "confianca": 0.96,
+          "antecedente_mencao_id": null,
+          "motivo_pendencia": null,
+          "razoes": [
+            "primeira pessoa vinculada ao papel discursivo de narrador",
+            "a identidade externa do narrador não foi inferida"
+          ],
+          "alternativas": [],
+          "evidencias": [
+            {
+              "mencao_id": "M12",
+              "texto": "Eu",
+              "origem": "contexto_anterior",
+              "intervalo": {
+                "inicio": 363,
+                "fim": 365,
+                "unidade": "pontos_de_codigo_unicode"
+              }
+            }
+          ]
+        },
+        {
+          "mencao_id": "M16",
+          "referente_id": "R2",
+          "estado": "resolvida",
+          "tipo_relacao": "identidade",
+          "confianca": 0.96,
+          "antecedente_mencao_id": null,
+          "motivo_pendencia": null,
+          "razoes": [
+            "primeira pessoa vinculada ao papel discursivo de narrador",
+            "a identidade externa do narrador não foi inferida"
+          ],
+          "alternativas": [],
+          "evidencias": [
+            {
+              "mencao_id": "M16",
+              "texto": "eu",
+              "origem": "contexto_anterior",
+              "intervalo": {
+                "inicio": 480,
+                "fim": 482,
+                "unidade": "pontos_de_codigo_unicode"
+              }
+            }
+          ]
+        },
+        {
+          "mencao_id": "M17",
+          "referente_id": "R6",
+          "estado": "resolvida",
+          "tipo_relacao": "possuidor",
+          "confianca": 0.7,
+          "antecedente_mencao_id": "M7",
+          "motivo_pendencia": null,
+          "razoes": [
+            "candidato humano para o papel de possuidor",
+            "gênero compatível",
+            "número compatível",
+            "antecedente disponível no contexto",
+            "mesma unidade textual"
+          ],
+          "alternativas": [],
+          "evidencias": [
+            {
+              "mencao_id": "M7",
+              "texto": "meu pai",
+              "origem": "contexto_anterior",
+              "intervalo": {
+                "inicio": 229,
+                "fim": 236,
+                "unidade": "pontos_de_codigo_unicode"
+              }
+            },
+            {
+              "mencao_id": "M17",
+              "texto": "dele",
+              "origem": "contexto_anterior",
+              "intervalo": {
+                "inicio": 550,
+                "fim": 554,
+                "unidade": "pontos_de_codigo_unicode"
+              }
+            }
+          ]
+        },
+        {
+          "mencao_id": "M18",
+          "referente_id": "R6",
+          "estado": "resolvida",
+          "tipo_relacao": "identidade",
+          "confianca": 0.96,
+          "antecedente_mencao_id": "M9",
+          "motivo_pendencia": null,
+          "razoes": [
+            "mesma classe semântica: pessoa",
+            "gênero compatível",
+            "número compatível",
+            "antecedente disponível no contexto",
+            "mesma unidade textual",
+            "mesma realização lexical"
+          ],
+          "alternativas": [],
+          "evidencias": [
+            {
+              "mencao_id": "M9",
+              "texto": "Ele",
+              "origem": "contexto_anterior",
+              "intervalo": {
+                "inicio": 252,
+                "fim": 255,
+                "unidade": "pontos_de_codigo_unicode"
+              }
+            },
+            {
+              "mencao_id": "M18",
+              "texto": "ele",
+              "origem": "contexto_anterior",
+              "intervalo": {
+                "inicio": 604,
+                "fim": 607,
+                "unidade": "pontos_de_codigo_unicode"
+              }
+            }
+          ]
+        },
+        {
+          "mencao_id": "M21",
+          "referente_id": "R2",
+          "estado": "resolvida",
+          "tipo_relacao": "identidade",
+          "confianca": 0.96,
+          "antecedente_mencao_id": null,
+          "motivo_pendencia": null,
+          "razoes": [
+            "primeira pessoa vinculada ao papel discursivo de narrador",
+            "a identidade externa do narrador não foi inferida"
+          ],
+          "alternativas": [],
+          "evidencias": [
+            {
+              "mencao_id": "M21",
+              "texto": "eu",
+              "origem": "contexto_anterior",
+              "intervalo": {
+                "inicio": 681,
+                "fim": 683,
+                "unidade": "pontos_de_codigo_unicode"
+              }
+            }
+          ]
+        },
+        {
+          "mencao_id": "M23",
+          "referente_id": "R2",
+          "estado": "resolvida",
+          "tipo_relacao": "possuidor",
+          "confianca": 0.96,
+          "antecedente_mencao_id": null,
+          "motivo_pendencia": null,
+          "razoes": [
+            "primeira pessoa vinculada ao papel discursivo de narrador",
+            "a identidade externa do narrador não foi inferida"
+          ],
+          "alternativas": [],
+          "evidencias": [
+            {
+              "mencao_id": "M23",
+              "texto": "minha",
+              "origem": "contexto_anterior",
+              "intervalo": {
+                "inicio": 692,
+                "fim": 697,
+                "unidade": "pontos_de_codigo_unicode"
+              }
+            }
+          ]
+        },
+        {
+          "mencao_id": "M24",
+          "referente_id": "R2",
+          "estado": "resolvida",
+          "tipo_relacao": "identidade",
+          "confianca": 0.96,
+          "antecedente_mencao_id": null,
+          "motivo_pendencia": null,
+          "razoes": [
+            "primeira pessoa vinculada ao papel discursivo de narrador",
+            "a identidade externa do narrador não foi inferida"
+          ],
+          "alternativas": [],
+          "evidencias": [
+            {
+              "mencao_id": "M24",
+              "texto": "eu",
+              "origem": "contexto_anterior",
+              "intervalo": {
+                "inicio": 764,
+                "fim": 766,
+                "unidade": "pontos_de_codigo_unicode"
+              }
+            }
+          ]
+        },
+        {
+          "mencao_id": "M25",
+          "referente_id": "R6",
+          "estado": "resolvida",
+          "tipo_relacao": "possuidor",
+          "confianca": 0.7,
+          "antecedente_mencao_id": "M7",
+          "motivo_pendencia": null,
+          "razoes": [
+            "candidato humano para o papel de possuidor",
+            "gênero compatível",
+            "número compatível",
+            "antecedente disponível no contexto",
+            "mesma unidade textual"
+          ],
+          "alternativas": [],
+          "evidencias": [
+            {
+              "mencao_id": "M7",
+              "texto": "meu pai",
+              "origem": "contexto_anterior",
+              "intervalo": {
+                "inicio": 229,
+                "fim": 236,
+                "unidade": "pontos_de_codigo_unicode"
+              }
+            },
+            {
+              "mencao_id": "M25",
+              "texto": "dele",
+              "origem": "contexto_anterior",
+              "intervalo": {
+                "inicio": 790,
+                "fim": 794,
+                "unidade": "pontos_de_codigo_unicode"
+              }
+            }
+          ]
+        },
+        {
+          "mencao_id": "M27",
+          "referente_id": "R6",
+          "estado": "resolvida",
+          "tipo_relacao": "identidade",
+          "confianca": 0.96,
+          "antecedente_mencao_id": "M18",
+          "motivo_pendencia": null,
+          "razoes": [
+            "mesma classe semântica: pessoa",
+            "gênero compatível",
+            "número compatível",
+            "antecedente disponível no contexto",
+            "mesma unidade textual",
+            "mesma realização lexical"
+          ],
+          "alternativas": [],
+          "evidencias": [
+            {
+              "mencao_id": "M18",
+              "texto": "ele",
+              "origem": "contexto_anterior",
+              "intervalo": {
+                "inicio": 604,
+                "fim": 607,
+                "unidade": "pontos_de_codigo_unicode"
+              }
+            },
+            {
+              "mencao_id": "M27",
+              "texto": "ele",
+              "origem": "contexto_anterior",
+              "intervalo": {
+                "inicio": 846,
+                "fim": 849,
+                "unidade": "pontos_de_codigo_unicode"
+              }
+            }
+          ]
+        },
+        {
+          "mencao_id": "M37",
+          "referente_id": "R2",
+          "estado": "resolvida",
+          "tipo_relacao": "possuidor",
+          "confianca": 0.96,
+          "antecedente_mencao_id": null,
+          "motivo_pendencia": null,
+          "razoes": [
+            "primeira pessoa vinculada ao papel discursivo de narrador",
+            "a identidade externa do narrador não foi inferida"
+          ],
+          "alternativas": [],
+          "evidencias": [
+            {
+              "mencao_id": "M37",
+              "texto": "minha",
+              "origem": "paragrafo",
+              "intervalo": {
+                "inicio": 202,
+                "fim": 207,
+                "unidade": "pontos_de_codigo_unicode"
+              }
+            }
+          ]
+        },
+        {
+          "mencao_id": "M38",
+          "referente_id": "R18",
+          "estado": "resolvida",
+          "tipo_relacao": "identidade",
+          "confianca": 0.72,
+          "antecedente_mencao_id": "M31",
+          "motivo_pendencia": null,
+          "razoes": [
+            "mesma classe semântica: pessoa",
+            "gênero compatível",
+            "antecedente disponível no contexto",
+            "nome próprio saliente",
+            "mesma unidade textual",
+            "único referente humano compatível"
+          ],
+          "alternativas": [],
+          "evidencias": [
+            {
+              "mencao_id": "M31",
+              "texto": "Helena",
+              "origem": "paragrafo",
+              "intervalo": {
+                "inicio": 79,
+                "fim": 85,
+                "unidade": "pontos_de_codigo_unicode"
+              }
+            },
+            {
+              "mencao_id": "M38",
+              "texto": "ela",
+              "origem": "paragrafo",
+              "intervalo": {
+                "inicio": 237,
+                "fim": 240,
+                "unidade": "pontos_de_codigo_unicode"
+              }
+            }
+          ]
+        },
+        {
+          "mencao_id": "M40",
+          "referente_id": "R2",
+          "estado": "resolvida",
+          "tipo_relacao": "identidade",
+          "confianca": 0.96,
+          "antecedente_mencao_id": null,
+          "motivo_pendencia": null,
+          "razoes": [
+            "primeira pessoa vinculada ao papel discursivo de narrador",
+            "a identidade externa do narrador não foi inferida"
+          ],
+          "alternativas": [],
+          "evidencias": [
+            {
+              "mencao_id": "M40",
+              "texto": "Eu",
+              "origem": "paragrafo",
+              "intervalo": {
+                "inicio": 344,
+                "fim": 346,
+                "unidade": "pontos_de_codigo_unicode"
+              }
+            }
+          ]
+        },
+        {
+          "mencao_id": "M45",
+          "referente_id": "R18",
+          "estado": "resolvida",
+          "tipo_relacao": "possuidor",
+          "confianca": 0.66,
+          "antecedente_mencao_id": "M38",
+          "motivo_pendencia": null,
+          "razoes": [
+            "candidato humano para o papel de possuidor",
+            "gênero compatível",
+            "número compatível",
+            "antecedente disponível no contexto",
+            "mesma unidade textual"
+          ],
+          "alternativas": [],
+          "evidencias": [
+            {
+              "mencao_id": "M38",
+              "texto": "ela",
+              "origem": "paragrafo",
+              "intervalo": {
+                "inicio": 237,
+                "fim": 240,
+                "unidade": "pontos_de_codigo_unicode"
+              }
+            },
+            {
+              "mencao_id": "M45",
+              "texto": "dela",
+              "origem": "paragrafo",
+              "intervalo": {
+                "inicio": 505,
+                "fim": 509,
+                "unidade": "pontos_de_codigo_unicode"
+              }
+            }
+          ]
+        },
+        {
+          "mencao_id": "M47",
+          "referente_id": "R18",
+          "estado": "resolvida",
+          "tipo_relacao": "identidade",
+          "confianca": 0.96,
+          "antecedente_mencao_id": "M38",
+          "motivo_pendencia": null,
+          "razoes": [
+            "mesma classe semântica: pessoa",
+            "gênero compatível",
+            "número compatível",
+            "antecedente disponível no contexto",
+            "mesma unidade textual",
+            "mesma realização lexical"
+          ],
+          "alternativas": [],
+          "evidencias": [
+            {
+              "mencao_id": "M38",
+              "texto": "ela",
+              "origem": "paragrafo",
+              "intervalo": {
+                "inicio": 237,
+                "fim": 240,
+                "unidade": "pontos_de_codigo_unicode"
+              }
+            },
+            {
+              "mencao_id": "M47",
+              "texto": "Ela",
+              "origem": "paragrafo",
+              "intervalo": {
+                "inicio": 555,
+                "fim": 558,
+                "unidade": "pontos_de_codigo_unicode"
+              }
+            }
+          ]
+        },
+        {
+          "mencao_id": "M53",
+          "referente_id": "R2",
+          "estado": "resolvida",
+          "tipo_relacao": "possuidor",
+          "confianca": 0.96,
+          "antecedente_mencao_id": null,
+          "motivo_pendencia": null,
+          "razoes": [
+            "primeira pessoa vinculada ao papel discursivo de narrador",
+            "a identidade externa do narrador não foi inferida"
+          ],
+          "alternativas": [],
+          "evidencias": [
+            {
+              "mencao_id": "M53",
+              "texto": "minha",
+              "origem": "paragrafo",
+              "intervalo": {
+                "inicio": 674,
+                "fim": 679,
+                "unidade": "pontos_de_codigo_unicode"
+              }
+            }
+          ]
+        },
+        {
+          "mencao_id": "M56",
+          "referente_id": "R2",
+          "estado": "resolvida",
+          "tipo_relacao": "identidade",
+          "confianca": 0.96,
+          "antecedente_mencao_id": null,
+          "motivo_pendencia": null,
+          "razoes": [
+            "primeira pessoa vinculada ao papel discursivo de narrador",
+            "a identidade externa do narrador não foi inferida"
+          ],
+          "alternativas": [],
+          "evidencias": [
+            {
+              "mencao_id": "M56",
+              "texto": "eu",
+              "origem": "paragrafo",
+              "intervalo": {
+                "inicio": 746,
+                "fim": 748,
+                "unidade": "pontos_de_codigo_unicode"
+              }
+            }
+          ]
+        },
+        {
+          "mencao_id": "M60",
+          "referente_id": "R2",
+          "estado": "resolvida",
+          "tipo_relacao": "possuidor",
+          "confianca": 0.96,
+          "antecedente_mencao_id": null,
+          "motivo_pendencia": null,
+          "razoes": [
+            "primeira pessoa vinculada ao papel discursivo de narrador",
+            "a identidade externa do narrador não foi inferida"
+          ],
+          "alternativas": [],
+          "evidencias": [
+            {
+              "mencao_id": "M60",
+              "texto": "minha",
+              "origem": "paragrafo",
+              "intervalo": {
+                "inicio": 813,
+                "fim": 818,
+                "unidade": "pontos_de_codigo_unicode"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

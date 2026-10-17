@@ -6,7 +6,7 @@ O primeiro recorte do produto é deliberadamente pequeno: interpretar **um pará
 
 ## Estado atual
 
-A versão em desenvolvimento é `1.1.0.dev2`, com seleção de sujeitos por oração e revisão das fontes de fala. O adaptador integra anotações do JSON, conserva as predições recebidas, registra conflitos e compartilha lemas e classes com a extração e a detecção de menções. A interface permite inspecionar tokens, diagnósticos e razões da escolha de cada sujeito. Correferência geral, construções ambíguas e novos tipos de relação continuam nas próximas entregas.
+A versão em desenvolvimento é `1.1.0.dev3`, com primeira pessoa narrativa representada como participante discursivo, primeira pessoa citada vinculada apenas a uma fonte textual identificada e motivos explícitos para pendências referenciais. O adaptador integra anotações do JSON, conserva as predições recebidas e registra conflitos; a interface permite inspecionar tokens, sujeitos, referentes e razões das decisões. Construções referenciais ambíguas e novos tipos de relação continuam nas próximas entregas.
 
 O projeto concluiu as cinco etapas do primeiro ciclo na versão `1.0.0`: receber e validar a vetorização, interpretar um parágrafo, gerar textos, checar sua fidelidade e expor o fluxo pela API e pela interface. Cada resposta também registra a versão do motor, as estratégias e os parâmetros usados, a duração medida e os custos da execução. O motor e a API são escritos em Python; a interface funcional está em `dist/`. Os anexos originais foram preservados em:
 
@@ -24,6 +24,8 @@ A entrega do adaptador e a comparação com a referência estão em [`docs/04-en
 
 A correção de sujeitos, papéis e fontes de fala está em [`docs/05-sujeitos-e-papeis-oracionais.md`](docs/05-sujeitos-e-papeis-oracionais.md).
 
+A revisão de pronomes, participantes discursivos e motivos de pendência está em [`docs/06-resolucao-referencial.md`](docs/06-resolucao-referencial.md).
+
 ## Interface atual
 
 A página aceita o arquivo JSON de `09_vetorizacao`, valida sua estrutura e permite selecionar um parágrafo. O texto livre e o contexto anterior continuam disponíveis. A análise produz proposições, menções, grupos de referentes `R1/R2`, um grafo com operadores, quadros de atribuição e relações, além da ideia central proposta, da síntese extrativa e das paráfrases aplicáveis. A checagem mostra seu estado, os alvos verificados, eventuais achados e a limitação do método. O painel de execução identifica o motor e mostra duração, parâmetros, chamadas externas, tokens e custo estimado.
@@ -36,7 +38,7 @@ Os campos introduzidos nesse contrato permanecem na resposta atual de `POST /api
 
 - `mencoes`: ocorrências com intervalos exatos;
 - `referentes`: agrupamentos de menções;
-- `resolucoes`: decisão, tipo de relação, razões, alternativas e evidências;
+- `resolucoes`: decisão, tipo de relação, motivo de pendência, razões, alternativas e evidências;
 - `proposicoes[].participantes[]`: papéis semânticos vinculados a menções e referentes;
 - `operadores_escopo`: negação e modalidade com marcador e proposições afetadas;
 - `quadros_atribuicao`: fonte, modo, estado e conteúdo atribuído;
@@ -95,6 +97,12 @@ IDs, recortes, cabeças e ciclos sintáticos são validados antes do uso. Anota�
 Cada proposição passa a incluir a extensão opcional `sujeito`, com estado, método, menção, razões e evidências. O participante correspondente recebe `funcao_sintatica: "sujeito"`, independente de seu papel semântico. Sujeitos compartilhados usam cadeias sustentadas de coordenação ou controle; objetos próximos não são promovidos a sujeito. Casos sem evidência suficiente ficam indeterminados.
 
 No documento 19, “acenasse” recebe “ele”; “leu”, “demonstrar” e “deu” recebem “Ela”; “disse” conserva “Ele” e a fala aponta para “meu pai”. Relatoras anteriores ou posteriores precisam estar vinculadas à citação, sem buscar uma fonte em outro período. A versão final 1.1.0 ainda depende dos critérios do plano de revisão.
+
+### Referências explicáveis `1.1.0.dev3`
+
+A primeira pessoa fora de citações forma o referente discursivo `narrador`, sem inferir sua identidade externa. Dentro de citações, `eu` e possessivos de primeira pessoa só são ligados quando o falante está ancorado por uma oração relatora; sem essa fonte, a decisão permanece pendente. Terceiras pessoas recebem um vínculo quando há um único referente humano compatível e continuam ambíguas quando duas alternativas próximas permanecem possíveis.
+
+As decisões pendentes expõem `motivo_pendencia`, distinguindo ambiguidade, ausência de antecedente, candidatos incompatíveis, evidência insuficiente, exoforia e fonte de fala desconhecida. O [relatório da entrega](docs/06-resolucao-referencial.md) registra resultados, controles e limites.
 
 ## Baixar e executar
 

@@ -183,6 +183,7 @@ class ExecutionParameters(BaseModel):
     origem_linguistica: str | None = None
     adaptador_linguistico: str | None = None
     seletor_sujeito: str | None = None
+    resolvedor_referencias: str | None = None
 
 
 class ExecutionCosts(BaseModel):

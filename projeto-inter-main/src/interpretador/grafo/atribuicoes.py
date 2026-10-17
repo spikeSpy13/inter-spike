@@ -128,14 +128,15 @@ def _ligar_mencao_a_fonte(
     resultado.referente_por_mencao[mencao.id] = referente_id
     resolucao.referente_id = referente_id
     resolucao.estado = "resolvida"
-    resolucao.tipo_relacao = "possuidor"
+    resolucao.tipo_relacao = "possuidor" if mencao.tipo == "pronome_possessivo" else "identidade"
     resolucao.confianca = confianca
     resolucao.antecedente_mencao_id = fonte.id
+    resolucao.motivo_pendencia = None
     resolucao.razoes = [razao, "fonte da enunciação vinculada a um referente textual"]
     resolucao.evidencias = [_evidencia_mencao(fonte), _evidencia_mencao(mencao)]
 
 
-def vincular_possessivos_a_fontes(
+def vincular_primeira_pessoa_a_fontes(
     texto: str,
     contexto: str | None,
     mencoes: list[Mention],
@@ -154,10 +155,16 @@ def vincular_possessivos_a_fontes(
             primeira_pessoa = [
                 item for item in mencoes_origem
                 if citacao.inicio < item.intervalo.inicio < citacao.fim
-                and item.texto.casefold() in {"meu", "minha", "meus", "minhas"}
+                and item.texto.casefold() in {"eu", "nós", "meu", "minha", "meus", "minhas"}
             ]
             for mencao in primeira_pessoa:
-                _ligar_mencao_a_fonte(mencao, fonte, resultado, 0.94, "possessivo de primeira pessoa ligado ao falante da citação")
+                _ligar_mencao_a_fonte(
+                    mencao,
+                    fonte,
+                    resultado,
+                    0.94,
+                    "primeira pessoa ligada ao falante identificado da citação",
+                )
 
             # A continuidade do relato posposto termina no período, numa
             # nova citação ou numa mudança explícita de sujeito humano.

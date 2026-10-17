@@ -60,6 +60,10 @@ def validar_referencias(
             raise ValueError("Resolução aponta para um antecedente inexistente.")
         if any(item.referente_id not in referentes_por_id for item in resolucao.alternativas):
             raise ValueError("Alternativa aponta para um referente inexistente.")
+        if resolucao.estado in {"ambigua", "nao_resolvida"} and resolucao.motivo_pendencia is None:
+            raise ValueError("Pendência referencial sem motivo explícito.")
+        if resolucao.estado not in {"ambigua", "nao_resolvida"} and resolucao.motivo_pendencia is not None:
+            raise ValueError("Resolução concluída não pode conservar motivo de pendência.")
         for evidencia in resolucao.evidencias:
             mencao = mencoes_por_id.get(evidencia.mencao_id)
             if (

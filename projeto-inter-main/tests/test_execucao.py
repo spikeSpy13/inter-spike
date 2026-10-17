@@ -11,7 +11,8 @@ class ExecutionMetadataTests(unittest.TestCase):
         )
 
         self.assertEqual(resultado.schema_version, "1.0.0")
-        self.assertEqual(resultado.execucao.versao_motor, "1.1.0.dev2")
+        self.assertEqual(resultado.execucao.versao_motor, "1.1.0.dev3")
+        self.assertEqual(resultado.execucao.parametros.resolvedor_referencias, "participantes_discursivos_v1")
         self.assertGreaterEqual(resultado.execucao.duracao_ms, 0)
         self.assertEqual(
             resultado.execucao.parametros.estrategia_centralidade,

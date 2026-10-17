@@ -89,7 +89,7 @@ class ApiTests(unittest.TestCase):
         self.assertEqual(resultado.resumo.parafrases, len(resultado.parafrases))
         self.assertEqual(resultado.checagem.estado, "sem_alertas_detectados")
         self.assertEqual(resultado.resumo.achados_fidelidade, 0)
-        self.assertEqual(resultado.execucao.versao_motor, "1.1.0.dev2")
+        self.assertEqual(resultado.execucao.versao_motor, "1.1.0.dev3")
         self.assertGreaterEqual(resultado.execucao.duracao_ms, 0)
         self.assertEqual(resultado.execucao.custos.chamadas_externas, 0)
 
@@ -115,7 +115,7 @@ class ApiTests(unittest.TestCase):
         self.assertIn("parafrases", payload)
         self.assertIn("checagem", payload)
         self.assertIn("execucao", payload)
-        self.assertEqual(payload["execucao"]["versao_motor"], "1.1.0.dev2")
+        self.assertEqual(payload["execucao"]["versao_motor"], "1.1.0.dev3")
         self.assertEqual(payload["execucao"]["custos"]["custo_estimado"], 0)
 
     def test_http_rejeita_paragrafo_vazio(self) -> None:

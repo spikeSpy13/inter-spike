@@ -185,7 +185,7 @@ def analisar_paragrafo(
         base,
     )
     mencoes = [*mencoes_contexto, *mencoes_paragrafo]
-    resultado_referencias = resolver_referencias(mencoes)
+    resultado_referencias = resolver_referencias(mencoes, texto, contexto_anterior)
 
     tokens = tokenizar(texto)
     periodos = [Sentence(item.texto, item.inicio, item.fim) for item in base.periodos]
@@ -350,6 +350,7 @@ def analisar_paragrafo(
             origem_linguistica=base.origem,
             adaptador_linguistico="base_linguistica_v1",
             seletor_sujeito="oracoes_sujeitos_v1",
+            resolvedor_referencias="participantes_discursivos_v1",
         ),
         custos=ExecutionCosts(
             chamadas_externas=0,

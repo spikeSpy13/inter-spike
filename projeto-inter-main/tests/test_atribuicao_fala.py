@@ -76,6 +76,20 @@ class AtribuicaoDeFalaTests(unittest.TestCase):
                     self.assertIsNotNone(meu)
                     self.assertEqual(meu, ana)
 
+    def test_pronome_pessoal_de_primeira_pessoa_respeita_fonte_da_citacao(self):
+        resultado = analisar_paragrafo('Ana disse: "Eu assinei meu contrato."')
+        ana = self._referente_da_mencao(resultado, "Ana")
+        self.assertEqual(self._referente_da_mencao(resultado, "Eu"), ana)
+        self.assertEqual(self._referente_da_mencao(resultado, "meu"), ana)
+
+    def test_primeira_pessoa_em_citacao_sem_fonte_expoe_pendencia(self):
+        resultado = analisar_paragrafo('"Eu assinei meu contrato."')
+        for texto in ("Eu", "meu"):
+            mencao = next(item for item in resultado.mencoes if item.texto == texto)
+            resolucao = next(item for item in resultado.resolucoes if item.mencao_id == mencao.id)
+            self.assertEqual(resolucao.estado, "nao_resolvida")
+            self.assertEqual(resolucao.motivo_pendencia, "fonte_fala_desconhecida")
+
     def test_possessivo_sem_enquadramento_continua_sem_fonte(self):
         textos = [
             '"Meu contrato foi assinado." Maria disse.',
