@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "interpretador-proposicoes"
-version = "1.0.0"
+version = "1.1.0.dev1"
 description = "Interpretação fundamentada de parágrafos com geração e checagem explicáveis."
 requires-python = ">=3.12"
 dependencies = [

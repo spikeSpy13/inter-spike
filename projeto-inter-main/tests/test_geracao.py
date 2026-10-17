@@ -26,7 +26,8 @@ class SynthesisTests(unittest.TestCase):
             "Apesar daquele revés temporário, a profissional não abandonou o campo de batalha "
             "nem desistiu de buscar novos recursos para o projeto solar.",
         )
-        self.assertEqual(sintese.cobertura.proposicao_ids, ["P1", "P2"])
+        essenciais = {p.id for p in resultado.proposicoes if p.predicado in {"abandonar", "desistir", "buscar"}}
+        self.assertEqual(set(sintese.cobertura.proposicao_ids), essenciais)
         self.assertEqual(sintese.cobertura.operador_ids, ["O1", "O2"])
         self.assertEqual(sintese.cobertura.relacao_ids, ["L1", "L7"])
         self.assertTrue(sintese.cobertura.mencao_ids)

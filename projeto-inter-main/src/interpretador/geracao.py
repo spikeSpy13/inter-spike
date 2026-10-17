@@ -5,6 +5,7 @@ from __future__ import annotations
 import re
 
 from .grafo.models import PropositionRelation, ScopeOperator
+from .linguistica import analisar_texto
 from .models import (
     CentralIdea,
     Evidence,
@@ -17,19 +18,8 @@ from .models import (
 )
 
 
-SENTENCE_RE = re.compile(r"\s*[^.!?]+(?:[.!?]+(?=[\"”»']?(?:\s|$))|$)", re.UNICODE)
-
-
 def _periodos(texto: str) -> list[tuple[int, int]]:
-    periodos: list[tuple[int, int]] = []
-    for match in SENTENCE_RE.finditer(texto):
-        bruto = match.group()
-        esquerda = len(bruto) - len(bruto.lstrip())
-        inicio = match.start() + esquerda
-        fim = match.end()
-        if inicio < fim:
-            periodos.append((inicio, fim))
-    return periodos or [(0, len(texto))]
+    return [(item.inicio, item.fim) for item in analisar_texto(texto).periodos]
 
 
 def _periodo_da_evidencia(
@@ -304,6 +294,7 @@ def gerar_parafrases(
     operadores_por_id = {item.id: item for item in operadores}
     relacoes_por_id = {item.id: item for item in relacoes}
     candidatos: list[ParaphraseTransformation] = []
+    marcadores_processados: set[tuple[int, int]] = set()
 
     for operador_id in sintese.cobertura.operador_ids:
         operador = operadores_por_id[operador_id]
@@ -312,6 +303,10 @@ def gerar_parafrases(
             and operador.subtipo == "coordenada"
             and operador.marcador.casefold() == "nem"
         ):
+            intervalo = operador.evidencia.intervalo
+            chave = (intervalo.inicio, intervalo.fim)
+            if chave in marcadores_processados:
+                continue
             relacao_ids = [
                 item.id
                 for item in relacoes
@@ -320,13 +315,21 @@ def gerar_parafrases(
                 and item.evidencia.intervalo == operador.evidencia.intervalo
             ]
             if relacao_ids:
+                marcadores_processados.add(chave)
+                operador_ids = [
+                    item.id for item in operadores
+                    if item.id in sintese.cobertura.operador_ids
+                    and item.tipo == "negacao"
+                    and item.subtipo == "coordenada"
+                    and item.evidencia.intervalo == intervalo
+                ]
                 candidatos.append(ParaphraseTransformation(
                     original=Evidence(
                         texto=operador.evidencia.texto,
                         intervalo=operador.evidencia.intervalo,
                     ),
                     substituicao="e também não",
-                    preserva_operador_ids=[operador.id],
+                    preserva_operador_ids=operador_ids,
                     preserva_relacao_ids=relacao_ids,
                 ))
 

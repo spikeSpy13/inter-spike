@@ -19,6 +19,7 @@ from .models import (
     JsonAnalysisResponse,
     Span,
 )
+from .version import VERSAO_MOTOR
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
@@ -28,7 +29,7 @@ DIST_DIR = SOURCE_DIST_DIR if SOURCE_DIST_DIR.is_dir() else INSTALLED_DIST_DIR
 
 app = FastAPI(
     title="Interpretador de Proposições",
-    version="1.0.0",
+    version=VERSAO_MOTOR,
     description="Interpretação fundamentada de parágrafos com geração e checagem explicáveis.",
 )
 app.mount("/static", StaticFiles(directory=DIST_DIR), name="static")
@@ -106,9 +107,12 @@ def analisar(entrada: AnalysisRequest) -> AnalysisResponse:
 def analisar_json(entrada: JsonAnalysisRequest) -> JsonAnalysisResponse:
     documento = validar_documento(entrada.documento)
     paragrafo = documento.selecionar(entrada.paragrafo_id)
+    anterior = documento.paragrafo_anterior(paragrafo)
     analise = analisar_paragrafo(
         paragrafo.texto,
-        documento.contexto_anterior(paragrafo),
+        anterior.texto if anterior else None,
+        base_linguistica=paragrafo.base_linguistica,
+        base_contexto=anterior.base_linguistica if anterior else None,
     )
     return JsonAnalysisResponse(
         fonte=_fonte(documento),

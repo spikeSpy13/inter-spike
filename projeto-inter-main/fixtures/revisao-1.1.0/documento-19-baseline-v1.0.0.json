@@ -1,0 +1,5996 @@
+{
+  "schema_registro": "1.0.0",
+  "natureza": "linha_de_base_observada_nao_gabarito",
+  "data_registro": "2026-10-17",
+  "motor": {
+    "versao": "1.0.0",
+    "commit": "ac47662b9014da1974bd47cf015f4fe55f5abbd5"
+  },
+  "entrada": {
+    "arquivo": "fixtures/vetorizacao-19.json",
+    "sha256": "cf4f74b418c5028f1c2b6688d06ae7f5eda0aa38a9ce1918082efc38d2d2dd2b",
+    "bytes": 3811685
+  },
+  "comparacao": {
+    "campos_nao_deterministicos": [
+      "/analises/P1/analise/execucao/duracao_ms",
+      "/analises/P2/analise/execucao/duracao_ms"
+    ],
+    "nota": "Saídas conhecidamente falhas do motor 1.0.0, preservadas para comparação; não representam respostas corretas esperadas."
+  },
+  "ingestao": {
+    "schema_version": "0.5.0",
+    "fonte": {
+      "documento_id": 19,
+      "schema_version": "1.0.0",
+      "etapa": "09_vetorizacao",
+      "caracteres_original": 1802
+    },
+    "paragrafos": [
+      {
+        "id": "223b4502-796f-4632-a365-7c913d862c8e:paragrafo:0",
+        "rotulo": "P1",
+        "ordem": 0,
+        "texto": "Quando decidi me mudar para outra cidade, achei que a tensão iria diminuir. No último domingo antes da viagem, eu estava na cozinha da casa dos meus pais, secando as bordas dos pratos fundos com um pano de prato, exatamente como meu pai sempre exigia. Ele passou por mim, olhou para a pilha que eu já tinha enxugado e disse: \"Ainda tem marca de água nesse aqui.\" Eu não respondi nada, só peguei a louça de volta, sentindo um calor irritante subindo pelo pescoço. O estranho é que eu detestava estar ali, estava exausto de tentar fazer tudo no padrão dele, mas, ao mesmo tempo, não saí da cozinha até que ele voltasse para pegar um copo e finalmente acenasse com a cabeça. Será que eu atrasei minha própria organização da viagem só para esperar por isso? Não é que eu gostasse das cobranças dele, mas a casa ficava num silêncio muito vazio quando ele não estava inspecionando as coisas.",
+        "intervalo_original": {
+          "inicio": 0,
+          "fim": 885,
+          "unidade": "pontos_de_codigo_unicode"
+        },
+        "representacao_id": "4f3ae8b9-d9c4-401b-981e-266017f0bd61:representacao:0",
+        "artefato_id": "sha256:592fd20ceac188109619ec9cc5b09d64e54b250f0fc00e614b4f54e1a1133f62"
+      },
+      {
+        "id": "223b4502-796f-4632-a365-7c913d862c8e:paragrafo:1",
+        "rotulo": "P2",
+        "ordem": 1,
+        "texto": "Hoje de manhã, no escritório, terminei o relatório de métricas e enviei para a Helena, a diretora de operações. Fiquei atualizando a caixa de entrada a cada dois minutos enquanto tomava um café puro na minha caneca verde lascada. Quando ela finalmente me chamou na sala, apontou para um erro mínimo de alinhamento num gráfico da página quatro. Eu não deixei essa formatação torta de propósito. Mesmo assim, corri para o computador, arrumei o arquivo rapidamente e imprimi a nova versão. Voltei até a sala dela e fiquei parado na porta, segurando o papel. Ela pegou a folha, leu sem demonstrar qualquer reação e, por fim, deu aquele mesmo aceno com a cabeça. Retornei para a minha mesa com uma sensação de alívio esquisita, exatamente a mesma que eu sentia na cozinha segurando o pano de prato úmido. Parece que a minha semana só consegue engrenar de verdade depois de passar por esse tipo de validação silenciosa.",
+        "intervalo_original": {
+          "inicio": 889,
+          "fim": 1802,
+          "unidade": "pontos_de_codigo_unicode"
+        },
+        "representacao_id": "4f3ae8b9-d9c4-401b-981e-266017f0bd61:representacao:1",
+        "artefato_id": "sha256:1ff16a092a64287a5d2136cbbaebaedfef43431433e8682a3e2a01124d976872"
+      }
+    ],
+    "resumo": {
+      "paragrafos": 2,
+      "periodos": 16,
+      "tokens": 359,
+      "representacoes": 19,
+      "artefatos": 19,
+      "dimensao_vetores": 1024
+    }
+  },
+  "analises": {
+    "P1": {
+      "schema_version": "1.0.0",
+      "fonte": {
+        "documento_id": 19,
+        "schema_version": "1.0.0",
+        "etapa": "09_vetorizacao",
+        "caracteres_original": 1802
+      },
+      "paragrafo": {
+        "id": "223b4502-796f-4632-a365-7c913d862c8e:paragrafo:0",
+        "rotulo": "P1",
+        "ordem": 0,
+        "texto": "Quando decidi me mudar para outra cidade, achei que a tensão iria diminuir. No último domingo antes da viagem, eu estava na cozinha da casa dos meus pais, secando as bordas dos pratos fundos com um pano de prato, exatamente como meu pai sempre exigia. Ele passou por mim, olhou para a pilha que eu já tinha enxugado e disse: \"Ainda tem marca de água nesse aqui.\" Eu não respondi nada, só peguei a louça de volta, sentindo um calor irritante subindo pelo pescoço. O estranho é que eu detestava estar ali, estava exausto de tentar fazer tudo no padrão dele, mas, ao mesmo tempo, não saí da cozinha até que ele voltasse para pegar um copo e finalmente acenasse com a cabeça. Será que eu atrasei minha própria organização da viagem só para esperar por isso? Não é que eu gostasse das cobranças dele, mas a casa ficava num silêncio muito vazio quando ele não estava inspecionando as coisas.",
+        "intervalo_original": {
+          "inicio": 0,
+          "fim": 885,
+          "unidade": "pontos_de_codigo_unicode"
+        },
+        "representacao_id": "4f3ae8b9-d9c4-401b-981e-266017f0bd61:representacao:0",
+        "artefato_id": "sha256:592fd20ceac188109619ec9cc5b09d64e54b250f0fc00e614b4f54e1a1133f62"
+      },
+      "analise": {
+        "schema_version": "1.0.0",
+        "paragrafo": "Quando decidi me mudar para outra cidade, achei que a tensão iria diminuir. No último domingo antes da viagem, eu estava na cozinha da casa dos meus pais, secando as bordas dos pratos fundos com um pano de prato, exatamente como meu pai sempre exigia. Ele passou por mim, olhou para a pilha que eu já tinha enxugado e disse: \"Ainda tem marca de água nesse aqui.\" Eu não respondi nada, só peguei a louça de volta, sentindo um calor irritante subindo pelo pescoço. O estranho é que eu detestava estar ali, estava exausto de tentar fazer tudo no padrão dele, mas, ao mesmo tempo, não saí da cozinha até que ele voltasse para pegar um copo e finalmente acenasse com a cabeça. Será que eu atrasei minha própria organização da viagem só para esperar por isso? Não é que eu gostasse das cobranças dele, mas a casa ficava num silêncio muito vazio quando ele não estava inspecionando as coisas.",
+        "contexto_anterior": null,
+        "proposicoes": [
+          {
+            "id": "P1",
+            "predicado": "estar",
+            "forma_textual": "estava",
+            "predicado_intervalo": {
+              "inicio": 114,
+              "fim": 120,
+              "unidade": "pontos_de_codigo_unicode"
+            },
+            "descricao": "eu · estar · na cozinha da casa dos meus pais",
+            "participantes": [
+              {
+                "papel": "agente",
+                "mencao": "eu",
+                "mencao_id": "M2",
+                "intervalo": {
+                  "inicio": 111,
+                  "fim": 113,
+                  "unidade": "pontos_de_codigo_unicode"
+                },
+                "referente_id": null
+              }
+            ],
+            "operadores": {
+              "negacao": null,
+              "modalidade": null
+            },
+            "atribuicao": {
+              "fonte": "narrador",
+              "modo": "asserção narrativa",
+              "estado": "afirmada"
+            },
+            "atribuicao_id": "A1",
+            "polaridade": "positiva",
+            "evidencia": {
+              "texto": "eu estava na cozinha da casa dos meus pais",
+              "intervalo": {
+                "inicio": 111,
+                "fim": 153,
+                "unidade": "pontos_de_codigo_unicode"
+              }
+            },
+            "confianca": 0.86
+          },
+          {
+            "id": "P2",
+            "predicado": "ter",
+            "forma_textual": "tinha",
+            "predicado_intervalo": {
+              "inicio": 301,
+              "fim": 306,
+              "unidade": "pontos_de_codigo_unicode"
+            },
+            "descricao": "eu · ter · enxugado",
+            "participantes": [
+              {
+                "papel": "agente",
+                "mencao": "eu",
+                "mencao_id": "M9",
+                "intervalo": {
+                  "inicio": 295,
+                  "fim": 297,
+                  "unidade": "pontos_de_codigo_unicode"
+                },
+                "referente_id": null
+              }
+            ],
+            "operadores": {
+              "negacao": null,
+              "modalidade": null
+            },
+            "atribuicao": {
+              "fonte": "narrador",
+              "modo": "asserção narrativa",
+              "estado": "afirmada"
+            },
+            "atribuicao_id": "A1",
+            "polaridade": "positiva",
+            "evidencia": {
+              "texto": "olhou para a pilha que eu já tinha enxugado e disse",
+              "intervalo": {
+                "inicio": 272,
+                "fim": 323,
+                "unidade": "pontos_de_codigo_unicode"
+              }
+            },
+            "confianca": 0.86
+          },
+          {
+            "id": "P3",
+            "predicado": "dizer",
+            "forma_textual": "disse",
+            "predicado_intervalo": {
+              "inicio": 318,
+              "fim": 323,
+              "unidade": "pontos_de_codigo_unicode"
+            },
+            "descricao": "Ainda · dizer",
+            "participantes": [
+              {
+                "papel": "agente",
+                "mencao": "Ainda",
+                "mencao_id": "M10",
+                "intervalo": {
+                  "inicio": 326,
+                  "fim": 331,
+                  "unidade": "pontos_de_codigo_unicode"
+                },
+                "referente_id": "R5"
+              }
+            ],
+            "operadores": {
+              "negacao": null,
+              "modalidade": null
+            },
+            "atribuicao": {
+              "fonte": "narrador",
+              "modo": "asserção narrativa",
+              "estado": "afirmada"
+            },
+            "atribuicao_id": "A1",
+            "polaridade": "positiva",
+            "evidencia": {
+              "texto": "olhou para a pilha que eu já tinha enxugado e disse",
+              "intervalo": {
+                "inicio": 272,
+                "fim": 323,
+                "unidade": "pontos_de_codigo_unicode"
+              }
+            },
+            "confianca": 0.86
+          },
+          {
+            "id": "P4",
+            "predicado": "ter",
+            "forma_textual": "tem",
+            "predicado_intervalo": {
+              "inicio": 332,
+              "fim": 335,
+              "unidade": "pontos_de_codigo_unicode"
+            },
+            "descricao": "Ainda · ter · marca de água nesse aqui",
+            "participantes": [
+              {
+                "papel": "agente",
+                "mencao": "Ainda",
+                "mencao_id": "M10",
+                "intervalo": {
+                  "inicio": 326,
+                  "fim": 331,
+                  "unidade": "pontos_de_codigo_unicode"
+                },
+                "referente_id": "R5"
+              }
+            ],
+            "operadores": {
+              "negacao": null,
+              "modalidade": null
+            },
+            "atribuicao": {
+              "fonte": "falante não resolvido",
+              "modo": "fala citada",
+              "estado": "citada"
+            },
+            "atribuicao_id": "A2",
+            "polaridade": "positiva",
+            "evidencia": {
+              "texto": "\"Ainda tem marca de água nesse aqui.",
+              "intervalo": {
+                "inicio": 325,
+                "fim": 361,
+                "unidade": "pontos_de_codigo_unicode"
+              }
+            },
+            "confianca": 0.82
+          },
+          {
+            "id": "P5",
+            "predicado": "ser",
+            "forma_textual": "é",
+            "predicado_intervalo": {
+              "inicio": 474,
+              "fim": 475,
+              "unidade": "pontos_de_codigo_unicode"
+            },
+            "descricao": "O estranho · ser · que eu detestava estar ali",
+            "participantes": [
+              {
+                "papel": "tema",
+                "mencao": "O estranho é",
+                "mencao_id": "M14",
+                "intervalo": {
+                  "inicio": 463,
+                  "fim": 475,
+                  "unidade": "pontos_de_codigo_unicode"
+                },
+                "referente_id": "R8"
+              }
+            ],
+            "operadores": {
+              "negacao": null,
+              "modalidade": null
+            },
+            "atribuicao": {
+              "fonte": "narrador",
+              "modo": "asserção narrativa",
+              "estado": "afirmada"
+            },
+            "atribuicao_id": "A1",
+            "polaridade": "positiva",
+            "evidencia": {
+              "texto": "O estranho é que eu detestava estar ali",
+              "intervalo": {
+                "inicio": 463,
+                "fim": 502,
+                "unidade": "pontos_de_codigo_unicode"
+              }
+            },
+            "confianca": 0.86
+          },
+          {
+            "id": "P6",
+            "predicado": "estar",
+            "forma_textual": "estava",
+            "predicado_intervalo": {
+              "inicio": 504,
+              "fim": 510,
+              "unidade": "pontos_de_codigo_unicode"
+            },
+            "descricao": "eu · estar · exausto de tentar fazer tudo no padrão dele",
+            "participantes": [
+              {
+                "papel": "agente",
+                "mencao": "eu",
+                "mencao_id": "M15",
+                "intervalo": {
+                  "inicio": 480,
+                  "fim": 482,
+                  "unidade": "pontos_de_codigo_unicode"
+                },
+                "referente_id": null
+              }
+            ],
+            "operadores": {
+              "negacao": null,
+              "modalidade": null
+            },
+            "atribuicao": {
+              "fonte": "narrador",
+              "modo": "asserção narrativa",
+              "estado": "afirmada"
+            },
+            "atribuicao_id": "A1",
+            "polaridade": "positiva",
+            "evidencia": {
+              "texto": "estava exausto de tentar fazer tudo no padrão dele",
+              "intervalo": {
+                "inicio": 504,
+                "fim": 554,
+                "unidade": "pontos_de_codigo_unicode"
+              }
+            },
+            "confianca": 0.86
+          },
+          {
+            "id": "P7",
+            "predicado": "voltr",
+            "forma_textual": "voltasse",
+            "predicado_intervalo": {
+              "inicio": 608,
+              "fim": 616,
+              "unidade": "pontos_de_codigo_unicode"
+            },
+            "descricao": "ele · voltr · para pegar um copo e finalmente acenasse com a cabeça",
+            "participantes": [
+              {
+                "papel": "agente",
+                "mencao": "ele",
+                "mencao_id": "M17",
+                "intervalo": {
+                  "inicio": 604,
+                  "fim": 607,
+                  "unidade": "pontos_de_codigo_unicode"
+                },
+                "referente_id": null
+              }
+            ],
+            "operadores": {
+              "negacao": "não",
+              "modalidade": null
+            },
+            "atribuicao": {
+              "fonte": "narrador",
+              "modo": "asserção narrativa",
+              "estado": "afirmada"
+            },
+            "atribuicao_id": "A1",
+            "polaridade": "negativa",
+            "evidencia": {
+              "texto": "não saí da cozinha até que ele voltasse para pegar um copo e finalmente acenasse com a cabeça.",
+              "intervalo": {
+                "inicio": 577,
+                "fim": 671,
+                "unidade": "pontos_de_codigo_unicode"
+              }
+            },
+            "confianca": 0.76
+          },
+          {
+            "id": "P8",
+            "predicado": "acenr",
+            "forma_textual": "acenasse",
+            "predicado_intervalo": {
+              "inicio": 649,
+              "fim": 657,
+              "unidade": "pontos_de_codigo_unicode"
+            },
+            "descricao": "um copo · acenr · com a cabeça",
+            "participantes": [
+              {
+                "papel": "agente",
+                "mencao": "um copo",
+                "mencao_id": "M18",
+                "intervalo": {
+                  "inicio": 628,
+                  "fim": 635,
+                  "unidade": "pontos_de_codigo_unicode"
+                },
+                "referente_id": "R9"
+              }
+            ],
+            "operadores": {
+              "negacao": null,
+              "modalidade": null
+            },
+            "atribuicao": {
+              "fonte": "narrador",
+              "modo": "asserção narrativa",
+              "estado": "afirmada"
+            },
+            "atribuicao_id": "A1",
+            "polaridade": "positiva",
+            "evidencia": {
+              "texto": "não saí da cozinha até que ele voltasse para pegar um copo e finalmente acenasse com a cabeça.",
+              "intervalo": {
+                "inicio": 577,
+                "fim": 671,
+                "unidade": "pontos_de_codigo_unicode"
+              }
+            },
+            "confianca": 0.76
+          },
+          {
+            "id": "P9",
+            "predicado": "ser",
+            "forma_textual": "é",
+            "predicado_intervalo": {
+              "inicio": 758,
+              "fim": 759,
+              "unidade": "pontos_de_codigo_unicode"
+            },
+            "descricao": "Não · ser · que eu gostasse das cobranças dele",
+            "participantes": [
+              {
+                "papel": "tema",
+                "mencao": "Não",
+                "mencao_id": "M23",
+                "intervalo": {
+                  "inicio": 754,
+                  "fim": 757,
+                  "unidade": "pontos_de_codigo_unicode"
+                },
+                "referente_id": "R12"
+              }
+            ],
+            "operadores": {
+              "negacao": "não",
+              "modalidade": null
+            },
+            "atribuicao": {
+              "fonte": "narrador",
+              "modo": "asserção narrativa",
+              "estado": "afirmada"
+            },
+            "atribuicao_id": "A1",
+            "polaridade": "negativa",
+            "evidencia": {
+              "texto": "Não é que eu gostasse das cobranças dele",
+              "intervalo": {
+                "inicio": 754,
+                "fim": 794,
+                "unidade": "pontos_de_codigo_unicode"
+              }
+            },
+            "confianca": 0.86
+          },
+          {
+            "id": "P10",
+            "predicado": "gostr",
+            "forma_textual": "gostasse",
+            "predicado_intervalo": {
+              "inicio": 767,
+              "fim": 775,
+              "unidade": "pontos_de_codigo_unicode"
+            },
+            "descricao": "eu · gostr · das cobranças dele",
+            "participantes": [
+              {
+                "papel": "agente",
+                "mencao": "eu",
+                "mencao_id": "M24",
+                "intervalo": {
+                  "inicio": 764,
+                  "fim": 766,
+                  "unidade": "pontos_de_codigo_unicode"
+                },
+                "referente_id": null
+              }
+            ],
+            "operadores": {
+              "negacao": "não",
+              "modalidade": null
+            },
+            "atribuicao": {
+              "fonte": "narrador",
+              "modo": "asserção narrativa",
+              "estado": "afirmada"
+            },
+            "atribuicao_id": "A1",
+            "polaridade": "negativa",
+            "evidencia": {
+              "texto": "Não é que eu gostasse das cobranças dele",
+              "intervalo": {
+                "inicio": 754,
+                "fim": 794,
+                "unidade": "pontos_de_codigo_unicode"
+              }
+            },
+            "confianca": 0.76
+          },
+          {
+            "id": "P11",
+            "predicado": "estar",
+            "forma_textual": "estava",
+            "predicado_intervalo": {
+              "inicio": 854,
+              "fim": 860,
+              "unidade": "pontos_de_codigo_unicode"
+            },
+            "descricao": "ele · estar · inspecionando as coisas",
+            "participantes": [
+              {
+                "papel": "agente",
+                "mencao": "ele",
+                "mencao_id": "M27",
+                "intervalo": {
+                  "inicio": 846,
+                  "fim": 849,
+                  "unidade": "pontos_de_codigo_unicode"
+                },
+                "referente_id": null
+              }
+            ],
+            "operadores": {
+              "negacao": "não",
+              "modalidade": null
+            },
+            "atribuicao": {
+              "fonte": "narrador",
+              "modo": "asserção narrativa",
+              "estado": "afirmada"
+            },
+            "atribuicao_id": "A1",
+            "polaridade": "negativa",
+            "evidencia": {
+              "texto": "ele não estava inspecionando as coisas.",
+              "intervalo": {
+                "inicio": 846,
+                "fim": 885,
+                "unidade": "pontos_de_codigo_unicode"
+              }
+            },
+            "confianca": 0.86
+          }
+        ],
+        "mencoes": [
+          {
+            "id": "M1",
+            "texto": "a tensão",
+            "tipo": "descricao_nominal",
+            "origem": "paragrafo",
+            "intervalo": {
+              "inicio": 52,
+              "fim": 60,
+              "unidade": "pontos_de_codigo_unicode"
+            },
+            "caracteristicas": {
+              "classe_semantica": "desconhecida",
+              "genero": "feminino",
+              "numero": "singular"
+            },
+            "confianca_deteccao": 0.82,
+            "mencao_pai_id": null
+          },
+          {
+            "id": "M2",
+            "texto": "eu",
+            "tipo": "pronome_pessoal",
+            "origem": "paragrafo",
+            "intervalo": {
+              "inicio": 111,
+              "fim": 113,
+              "unidade": "pontos_de_codigo_unicode"
+            },
+            "caracteristicas": {
+              "classe_semantica": "pessoa",
+              "genero": "indeterminado",
+              "numero": "singular"
+            },
+            "confianca_deteccao": 0.99,
+            "mencao_pai_id": null
+          },
+          {
+            "id": "M3",
+            "texto": "meus",
+            "tipo": "pronome_possessivo",
+            "origem": "paragrafo",
+            "intervalo": {
+              "inicio": 144,
+              "fim": 148,
+              "unidade": "pontos_de_codigo_unicode"
+            },
+            "caracteristicas": {
+              "classe_semantica": "desconhecida",
+              "genero": "indeterminado",
+              "numero": "indeterminado"
+            },
+            "confianca_deteccao": 0.99,
+            "mencao_pai_id": null
+          },
+          {
+            "id": "M4",
+            "texto": "as bordas dos pratos fundos",
+            "tipo": "descricao_nominal",
+            "origem": "paragrafo",
+            "intervalo": {
+              "inicio": 163,
+              "fim": 190,
+              "unidade": "pontos_de_codigo_unicode"
+            },
+            "caracteristicas": {
+              "classe_semantica": "desconhecida",
+              "genero": "indeterminado",
+              "numero": "plural"
+            },
+            "confianca_deteccao": 0.82,
+            "mencao_pai_id": null
+          },
+          {
+            "id": "M5",
+            "texto": "um pano de prato",
+            "tipo": "descricao_nominal",
+            "origem": "paragrafo",
+            "intervalo": {
+              "inicio": 195,
+              "fim": 211,
+              "unidade": "pontos_de_codigo_unicode"
+            },
+            "caracteristicas": {
+              "classe_semantica": "desconhecida",
+              "genero": "masculino",
+              "numero": "singular"
+            },
+            "confianca_deteccao": 0.82,
+            "mencao_pai_id": null
+          },
+          {
+            "id": "M6",
+            "texto": "meu",
+            "tipo": "pronome_possessivo",
+            "origem": "paragrafo",
+            "intervalo": {
+              "inicio": 229,
+              "fim": 232,
+              "unidade": "pontos_de_codigo_unicode"
+            },
+            "caracteristicas": {
+              "classe_semantica": "desconhecida",
+              "genero": "indeterminado",
+              "numero": "indeterminado"
+            },
+            "confianca_deteccao": 0.99,
+            "mencao_pai_id": null
+          },
+          {
+            "id": "M7",
+            "texto": "Ele",
+            "tipo": "pronome_pessoal",
+            "origem": "paragrafo",
+            "intervalo": {
+              "inicio": 252,
+              "fim": 255,
+              "unidade": "pontos_de_codigo_unicode"
+            },
+            "caracteristicas": {
+              "classe_semantica": "pessoa",
+              "genero": "masculino",
+              "numero": "singular"
+            },
+            "confianca_deteccao": 0.99,
+            "mencao_pai_id": null
+          },
+          {
+            "id": "M8",
+            "texto": "a pilha",
+            "tipo": "descricao_nominal",
+            "origem": "paragrafo",
+            "intervalo": {
+              "inicio": 283,
+              "fim": 290,
+              "unidade": "pontos_de_codigo_unicode"
+            },
+            "caracteristicas": {
+              "classe_semantica": "desconhecida",
+              "genero": "feminino",
+              "numero": "singular"
+            },
+            "confianca_deteccao": 0.82,
+            "mencao_pai_id": null
+          },
+          {
+            "id": "M9",
+            "texto": "eu",
+            "tipo": "pronome_pessoal",
+            "origem": "paragrafo",
+            "intervalo": {
+              "inicio": 295,
+              "fim": 297,
+              "unidade": "pontos_de_codigo_unicode"
+            },
+            "caracteristicas": {
+              "classe_semantica": "pessoa",
+              "genero": "indeterminado",
+              "numero": "singular"
+            },
+            "confianca_deteccao": 0.99,
+            "mencao_pai_id": null
+          },
+          {
+            "id": "M10",
+            "texto": "Ainda",
+            "tipo": "nome_proprio",
+            "origem": "paragrafo",
+            "intervalo": {
+              "inicio": 326,
+              "fim": 331,
+              "unidade": "pontos_de_codigo_unicode"
+            },
+            "caracteristicas": {
+              "classe_semantica": "pessoa",
+              "genero": "indeterminado",
+              "numero": "indeterminado"
+            },
+            "confianca_deteccao": 0.93,
+            "mencao_pai_id": null
+          },
+          {
+            "id": "M11",
+            "texto": "Eu",
+            "tipo": "pronome_pessoal",
+            "origem": "paragrafo",
+            "intervalo": {
+              "inicio": 363,
+              "fim": 365,
+              "unidade": "pontos_de_codigo_unicode"
+            },
+            "caracteristicas": {
+              "classe_semantica": "pessoa",
+              "genero": "indeterminado",
+              "numero": "singular"
+            },
+            "confianca_deteccao": 0.99,
+            "mencao_pai_id": null
+          },
+          {
+            "id": "M12",
+            "texto": "a louça de volta",
+            "tipo": "descricao_nominal",
+            "origem": "paragrafo",
+            "intervalo": {
+              "inicio": 395,
+              "fim": 411,
+              "unidade": "pontos_de_codigo_unicode"
+            },
+            "caracteristicas": {
+              "classe_semantica": "desconhecida",
+              "genero": "feminino",
+              "numero": "singular"
+            },
+            "confianca_deteccao": 0.82,
+            "mencao_pai_id": null
+          },
+          {
+            "id": "M13",
+            "texto": "um calor irritante subindo",
+            "tipo": "descricao_nominal",
+            "origem": "paragrafo",
+            "intervalo": {
+              "inicio": 422,
+              "fim": 448,
+              "unidade": "pontos_de_codigo_unicode"
+            },
+            "caracteristicas": {
+              "classe_semantica": "desconhecida",
+              "genero": "masculino",
+              "numero": "singular"
+            },
+            "confianca_deteccao": 0.82,
+            "mencao_pai_id": null
+          },
+          {
+            "id": "M14",
+            "texto": "O estranho é",
+            "tipo": "descricao_nominal",
+            "origem": "paragrafo",
+            "intervalo": {
+              "inicio": 463,
+              "fim": 475,
+              "unidade": "pontos_de_codigo_unicode"
+            },
+            "caracteristicas": {
+              "classe_semantica": "desconhecida",
+              "genero": "masculino",
+              "numero": "singular"
+            },
+            "confianca_deteccao": 0.82,
+            "mencao_pai_id": null
+          },
+          {
+            "id": "M15",
+            "texto": "eu",
+            "tipo": "pronome_pessoal",
+            "origem": "paragrafo",
+            "intervalo": {
+              "inicio": 480,
+              "fim": 482,
+              "unidade": "pontos_de_codigo_unicode"
+            },
+            "caracteristicas": {
+              "classe_semantica": "pessoa",
+              "genero": "indeterminado",
+              "numero": "singular"
+            },
+            "confianca_deteccao": 0.99,
+            "mencao_pai_id": null
+          },
+          {
+            "id": "M16",
+            "texto": "dele",
+            "tipo": "pronome_possessivo",
+            "origem": "paragrafo",
+            "intervalo": {
+              "inicio": 550,
+              "fim": 554,
+              "unidade": "pontos_de_codigo_unicode"
+            },
+            "caracteristicas": {
+              "classe_semantica": "desconhecida",
+              "genero": "masculino",
+              "numero": "singular"
+            },
+            "confianca_deteccao": 0.99,
+            "mencao_pai_id": null
+          },
+          {
+            "id": "M17",
+            "texto": "ele",
+            "tipo": "pronome_pessoal",
+            "origem": "paragrafo",
+            "intervalo": {
+              "inicio": 604,
+              "fim": 607,
+              "unidade": "pontos_de_codigo_unicode"
+            },
+            "caracteristicas": {
+              "classe_semantica": "pessoa",
+              "genero": "masculino",
+              "numero": "singular"
+            },
+            "confianca_deteccao": 0.99,
+            "mencao_pai_id": null
+          },
+          {
+            "id": "M18",
+            "texto": "um copo",
+            "tipo": "descricao_nominal",
+            "origem": "paragrafo",
+            "intervalo": {
+              "inicio": 628,
+              "fim": 635,
+              "unidade": "pontos_de_codigo_unicode"
+            },
+            "caracteristicas": {
+              "classe_semantica": "desconhecida",
+              "genero": "masculino",
+              "numero": "singular"
+            },
+            "confianca_deteccao": 0.82,
+            "mencao_pai_id": null
+          },
+          {
+            "id": "M19",
+            "texto": "a cabeça",
+            "tipo": "descricao_nominal",
+            "origem": "paragrafo",
+            "intervalo": {
+              "inicio": 662,
+              "fim": 670,
+              "unidade": "pontos_de_codigo_unicode"
+            },
+            "caracteristicas": {
+              "classe_semantica": "desconhecida",
+              "genero": "feminino",
+              "numero": "singular"
+            },
+            "confianca_deteccao": 0.82,
+            "mencao_pai_id": null
+          },
+          {
+            "id": "M20",
+            "texto": "Será",
+            "tipo": "nome_proprio",
+            "origem": "paragrafo",
+            "intervalo": {
+              "inicio": 672,
+              "fim": 676,
+              "unidade": "pontos_de_codigo_unicode"
+            },
+            "caracteristicas": {
+              "classe_semantica": "pessoa",
+              "genero": "indeterminado",
+              "numero": "indeterminado"
+            },
+            "confianca_deteccao": 0.93,
+            "mencao_pai_id": null
+          },
+          {
+            "id": "M21",
+            "texto": "eu",
+            "tipo": "pronome_pessoal",
+            "origem": "paragrafo",
+            "intervalo": {
+              "inicio": 681,
+              "fim": 683,
+              "unidade": "pontos_de_codigo_unicode"
+            },
+            "caracteristicas": {
+              "classe_semantica": "pessoa",
+              "genero": "indeterminado",
+              "numero": "singular"
+            },
+            "confianca_deteccao": 0.99,
+            "mencao_pai_id": null
+          },
+          {
+            "id": "M22",
+            "texto": "minha",
+            "tipo": "pronome_possessivo",
+            "origem": "paragrafo",
+            "intervalo": {
+              "inicio": 692,
+              "fim": 697,
+              "unidade": "pontos_de_codigo_unicode"
+            },
+            "caracteristicas": {
+              "classe_semantica": "desconhecida",
+              "genero": "indeterminado",
+              "numero": "indeterminado"
+            },
+            "confianca_deteccao": 0.99,
+            "mencao_pai_id": null
+          },
+          {
+            "id": "M23",
+            "texto": "Não",
+            "tipo": "nome_proprio",
+            "origem": "paragrafo",
+            "intervalo": {
+              "inicio": 754,
+              "fim": 757,
+              "unidade": "pontos_de_codigo_unicode"
+            },
+            "caracteristicas": {
+              "classe_semantica": "pessoa",
+              "genero": "indeterminado",
+              "numero": "indeterminado"
+            },
+            "confianca_deteccao": 0.93,
+            "mencao_pai_id": null
+          },
+          {
+            "id": "M24",
+            "texto": "eu",
+            "tipo": "pronome_pessoal",
+            "origem": "paragrafo",
+            "intervalo": {
+              "inicio": 764,
+              "fim": 766,
+              "unidade": "pontos_de_codigo_unicode"
+            },
+            "caracteristicas": {
+              "classe_semantica": "pessoa",
+              "genero": "indeterminado",
+              "numero": "singular"
+            },
+            "confianca_deteccao": 0.99,
+            "mencao_pai_id": null
+          },
+          {
+            "id": "M25",
+            "texto": "dele",
+            "tipo": "pronome_possessivo",
+            "origem": "paragrafo",
+            "intervalo": {
+              "inicio": 790,
+              "fim": 794,
+              "unidade": "pontos_de_codigo_unicode"
+            },
+            "caracteristicas": {
+              "classe_semantica": "desconhecida",
+              "genero": "masculino",
+              "numero": "singular"
+            },
+            "confianca_deteccao": 0.99,
+            "mencao_pai_id": null
+          },
+          {
+            "id": "M26",
+            "texto": "a casa",
+            "tipo": "descricao_nominal",
+            "origem": "paragrafo",
+            "intervalo": {
+              "inicio": 800,
+              "fim": 806,
+              "unidade": "pontos_de_codigo_unicode"
+            },
+            "caracteristicas": {
+              "classe_semantica": "desconhecida",
+              "genero": "feminino",
+              "numero": "singular"
+            },
+            "confianca_deteccao": 0.82,
+            "mencao_pai_id": null
+          },
+          {
+            "id": "M27",
+            "texto": "ele",
+            "tipo": "pronome_pessoal",
+            "origem": "paragrafo",
+            "intervalo": {
+              "inicio": 846,
+              "fim": 849,
+              "unidade": "pontos_de_codigo_unicode"
+            },
+            "caracteristicas": {
+              "classe_semantica": "pessoa",
+              "genero": "masculino",
+              "numero": "singular"
+            },
+            "confianca_deteccao": 0.99,
+            "mencao_pai_id": null
+          },
+          {
+            "id": "M28",
+            "texto": "as coisas",
+            "tipo": "descricao_nominal",
+            "origem": "paragrafo",
+            "intervalo": {
+              "inicio": 875,
+              "fim": 884,
+              "unidade": "pontos_de_codigo_unicode"
+            },
+            "caracteristicas": {
+              "classe_semantica": "desconhecida",
+              "genero": "indeterminado",
+              "numero": "plural"
+            },
+            "confianca_deteccao": 0.82,
+            "mencao_pai_id": null
+          }
+        ],
+        "referentes": [
+          {
+            "id": "R1",
+            "rotulo": "a tensão",
+            "classe_semantica": "desconhecida",
+            "mencoes": [
+              "M1"
+            ],
+            "confianca": 0.82
+          },
+          {
+            "id": "R2",
+            "rotulo": "as bordas dos pratos fundos",
+            "classe_semantica": "desconhecida",
+            "mencoes": [
+              "M4"
+            ],
+            "confianca": 0.82
+          },
+          {
+            "id": "R3",
+            "rotulo": "um pano de prato",
+            "classe_semantica": "desconhecida",
+            "mencoes": [
+              "M5"
+            ],
+            "confianca": 0.82
+          },
+          {
+            "id": "R4",
+            "rotulo": "a pilha",
+            "classe_semantica": "desconhecida",
+            "mencoes": [
+              "M8"
+            ],
+            "confianca": 0.82
+          },
+          {
+            "id": "R5",
+            "rotulo": "Ainda",
+            "classe_semantica": "pessoa",
+            "mencoes": [
+              "M10",
+              "M16"
+            ],
+            "confianca": 0.72
+          },
+          {
+            "id": "R6",
+            "rotulo": "a louça de volta",
+            "classe_semantica": "desconhecida",
+            "mencoes": [
+              "M12"
+            ],
+            "confianca": 0.82
+          },
+          {
+            "id": "R7",
+            "rotulo": "um calor irritante subindo",
+            "classe_semantica": "desconhecida",
+            "mencoes": [
+              "M13"
+            ],
+            "confianca": 0.82
+          },
+          {
+            "id": "R8",
+            "rotulo": "O estranho é",
+            "classe_semantica": "desconhecida",
+            "mencoes": [
+              "M14"
+            ],
+            "confianca": 0.82
+          },
+          {
+            "id": "R9",
+            "rotulo": "um copo",
+            "classe_semantica": "desconhecida",
+            "mencoes": [
+              "M18"
+            ],
+            "confianca": 0.82
+          },
+          {
+            "id": "R10",
+            "rotulo": "a cabeça",
+            "classe_semantica": "desconhecida",
+            "mencoes": [
+              "M19"
+            ],
+            "confianca": 0.82
+          },
+          {
+            "id": "R11",
+            "rotulo": "Será",
+            "classe_semantica": "pessoa",
+            "mencoes": [
+              "M20"
+            ],
+            "confianca": 0.93
+          },
+          {
+            "id": "R12",
+            "rotulo": "Não",
+            "classe_semantica": "pessoa",
+            "mencoes": [
+              "M23",
+              "M25"
+            ],
+            "confianca": 0.75
+          },
+          {
+            "id": "R13",
+            "rotulo": "a casa",
+            "classe_semantica": "desconhecida",
+            "mencoes": [
+              "M26"
+            ],
+            "confianca": 0.82
+          },
+          {
+            "id": "R14",
+            "rotulo": "as coisas",
+            "classe_semantica": "desconhecida",
+            "mencoes": [
+              "M28"
+            ],
+            "confianca": 0.82
+          }
+        ],
+        "resolucoes": [
+          {
+            "mencao_id": "M1",
+            "referente_id": "R1",
+            "estado": "novo_referente",
+            "tipo_relacao": "introducao",
+            "confianca": 0.82,
+            "antecedente_mencao_id": null,
+            "razoes": [
+              "menção nominal introduz um referente distinto"
+            ],
+            "alternativas": [],
+            "evidencias": [
+              {
+                "mencao_id": "M1",
+                "texto": "a tensão",
+                "origem": "paragrafo",
+                "intervalo": {
+                  "inicio": 52,
+                  "fim": 60,
+                  "unidade": "pontos_de_codigo_unicode"
+                }
+              }
+            ]
+          },
+          {
+            "mencao_id": "M2",
+            "referente_id": null,
+            "estado": "nao_resolvida",
+            "tipo_relacao": "identidade",
+            "confianca": 0.0,
+            "antecedente_mencao_id": null,
+            "razoes": [
+              "nenhum antecedente atingiu o limiar de decisão"
+            ],
+            "alternativas": [],
+            "evidencias": [
+              {
+                "mencao_id": "M2",
+                "texto": "eu",
+                "origem": "paragrafo",
+                "intervalo": {
+                  "inicio": 111,
+                  "fim": 113,
+                  "unidade": "pontos_de_codigo_unicode"
+                }
+              }
+            ]
+          },
+          {
+            "mencao_id": "M3",
+            "referente_id": null,
+            "estado": "nao_resolvida",
+            "tipo_relacao": "possuidor",
+            "confianca": 0.0,
+            "antecedente_mencao_id": null,
+            "razoes": [
+              "nenhum antecedente atingiu o limiar de decisão"
+            ],
+            "alternativas": [],
+            "evidencias": [
+              {
+                "mencao_id": "M3",
+                "texto": "meus",
+                "origem": "paragrafo",
+                "intervalo": {
+                  "inicio": 144,
+                  "fim": 148,
+                  "unidade": "pontos_de_codigo_unicode"
+                }
+              }
+            ]
+          },
+          {
+            "mencao_id": "M4",
+            "referente_id": "R2",
+            "estado": "novo_referente",
+            "tipo_relacao": "introducao",
+            "confianca": 0.82,
+            "antecedente_mencao_id": null,
+            "razoes": [
+              "menção nominal introduz um referente distinto"
+            ],
+            "alternativas": [],
+            "evidencias": [
+              {
+                "mencao_id": "M4",
+                "texto": "as bordas dos pratos fundos",
+                "origem": "paragrafo",
+                "intervalo": {
+                  "inicio": 163,
+                  "fim": 190,
+                  "unidade": "pontos_de_codigo_unicode"
+                }
+              }
+            ]
+          },
+          {
+            "mencao_id": "M5",
+            "referente_id": "R3",
+            "estado": "novo_referente",
+            "tipo_relacao": "introducao",
+            "confianca": 0.82,
+            "antecedente_mencao_id": null,
+            "razoes": [
+              "menção nominal introduz um referente distinto"
+            ],
+            "alternativas": [],
+            "evidencias": [
+              {
+                "mencao_id": "M5",
+                "texto": "um pano de prato",
+                "origem": "paragrafo",
+                "intervalo": {
+                  "inicio": 195,
+                  "fim": 211,
+                  "unidade": "pontos_de_codigo_unicode"
+                }
+              }
+            ]
+          },
+          {
+            "mencao_id": "M6",
+            "referente_id": null,
+            "estado": "nao_resolvida",
+            "tipo_relacao": "possuidor",
+            "confianca": 0.0,
+            "antecedente_mencao_id": null,
+            "razoes": [
+              "nenhum antecedente atingiu o limiar de decisão"
+            ],
+            "alternativas": [],
+            "evidencias": [
+              {
+                "mencao_id": "M6",
+                "texto": "meu",
+                "origem": "paragrafo",
+                "intervalo": {
+                  "inicio": 229,
+                  "fim": 232,
+                  "unidade": "pontos_de_codigo_unicode"
+                }
+              }
+            ]
+          },
+          {
+            "mencao_id": "M7",
+            "referente_id": null,
+            "estado": "nao_resolvida",
+            "tipo_relacao": "identidade",
+            "confianca": 0.0,
+            "antecedente_mencao_id": null,
+            "razoes": [
+              "nenhum antecedente atingiu o limiar de decisão"
+            ],
+            "alternativas": [],
+            "evidencias": [
+              {
+                "mencao_id": "M7",
+                "texto": "Ele",
+                "origem": "paragrafo",
+                "intervalo": {
+                  "inicio": 252,
+                  "fim": 255,
+                  "unidade": "pontos_de_codigo_unicode"
+                }
+              }
+            ]
+          },
+          {
+            "mencao_id": "M8",
+            "referente_id": "R4",
+            "estado": "novo_referente",
+            "tipo_relacao": "introducao",
+            "confianca": 0.82,
+            "antecedente_mencao_id": null,
+            "razoes": [
+              "menção nominal introduz um referente distinto"
+            ],
+            "alternativas": [],
+            "evidencias": [
+              {
+                "mencao_id": "M8",
+                "texto": "a pilha",
+                "origem": "paragrafo",
+                "intervalo": {
+                  "inicio": 283,
+                  "fim": 290,
+                  "unidade": "pontos_de_codigo_unicode"
+                }
+              }
+            ]
+          },
+          {
+            "mencao_id": "M9",
+            "referente_id": null,
+            "estado": "nao_resolvida",
+            "tipo_relacao": "identidade",
+            "confianca": 0.0,
+            "antecedente_mencao_id": null,
+            "razoes": [
+              "nenhum antecedente atingiu o limiar de decisão"
+            ],
+            "alternativas": [],
+            "evidencias": [
+              {
+                "mencao_id": "M9",
+                "texto": "eu",
+                "origem": "paragrafo",
+                "intervalo": {
+                  "inicio": 295,
+                  "fim": 297,
+                  "unidade": "pontos_de_codigo_unicode"
+                }
+              }
+            ]
+          },
+          {
+            "mencao_id": "M10",
+            "referente_id": "R5",
+            "estado": "novo_referente",
+            "tipo_relacao": "introducao",
+            "confianca": 0.93,
+            "antecedente_mencao_id": null,
+            "razoes": [
+              "menção nominal introduz um referente distinto"
+            ],
+            "alternativas": [],
+            "evidencias": [
+              {
+                "mencao_id": "M10",
+                "texto": "Ainda",
+                "origem": "paragrafo",
+                "intervalo": {
+                  "inicio": 326,
+                  "fim": 331,
+                  "unidade": "pontos_de_codigo_unicode"
+                }
+              }
+            ]
+          },
+          {
+            "mencao_id": "M11",
+            "referente_id": null,
+            "estado": "nao_resolvida",
+            "tipo_relacao": "identidade",
+            "confianca": 0.0,
+            "antecedente_mencao_id": null,
+            "razoes": [
+              "nenhum antecedente atingiu o limiar de decisão"
+            ],
+            "alternativas": [],
+            "evidencias": [
+              {
+                "mencao_id": "M11",
+                "texto": "Eu",
+                "origem": "paragrafo",
+                "intervalo": {
+                  "inicio": 363,
+                  "fim": 365,
+                  "unidade": "pontos_de_codigo_unicode"
+                }
+              }
+            ]
+          },
+          {
+            "mencao_id": "M12",
+            "referente_id": "R6",
+            "estado": "novo_referente",
+            "tipo_relacao": "introducao",
+            "confianca": 0.82,
+            "antecedente_mencao_id": null,
+            "razoes": [
+              "menção nominal introduz um referente distinto"
+            ],
+            "alternativas": [],
+            "evidencias": [
+              {
+                "mencao_id": "M12",
+                "texto": "a louça de volta",
+                "origem": "paragrafo",
+                "intervalo": {
+                  "inicio": 395,
+                  "fim": 411,
+                  "unidade": "pontos_de_codigo_unicode"
+                }
+              }
+            ]
+          },
+          {
+            "mencao_id": "M13",
+            "referente_id": "R7",
+            "estado": "novo_referente",
+            "tipo_relacao": "introducao",
+            "confianca": 0.82,
+            "antecedente_mencao_id": null,
+            "razoes": [
+              "menção nominal introduz um referente distinto"
+            ],
+            "alternativas": [],
+            "evidencias": [
+              {
+                "mencao_id": "M13",
+                "texto": "um calor irritante subindo",
+                "origem": "paragrafo",
+                "intervalo": {
+                  "inicio": 422,
+                  "fim": 448,
+                  "unidade": "pontos_de_codigo_unicode"
+                }
+              }
+            ]
+          },
+          {
+            "mencao_id": "M14",
+            "referente_id": "R8",
+            "estado": "novo_referente",
+            "tipo_relacao": "introducao",
+            "confianca": 0.82,
+            "antecedente_mencao_id": null,
+            "razoes": [
+              "menção nominal introduz um referente distinto"
+            ],
+            "alternativas": [],
+            "evidencias": [
+              {
+                "mencao_id": "M14",
+                "texto": "O estranho é",
+                "origem": "paragrafo",
+                "intervalo": {
+                  "inicio": 463,
+                  "fim": 475,
+                  "unidade": "pontos_de_codigo_unicode"
+                }
+              }
+            ]
+          },
+          {
+            "mencao_id": "M15",
+            "referente_id": null,
+            "estado": "nao_resolvida",
+            "tipo_relacao": "identidade",
+            "confianca": 0.0,
+            "antecedente_mencao_id": null,
+            "razoes": [
+              "nenhum antecedente atingiu o limiar de decisão"
+            ],
+            "alternativas": [],
+            "evidencias": [
+              {
+                "mencao_id": "M15",
+                "texto": "eu",
+                "origem": "paragrafo",
+                "intervalo": {
+                  "inicio": 480,
+                  "fim": 482,
+                  "unidade": "pontos_de_codigo_unicode"
+                }
+              }
+            ]
+          },
+          {
+            "mencao_id": "M16",
+            "referente_id": "R5",
+            "estado": "resolvida",
+            "tipo_relacao": "possuidor",
+            "confianca": 0.51,
+            "antecedente_mencao_id": "M10",
+            "razoes": [
+              "candidato humano para o papel de possuidor",
+              "antecedente disponível no contexto",
+              "nome próprio saliente",
+              "mesma unidade textual"
+            ],
+            "alternativas": [],
+            "evidencias": [
+              {
+                "mencao_id": "M10",
+                "texto": "Ainda",
+                "origem": "paragrafo",
+                "intervalo": {
+                  "inicio": 326,
+                  "fim": 331,
+                  "unidade": "pontos_de_codigo_unicode"
+                }
+              },
+              {
+                "mencao_id": "M16",
+                "texto": "dele",
+                "origem": "paragrafo",
+                "intervalo": {
+                  "inicio": 550,
+                  "fim": 554,
+                  "unidade": "pontos_de_codigo_unicode"
+                }
+              }
+            ]
+          },
+          {
+            "mencao_id": "M17",
+            "referente_id": null,
+            "estado": "nao_resolvida",
+            "tipo_relacao": "identidade",
+            "confianca": 0.46,
+            "antecedente_mencao_id": null,
+            "razoes": [
+              "nenhum antecedente atingiu o limiar de decisão"
+            ],
+            "alternativas": [
+              {
+                "antecedente_mencao_id": "M10",
+                "referente_id": "R5",
+                "pontuacao": 0.46,
+                "razoes": [
+                  "mesma classe semântica: pessoa",
+                  "antecedente disponível no contexto",
+                  "nome próprio saliente",
+                  "mesma unidade textual"
+                ]
+              }
+            ],
+            "evidencias": [
+              {
+                "mencao_id": "M17",
+                "texto": "ele",
+                "origem": "paragrafo",
+                "intervalo": {
+                  "inicio": 604,
+                  "fim": 607,
+                  "unidade": "pontos_de_codigo_unicode"
+                }
+              }
+            ]
+          },
+          {
+            "mencao_id": "M18",
+            "referente_id": "R9",
+            "estado": "novo_referente",
+            "tipo_relacao": "introducao",
+            "confianca": 0.82,
+            "antecedente_mencao_id": null,
+            "razoes": [
+              "menção nominal introduz um referente distinto"
+            ],
+            "alternativas": [],
+            "evidencias": [
+              {
+                "mencao_id": "M18",
+                "texto": "um copo",
+                "origem": "paragrafo",
+                "intervalo": {
+                  "inicio": 628,
+                  "fim": 635,
+                  "unidade": "pontos_de_codigo_unicode"
+                }
+              }
+            ]
+          },
+          {
+            "mencao_id": "M19",
+            "referente_id": "R10",
+            "estado": "novo_referente",
+            "tipo_relacao": "introducao",
+            "confianca": 0.82,
+            "antecedente_mencao_id": null,
+            "razoes": [
+              "menção nominal introduz um referente distinto"
+            ],
+            "alternativas": [],
+            "evidencias": [
+              {
+                "mencao_id": "M19",
+                "texto": "a cabeça",
+                "origem": "paragrafo",
+                "intervalo": {
+                  "inicio": 662,
+                  "fim": 670,
+                  "unidade": "pontos_de_codigo_unicode"
+                }
+              }
+            ]
+          },
+          {
+            "mencao_id": "M20",
+            "referente_id": "R11",
+            "estado": "novo_referente",
+            "tipo_relacao": "introducao",
+            "confianca": 0.93,
+            "antecedente_mencao_id": null,
+            "razoes": [
+              "menção nominal introduz um referente distinto"
+            ],
+            "alternativas": [],
+            "evidencias": [
+              {
+                "mencao_id": "M20",
+                "texto": "Será",
+                "origem": "paragrafo",
+                "intervalo": {
+                  "inicio": 672,
+                  "fim": 676,
+                  "unidade": "pontos_de_codigo_unicode"
+                }
+              }
+            ]
+          },
+          {
+            "mencao_id": "M21",
+            "referente_id": null,
+            "estado": "nao_resolvida",
+            "tipo_relacao": "identidade",
+            "confianca": 0.0,
+            "antecedente_mencao_id": null,
+            "razoes": [
+              "nenhum antecedente atingiu o limiar de decisão"
+            ],
+            "alternativas": [],
+            "evidencias": [
+              {
+                "mencao_id": "M21",
+                "texto": "eu",
+                "origem": "paragrafo",
+                "intervalo": {
+                  "inicio": 681,
+                  "fim": 683,
+                  "unidade": "pontos_de_codigo_unicode"
+                }
+              }
+            ]
+          },
+          {
+            "mencao_id": "M22",
+            "referente_id": null,
+            "estado": "nao_resolvida",
+            "tipo_relacao": "possuidor",
+            "confianca": 0.0,
+            "antecedente_mencao_id": null,
+            "razoes": [
+              "nenhum antecedente atingiu o limiar de decisão"
+            ],
+            "alternativas": [],
+            "evidencias": [
+              {
+                "mencao_id": "M22",
+                "texto": "minha",
+                "origem": "paragrafo",
+                "intervalo": {
+                  "inicio": 692,
+                  "fim": 697,
+                  "unidade": "pontos_de_codigo_unicode"
+                }
+              }
+            ]
+          },
+          {
+            "mencao_id": "M23",
+            "referente_id": "R12",
+            "estado": "novo_referente",
+            "tipo_relacao": "introducao",
+            "confianca": 0.93,
+            "antecedente_mencao_id": null,
+            "razoes": [
+              "menção nominal introduz um referente distinto"
+            ],
+            "alternativas": [],
+            "evidencias": [
+              {
+                "mencao_id": "M23",
+                "texto": "Não",
+                "origem": "paragrafo",
+                "intervalo": {
+                  "inicio": 754,
+                  "fim": 757,
+                  "unidade": "pontos_de_codigo_unicode"
+                }
+              }
+            ]
+          },
+          {
+            "mencao_id": "M24",
+            "referente_id": null,
+            "estado": "nao_resolvida",
+            "tipo_relacao": "identidade",
+            "confianca": 0.0,
+            "antecedente_mencao_id": null,
+            "razoes": [
+              "nenhum antecedente atingiu o limiar de decisão"
+            ],
+            "alternativas": [],
+            "evidencias": [
+              {
+                "mencao_id": "M24",
+                "texto": "eu",
+                "origem": "paragrafo",
+                "intervalo": {
+                  "inicio": 764,
+                  "fim": 766,
+                  "unidade": "pontos_de_codigo_unicode"
+                }
+              }
+            ]
+          },
+          {
+            "mencao_id": "M25",
+            "referente_id": "R12",
+            "estado": "resolvida",
+            "tipo_relacao": "possuidor",
+            "confianca": 0.57,
+            "antecedente_mencao_id": "M23",
+            "razoes": [
+              "candidato humano para o papel de possuidor",
+              "antecedente recente",
+              "nome próprio saliente",
+              "mesma unidade textual"
+            ],
+            "alternativas": [
+              {
+                "antecedente_mencao_id": "M20",
+                "referente_id": "R11",
+                "pontuacao": 0.51,
+                "razoes": [
+                  "candidato humano para o papel de possuidor",
+                  "antecedente disponível no contexto",
+                  "nome próprio saliente",
+                  "mesma unidade textual"
+                ]
+              },
+              {
+                "antecedente_mencao_id": "M10",
+                "referente_id": "R5",
+                "pontuacao": 0.46,
+                "razoes": [
+                  "candidato humano para o papel de possuidor",
+                  "antecedente disponível no contexto",
+                  "nome próprio saliente",
+                  "mesma unidade textual"
+                ]
+              }
+            ],
+            "evidencias": [
+              {
+                "mencao_id": "M23",
+                "texto": "Não",
+                "origem": "paragrafo",
+                "intervalo": {
+                  "inicio": 754,
+                  "fim": 757,
+                  "unidade": "pontos_de_codigo_unicode"
+                }
+              },
+              {
+                "mencao_id": "M25",
+                "texto": "dele",
+                "origem": "paragrafo",
+                "intervalo": {
+                  "inicio": 790,
+                  "fim": 794,
+                  "unidade": "pontos_de_codigo_unicode"
+                }
+              }
+            ]
+          },
+          {
+            "mencao_id": "M26",
+            "referente_id": "R13",
+            "estado": "novo_referente",
+            "tipo_relacao": "introducao",
+            "confianca": 0.82,
+            "antecedente_mencao_id": null,
+            "razoes": [
+              "menção nominal introduz um referente distinto"
+            ],
+            "alternativas": [],
+            "evidencias": [
+              {
+                "mencao_id": "M26",
+                "texto": "a casa",
+                "origem": "paragrafo",
+                "intervalo": {
+                  "inicio": 800,
+                  "fim": 806,
+                  "unidade": "pontos_de_codigo_unicode"
+                }
+              }
+            ]
+          },
+          {
+            "mencao_id": "M27",
+            "referente_id": null,
+            "estado": "nao_resolvida",
+            "tipo_relacao": "identidade",
+            "confianca": 0.51,
+            "antecedente_mencao_id": null,
+            "razoes": [
+              "nenhum antecedente atingiu o limiar de decisão"
+            ],
+            "alternativas": [
+              {
+                "antecedente_mencao_id": "M23",
+                "referente_id": "R12",
+                "pontuacao": 0.51,
+                "razoes": [
+                  "mesma classe semântica: pessoa",
+                  "antecedente disponível no contexto",
+                  "nome próprio saliente",
+                  "mesma unidade textual"
+                ]
+              },
+              {
+                "antecedente_mencao_id": "M20",
+                "referente_id": "R11",
+                "pontuacao": 0.46,
+                "razoes": [
+                  "mesma classe semântica: pessoa",
+                  "antecedente disponível no contexto",
+                  "nome próprio saliente",
+                  "mesma unidade textual"
+                ]
+              },
+              {
+                "antecedente_mencao_id": "M10",
+                "referente_id": "R5",
+                "pontuacao": 0.46,
+                "razoes": [
+                  "mesma classe semântica: pessoa",
+                  "antecedente disponível no contexto",
+                  "nome próprio saliente",
+                  "mesma unidade textual"
+                ]
+              }
+            ],
+            "evidencias": [
+              {
+                "mencao_id": "M27",
+                "texto": "ele",
+                "origem": "paragrafo",
+                "intervalo": {
+                  "inicio": 846,
+                  "fim": 849,
+                  "unidade": "pontos_de_codigo_unicode"
+                }
+              }
+            ]
+          },
+          {
+            "mencao_id": "M28",
+            "referente_id": "R14",
+            "estado": "novo_referente",
+            "tipo_relacao": "introducao",
+            "confianca": 0.82,
+            "antecedente_mencao_id": null,
+            "razoes": [
+              "menção nominal introduz um referente distinto"
+            ],
+            "alternativas": [],
+            "evidencias": [
+              {
+                "mencao_id": "M28",
+                "texto": "as coisas",
+                "origem": "paragrafo",
+                "intervalo": {
+                  "inicio": 875,
+                  "fim": 884,
+                  "unidade": "pontos_de_codigo_unicode"
+                }
+              }
+            ]
+          }
+        ],
+        "operadores_escopo": [
+          {
+            "id": "O1",
+            "tipo": "negacao",
+            "subtipo": "sentencial",
+            "marcador": "não",
+            "escopo": [
+              "P7"
+            ],
+            "evidencia": {
+              "texto": "não",
+              "intervalo": {
+                "inicio": 577,
+                "fim": 580,
+                "unidade": "pontos_de_codigo_unicode"
+              },
+              "origem": "paragrafo"
+            },
+            "confianca": 0.96
+          },
+          {
+            "id": "O2",
+            "tipo": "negacao",
+            "subtipo": "sentencial",
+            "marcador": "Não",
+            "escopo": [
+              "P9"
+            ],
+            "evidencia": {
+              "texto": "Não",
+              "intervalo": {
+                "inicio": 754,
+                "fim": 757,
+                "unidade": "pontos_de_codigo_unicode"
+              },
+              "origem": "paragrafo"
+            },
+            "confianca": 0.96
+          },
+          {
+            "id": "O3",
+            "tipo": "negacao",
+            "subtipo": "sentencial",
+            "marcador": "Não",
+            "escopo": [
+              "P10"
+            ],
+            "evidencia": {
+              "texto": "Não",
+              "intervalo": {
+                "inicio": 754,
+                "fim": 757,
+                "unidade": "pontos_de_codigo_unicode"
+              },
+              "origem": "paragrafo"
+            },
+            "confianca": 0.96
+          },
+          {
+            "id": "O4",
+            "tipo": "negacao",
+            "subtipo": "sentencial",
+            "marcador": "não",
+            "escopo": [
+              "P11"
+            ],
+            "evidencia": {
+              "texto": "não",
+              "intervalo": {
+                "inicio": 850,
+                "fim": 853,
+                "unidade": "pontos_de_codigo_unicode"
+              },
+              "origem": "paragrafo"
+            },
+            "confianca": 0.96
+          }
+        ],
+        "quadros_atribuicao": [
+          {
+            "id": "A1",
+            "fonte": {
+              "tipo": "participante_discursivo",
+              "id": "NARRADOR",
+              "rotulo": "narrador"
+            },
+            "modo": "assercao_narrativa",
+            "estado": "afirmada",
+            "escopo": [
+              "P1",
+              "P2",
+              "P3",
+              "P5",
+              "P6",
+              "P7",
+              "P8",
+              "P9",
+              "P10",
+              "P11"
+            ],
+            "evidencias": [
+              {
+                "texto": "eu estava na cozinha da casa dos meus pais",
+                "intervalo": {
+                  "inicio": 111,
+                  "fim": 153,
+                  "unidade": "pontos_de_codigo_unicode"
+                },
+                "origem": "paragrafo"
+              },
+              {
+                "texto": "olhou para a pilha que eu já tinha enxugado e disse",
+                "intervalo": {
+                  "inicio": 272,
+                  "fim": 323,
+                  "unidade": "pontos_de_codigo_unicode"
+                },
+                "origem": "paragrafo"
+              },
+              {
+                "texto": "O estranho é que eu detestava estar ali",
+                "intervalo": {
+                  "inicio": 463,
+                  "fim": 502,
+                  "unidade": "pontos_de_codigo_unicode"
+                },
+                "origem": "paragrafo"
+              },
+              {
+                "texto": "estava exausto de tentar fazer tudo no padrão dele",
+                "intervalo": {
+                  "inicio": 504,
+                  "fim": 554,
+                  "unidade": "pontos_de_codigo_unicode"
+                },
+                "origem": "paragrafo"
+              },
+              {
+                "texto": "não saí da cozinha até que ele voltasse para pegar um copo e finalmente acenasse com a cabeça.",
+                "intervalo": {
+                  "inicio": 577,
+                  "fim": 671,
+                  "unidade": "pontos_de_codigo_unicode"
+                },
+                "origem": "paragrafo"
+              },
+              {
+                "texto": "Não é que eu gostasse das cobranças dele",
+                "intervalo": {
+                  "inicio": 754,
+                  "fim": 794,
+                  "unidade": "pontos_de_codigo_unicode"
+                },
+                "origem": "paragrafo"
+              },
+              {
+                "texto": "ele não estava inspecionando as coisas.",
+                "intervalo": {
+                  "inicio": 846,
+                  "fim": 885,
+                  "unidade": "pontos_de_codigo_unicode"
+                },
+                "origem": "paragrafo"
+              }
+            ],
+            "confianca": 0.94
+          },
+          {
+            "id": "A2",
+            "fonte": {
+              "tipo": "nao_resolvida",
+              "id": "FONTE_NAO_RESOLVIDA",
+              "rotulo": "fonte não resolvida"
+            },
+            "modo": "fala_citada",
+            "estado": "citada",
+            "escopo": [
+              "P4"
+            ],
+            "evidencias": [
+              {
+                "texto": "\"Ainda tem marca de água nesse aqui.",
+                "intervalo": {
+                  "inicio": 325,
+                  "fim": 361,
+                  "unidade": "pontos_de_codigo_unicode"
+                },
+                "origem": "paragrafo"
+              }
+            ],
+            "confianca": 0.68
+          }
+        ],
+        "relacoes": [],
+        "ideia_central": {
+          "estado": "proposta",
+          "texto": "olhou para a pilha que eu já tinha enxugado e disse",
+          "proposicao_ids": [
+            "P2",
+            "P3"
+          ],
+          "evidencias": [
+            {
+              "texto": "olhou para a pilha que eu já tinha enxugado e disse",
+              "intervalo": {
+                "inicio": 272,
+                "fim": 323,
+                "unidade": "pontos_de_codigo_unicode"
+              }
+            }
+          ],
+          "confianca": 0.63,
+          "razoes": [
+            "O mesmo trecho sustenta 2 proposições relacionadas.",
+            "O conteúdo é apresentado como afirmado no registro discursivo.",
+            "O trecho retoma um participante recorrente no parágrafo.",
+            "A alternativa mais próxima recebeu pontuação semelhante; a escolha requer revisão."
+          ],
+          "alternativas": [
+            {
+              "texto": "Não é que eu gostasse das cobranças dele",
+              "proposicao_ids": [
+                "P9",
+                "P10"
+              ],
+              "evidencias": [
+                {
+                  "texto": "Não é que eu gostasse das cobranças dele",
+                  "intervalo": {
+                    "inicio": 754,
+                    "fim": 794,
+                    "unidade": "pontos_de_codigo_unicode"
+                  }
+                }
+              ],
+              "pontuacao": 0.694,
+              "razoes": [
+                "O mesmo trecho sustenta 2 proposições relacionadas.",
+                "O conteúdo é apresentado como afirmado no registro discursivo.",
+                "A polaridade negativa é estrutural para o conteúdo deste trecho."
+              ]
+            },
+            {
+              "texto": "não saí da cozinha até que ele voltasse para pegar um copo e finalmente acenasse com a cabeça.",
+              "proposicao_ids": [
+                "P7",
+                "P8"
+              ],
+              "evidencias": [
+                {
+                  "texto": "não saí da cozinha até que ele voltasse para pegar um copo e finalmente acenasse com a cabeça.",
+                  "intervalo": {
+                    "inicio": 577,
+                    "fim": 671,
+                    "unidade": "pontos_de_codigo_unicode"
+                  }
+                }
+              ],
+              "pontuacao": 0.676,
+              "razoes": [
+                "O mesmo trecho sustenta 2 proposições relacionadas.",
+                "O conteúdo é apresentado como afirmado no registro discursivo.",
+                "A polaridade negativa é estrutural para o conteúdo deste trecho."
+              ]
+            }
+          ],
+          "metodo": "heuristica_explicavel_v1"
+        },
+        "conteudo_essencial_ids": [
+          "P2",
+          "P3"
+        ],
+        "sintese": {
+          "estado": "gerada",
+          "texto": "Ele passou por mim, olhou para a pilha que eu já tinha enxugado e disse: \"Ainda tem marca de água nesse aqui.",
+          "estrategia": "extrativa_conteudo_essencial_v1",
+          "evidencias": [
+            {
+              "texto": "Ele passou por mim, olhou para a pilha que eu já tinha enxugado e disse: \"Ainda tem marca de água nesse aqui.",
+              "intervalo": {
+                "inicio": 252,
+                "fim": 361,
+                "unidade": "pontos_de_codigo_unicode"
+              }
+            }
+          ],
+          "cobertura": {
+            "proposicao_ids": [
+              "P2",
+              "P3"
+            ],
+            "operador_ids": [],
+            "relacao_ids": [],
+            "mencao_ids": [
+              "M9",
+              "M10"
+            ]
+          },
+          "confianca": 0.63,
+          "alertas": [
+            "O período completo foi preservado para manter o contexto do conteúdo essencial.",
+            "A síntese herda uma hipótese de ideia central que requer revisão."
+          ]
+        },
+        "parafrases": [],
+        "checagem": {
+          "estado": "sem_alertas_detectados",
+          "metodo": "cobertura_estrutural_v1",
+          "alvos_verificados": [
+            "sintese"
+          ],
+          "achados": [],
+          "limitacoes": [
+            "A checagem verifica rastreabilidade estrutural e transformações conhecidas; não certifica equivalência semântica geral."
+          ]
+        },
+        "execucao": {
+          "versao_motor": "1.0.0",
+          "duracao_ms": 14.922,
+          "parametros": {
+            "idioma": "pt-BR",
+            "estrategia_centralidade": "heuristica_explicavel_v1",
+            "estrategia_sintese": "extrativa_conteudo_essencial_v1",
+            "estrategia_parafrase": "substituicao_discursiva_controlada_v1",
+            "metodo_checagem": "cobertura_estrutural_v1",
+            "regras_parafrase": [
+              "coordenacao_negativa",
+              "justificativa_causal"
+            ],
+            "limite_alternativas_ideia_central": 2,
+            "usa_contexto_anterior": false
+          },
+          "custos": {
+            "moeda": "USD",
+            "chamadas_externas": 0,
+            "tokens_entrada": 0,
+            "tokens_saida": 0,
+            "custo_estimado": 0.0,
+            "observacao": "Motor heurístico local; nenhuma chamada externa ou cobrança por token."
+          }
+        },
+        "resumo": {
+          "proposicoes": 11,
+          "mencoes": 28,
+          "referentes": 14,
+          "resolucoes_resolvidas": 2,
+          "resolucoes_ambiguas": 0,
+          "operadores": 4,
+          "relacoes": 0,
+          "negacoes": 4,
+          "atribuicoes_marcadas": 1,
+          "conteudo_essencial": 2,
+          "sintese_caracteres": 109,
+          "parafrases": 0,
+          "achados_fidelidade": 0
+        },
+        "alertas": [
+          "12 menção pronominal permaneceu sem referente textual seguro.",
+          "A ideia central possui alternativa próxima e deve ser revisada."
+        ]
+      }
+    },
+    "P2": {
+      "schema_version": "1.0.0",
+      "fonte": {
+        "documento_id": 19,
+        "schema_version": "1.0.0",
+        "etapa": "09_vetorizacao",
+        "caracteres_original": 1802
+      },
+      "paragrafo": {
+        "id": "223b4502-796f-4632-a365-7c913d862c8e:paragrafo:1",
+        "rotulo": "P2",
+        "ordem": 1,
+        "texto": "Hoje de manhã, no escritório, terminei o relatório de métricas e enviei para a Helena, a diretora de operações. Fiquei atualizando a caixa de entrada a cada dois minutos enquanto tomava um café puro na minha caneca verde lascada. Quando ela finalmente me chamou na sala, apontou para um erro mínimo de alinhamento num gráfico da página quatro. Eu não deixei essa formatação torta de propósito. Mesmo assim, corri para o computador, arrumei o arquivo rapidamente e imprimi a nova versão. Voltei até a sala dela e fiquei parado na porta, segurando o papel. Ela pegou a folha, leu sem demonstrar qualquer reação e, por fim, deu aquele mesmo aceno com a cabeça. Retornei para a minha mesa com uma sensação de alívio esquisita, exatamente a mesma que eu sentia na cozinha segurando o pano de prato úmido. Parece que a minha semana só consegue engrenar de verdade depois de passar por esse tipo de validação silenciosa.",
+        "intervalo_original": {
+          "inicio": 889,
+          "fim": 1802,
+          "unidade": "pontos_de_codigo_unicode"
+        },
+        "representacao_id": "4f3ae8b9-d9c4-401b-981e-266017f0bd61:representacao:1",
+        "artefato_id": "sha256:1ff16a092a64287a5d2136cbbaebaedfef43431433e8682a3e2a01124d976872"
+      },
+      "analise": {
+        "schema_version": "1.0.0",
+        "paragrafo": "Hoje de manhã, no escritório, terminei o relatório de métricas e enviei para a Helena, a diretora de operações. Fiquei atualizando a caixa de entrada a cada dois minutos enquanto tomava um café puro na minha caneca verde lascada. Quando ela finalmente me chamou na sala, apontou para um erro mínimo de alinhamento num gráfico da página quatro. Eu não deixei essa formatação torta de propósito. Mesmo assim, corri para o computador, arrumei o arquivo rapidamente e imprimi a nova versão. Voltei até a sala dela e fiquei parado na porta, segurando o papel. Ela pegou a folha, leu sem demonstrar qualquer reação e, por fim, deu aquele mesmo aceno com a cabeça. Retornei para a minha mesa com uma sensação de alívio esquisita, exatamente a mesma que eu sentia na cozinha segurando o pano de prato úmido. Parece que a minha semana só consegue engrenar de verdade depois de passar por esse tipo de validação silenciosa.",
+        "contexto_anterior": "Quando decidi me mudar para outra cidade, achei que a tensão iria diminuir. No último domingo antes da viagem, eu estava na cozinha da casa dos meus pais, secando as bordas dos pratos fundos com um pano de prato, exatamente como meu pai sempre exigia. Ele passou por mim, olhou para a pilha que eu já tinha enxugado e disse: \"Ainda tem marca de água nesse aqui.\" Eu não respondi nada, só peguei a louça de volta, sentindo um calor irritante subindo pelo pescoço. O estranho é que eu detestava estar ali, estava exausto de tentar fazer tudo no padrão dele, mas, ao mesmo tempo, não saí da cozinha até que ele voltasse para pegar um copo e finalmente acenasse com a cabeça. Será que eu atrasei minha própria organização da viagem só para esperar por isso? Não é que eu gostasse das cobranças dele, mas a casa ficava num silêncio muito vazio quando ele não estava inspecionando as coisas.",
+        "proposicoes": [
+          {
+            "id": "P1",
+            "predicado": "ler",
+            "forma_textual": "leu",
+            "predicado_intervalo": {
+              "inicio": 574,
+              "fim": 577,
+              "unidade": "pontos_de_codigo_unicode"
+            },
+            "descricao": "a folha · ler · sem demonstrar qualquer reação e",
+            "participantes": [
+              {
+                "papel": "agente",
+                "mencao": "a folha",
+                "mencao_id": "M50",
+                "intervalo": {
+                  "inicio": 565,
+                  "fim": 572,
+                  "unidade": "pontos_de_codigo_unicode"
+                },
+                "referente_id": "R30"
+              }
+            ],
+            "operadores": {
+              "negacao": null,
+              "modalidade": null
+            },
+            "atribuicao": {
+              "fonte": "narrador",
+              "modo": "asserção narrativa",
+              "estado": "afirmada"
+            },
+            "atribuicao_id": "A1",
+            "polaridade": "positiva",
+            "evidencia": {
+              "texto": "leu sem demonstrar qualquer reação e",
+              "intervalo": {
+                "inicio": 574,
+                "fim": 610,
+                "unidade": "pontos_de_codigo_unicode"
+              }
+            },
+            "confianca": 0.86
+          }
+        ],
+        "mencoes": [
+          {
+            "id": "M1",
+            "texto": "a tensão",
+            "tipo": "descricao_nominal",
+            "origem": "contexto_anterior",
+            "intervalo": {
+              "inicio": 52,
+              "fim": 60,
+              "unidade": "pontos_de_codigo_unicode"
+            },
+            "caracteristicas": {
+              "classe_semantica": "desconhecida",
+              "genero": "feminino",
+              "numero": "singular"
+            },
+            "confianca_deteccao": 0.82,
+            "mencao_pai_id": null
+          },
+          {
+            "id": "M2",
+            "texto": "eu",
+            "tipo": "pronome_pessoal",
+            "origem": "contexto_anterior",
+            "intervalo": {
+              "inicio": 111,
+              "fim": 113,
+              "unidade": "pontos_de_codigo_unicode"
+            },
+            "caracteristicas": {
+              "classe_semantica": "pessoa",
+              "genero": "indeterminado",
+              "numero": "singular"
+            },
+            "confianca_deteccao": 0.99,
+            "mencao_pai_id": null
+          },
+          {
+            "id": "M3",
+            "texto": "meus",
+            "tipo": "pronome_possessivo",
+            "origem": "contexto_anterior",
+            "intervalo": {
+              "inicio": 144,
+              "fim": 148,
+              "unidade": "pontos_de_codigo_unicode"
+            },
+            "caracteristicas": {
+              "classe_semantica": "desconhecida",
+              "genero": "indeterminado",
+              "numero": "indeterminado"
+            },
+            "confianca_deteccao": 0.99,
+            "mencao_pai_id": null
+          },
+          {
+            "id": "M4",
+            "texto": "as bordas dos pratos fundos",
+            "tipo": "descricao_nominal",
+            "origem": "contexto_anterior",
+            "intervalo": {
+              "inicio": 163,
+              "fim": 190,
+              "unidade": "pontos_de_codigo_unicode"
+            },
+            "caracteristicas": {
+              "classe_semantica": "desconhecida",
+              "genero": "indeterminado",
+              "numero": "plural"
+            },
+            "confianca_deteccao": 0.82,
+            "mencao_pai_id": null
+          },
+          {
+            "id": "M5",
+            "texto": "um pano de prato",
+            "tipo": "descricao_nominal",
+            "origem": "contexto_anterior",
+            "intervalo": {
+              "inicio": 195,
+              "fim": 211,
+              "unidade": "pontos_de_codigo_unicode"
+            },
+            "caracteristicas": {
+              "classe_semantica": "desconhecida",
+              "genero": "masculino",
+              "numero": "singular"
+            },
+            "confianca_deteccao": 0.82,
+            "mencao_pai_id": null
+          },
+          {
+            "id": "M6",
+            "texto": "meu",
+            "tipo": "pronome_possessivo",
+            "origem": "contexto_anterior",
+            "intervalo": {
+              "inicio": 229,
+              "fim": 232,
+              "unidade": "pontos_de_codigo_unicode"
+            },
+            "caracteristicas": {
+              "classe_semantica": "desconhecida",
+              "genero": "indeterminado",
+              "numero": "indeterminado"
+            },
+            "confianca_deteccao": 0.99,
+            "mencao_pai_id": null
+          },
+          {
+            "id": "M7",
+            "texto": "Ele",
+            "tipo": "pronome_pessoal",
+            "origem": "contexto_anterior",
+            "intervalo": {
+              "inicio": 252,
+              "fim": 255,
+              "unidade": "pontos_de_codigo_unicode"
+            },
+            "caracteristicas": {
+              "classe_semantica": "pessoa",
+              "genero": "masculino",
+              "numero": "singular"
+            },
+            "confianca_deteccao": 0.99,
+            "mencao_pai_id": null
+          },
+          {
+            "id": "M8",
+            "texto": "a pilha",
+            "tipo": "descricao_nominal",
+            "origem": "contexto_anterior",
+            "intervalo": {
+              "inicio": 283,
+              "fim": 290,
+              "unidade": "pontos_de_codigo_unicode"
+            },
+            "caracteristicas": {
+              "classe_semantica": "desconhecida",
+              "genero": "feminino",
+              "numero": "singular"
+            },
+            "confianca_deteccao": 0.82,
+            "mencao_pai_id": null
+          },
+          {
+            "id": "M9",
+            "texto": "eu",
+            "tipo": "pronome_pessoal",
+            "origem": "contexto_anterior",
+            "intervalo": {
+              "inicio": 295,
+              "fim": 297,
+              "unidade": "pontos_de_codigo_unicode"
+            },
+            "caracteristicas": {
+              "classe_semantica": "pessoa",
+              "genero": "indeterminado",
+              "numero": "singular"
+            },
+            "confianca_deteccao": 0.99,
+            "mencao_pai_id": null
+          },
+          {
+            "id": "M10",
+            "texto": "Ainda",
+            "tipo": "nome_proprio",
+            "origem": "contexto_anterior",
+            "intervalo": {
+              "inicio": 326,
+              "fim": 331,
+              "unidade": "pontos_de_codigo_unicode"
+            },
+            "caracteristicas": {
+              "classe_semantica": "pessoa",
+              "genero": "indeterminado",
+              "numero": "indeterminado"
+            },
+            "confianca_deteccao": 0.93,
+            "mencao_pai_id": null
+          },
+          {
+            "id": "M11",
+            "texto": "Eu",
+            "tipo": "pronome_pessoal",
+            "origem": "contexto_anterior",
+            "intervalo": {
+              "inicio": 363,
+              "fim": 365,
+              "unidade": "pontos_de_codigo_unicode"
+            },
+            "caracteristicas": {
+              "classe_semantica": "pessoa",
+              "genero": "indeterminado",
+              "numero": "singular"
+            },
+            "confianca_deteccao": 0.99,
+            "mencao_pai_id": null
+          },
+          {
+            "id": "M12",
+            "texto": "a louça de volta",
+            "tipo": "descricao_nominal",
+            "origem": "contexto_anterior",
+            "intervalo": {
+              "inicio": 395,
+              "fim": 411,
+              "unidade": "pontos_de_codigo_unicode"
+            },
+            "caracteristicas": {
+              "classe_semantica": "desconhecida",
+              "genero": "feminino",
+              "numero": "singular"
+            },
+            "confianca_deteccao": 0.82,
+            "mencao_pai_id": null
+          },
+          {
+            "id": "M13",
+            "texto": "um calor irritante subindo",
+            "tipo": "descricao_nominal",
+            "origem": "contexto_anterior",
+            "intervalo": {
+              "inicio": 422,
+              "fim": 448,
+              "unidade": "pontos_de_codigo_unicode"
+            },
+            "caracteristicas": {
+              "classe_semantica": "desconhecida",
+              "genero": "masculino",
+              "numero": "singular"
+            },
+            "confianca_deteccao": 0.82,
+            "mencao_pai_id": null
+          },
+          {
+            "id": "M14",
+            "texto": "O estranho é",
+            "tipo": "descricao_nominal",
+            "origem": "contexto_anterior",
+            "intervalo": {
+              "inicio": 463,
+              "fim": 475,
+              "unidade": "pontos_de_codigo_unicode"
+            },
+            "caracteristicas": {
+              "classe_semantica": "desconhecida",
+              "genero": "masculino",
+              "numero": "singular"
+            },
+            "confianca_deteccao": 0.82,
+            "mencao_pai_id": null
+          },
+          {
+            "id": "M15",
+            "texto": "eu",
+            "tipo": "pronome_pessoal",
+            "origem": "contexto_anterior",
+            "intervalo": {
+              "inicio": 480,
+              "fim": 482,
+              "unidade": "pontos_de_codigo_unicode"
+            },
+            "caracteristicas": {
+              "classe_semantica": "pessoa",
+              "genero": "indeterminado",
+              "numero": "singular"
+            },
+            "confianca_deteccao": 0.99,
+            "mencao_pai_id": null
+          },
+          {
+            "id": "M16",
+            "texto": "dele",
+            "tipo": "pronome_possessivo",
+            "origem": "contexto_anterior",
+            "intervalo": {
+              "inicio": 550,
+              "fim": 554,
+              "unidade": "pontos_de_codigo_unicode"
+            },
+            "caracteristicas": {
+              "classe_semantica": "desconhecida",
+              "genero": "masculino",
+              "numero": "singular"
+            },
+            "confianca_deteccao": 0.99,
+            "mencao_pai_id": null
+          },
+          {
+            "id": "M17",
+            "texto": "ele",
+            "tipo": "pronome_pessoal",
+            "origem": "contexto_anterior",
+            "intervalo": {
+              "inicio": 604,
+              "fim": 607,
+              "unidade": "pontos_de_codigo_unicode"
+            },
+            "caracteristicas": {
+              "classe_semantica": "pessoa",
+              "genero": "masculino",
+              "numero": "singular"
+            },
+            "confianca_deteccao": 0.99,
+            "mencao_pai_id": null
+          },
+          {
+            "id": "M18",
+            "texto": "um copo",
+            "tipo": "descricao_nominal",
+            "origem": "contexto_anterior",
+            "intervalo": {
+              "inicio": 628,
+              "fim": 635,
+              "unidade": "pontos_de_codigo_unicode"
+            },
+            "caracteristicas": {
+              "classe_semantica": "desconhecida",
+              "genero": "masculino",
+              "numero": "singular"
+            },
+            "confianca_deteccao": 0.82,
+            "mencao_pai_id": null
+          },
+          {
+            "id": "M19",
+            "texto": "a cabeça",
+            "tipo": "descricao_nominal",
+            "origem": "contexto_anterior",
+            "intervalo": {
+              "inicio": 662,
+              "fim": 670,
+              "unidade": "pontos_de_codigo_unicode"
+            },
+            "caracteristicas": {
+              "classe_semantica": "desconhecida",
+              "genero": "feminino",
+              "numero": "singular"
+            },
+            "confianca_deteccao": 0.82,
+            "mencao_pai_id": null
+          },
+          {
+            "id": "M20",
+            "texto": "Será",
+            "tipo": "nome_proprio",
+            "origem": "contexto_anterior",
+            "intervalo": {
+              "inicio": 672,
+              "fim": 676,
+              "unidade": "pontos_de_codigo_unicode"
+            },
+            "caracteristicas": {
+              "classe_semantica": "pessoa",
+              "genero": "indeterminado",
+              "numero": "indeterminado"
+            },
+            "confianca_deteccao": 0.93,
+            "mencao_pai_id": null
+          },
+          {
+            "id": "M21",
+            "texto": "eu",
+            "tipo": "pronome_pessoal",
+            "origem": "contexto_anterior",
+            "intervalo": {
+              "inicio": 681,
+              "fim": 683,
+              "unidade": "pontos_de_codigo_unicode"
+            },
+            "caracteristicas": {
+              "classe_semantica": "pessoa",
+              "genero": "indeterminado",
+              "numero": "singular"
+            },
+            "confianca_deteccao": 0.99,
+            "mencao_pai_id": null
+          },
+          {
+            "id": "M22",
+            "texto": "minha",
+            "tipo": "pronome_possessivo",
+            "origem": "contexto_anterior",
+            "intervalo": {
+              "inicio": 692,
+              "fim": 697,
+              "unidade": "pontos_de_codigo_unicode"
+            },
+            "caracteristicas": {
+              "classe_semantica": "desconhecida",
+              "genero": "indeterminado",
+              "numero": "indeterminado"
+            },
+            "confianca_deteccao": 0.99,
+            "mencao_pai_id": null
+          },
+          {
+            "id": "M23",
+            "texto": "Não",
+            "tipo": "nome_proprio",
+            "origem": "contexto_anterior",
+            "intervalo": {
+              "inicio": 754,
+              "fim": 757,
+              "unidade": "pontos_de_codigo_unicode"
+            },
+            "caracteristicas": {
+              "classe_semantica": "pessoa",
+              "genero": "indeterminado",
+              "numero": "indeterminado"
+            },
+            "confianca_deteccao": 0.93,
+            "mencao_pai_id": null
+          },
+          {
+            "id": "M24",
+            "texto": "eu",
+            "tipo": "pronome_pessoal",
+            "origem": "contexto_anterior",
+            "intervalo": {
+              "inicio": 764,
+              "fim": 766,
+              "unidade": "pontos_de_codigo_unicode"
+            },
+            "caracteristicas": {
+              "classe_semantica": "pessoa",
+              "genero": "indeterminado",
+              "numero": "singular"
+            },
+            "confianca_deteccao": 0.99,
+            "mencao_pai_id": null
+          },
+          {
+            "id": "M25",
+            "texto": "dele",
+            "tipo": "pronome_possessivo",
+            "origem": "contexto_anterior",
+            "intervalo": {
+              "inicio": 790,
+              "fim": 794,
+              "unidade": "pontos_de_codigo_unicode"
+            },
+            "caracteristicas": {
+              "classe_semantica": "desconhecida",
+              "genero": "masculino",
+              "numero": "singular"
+            },
+            "confianca_deteccao": 0.99,
+            "mencao_pai_id": null
+          },
+          {
+            "id": "M26",
+            "texto": "a casa",
+            "tipo": "descricao_nominal",
+            "origem": "contexto_anterior",
+            "intervalo": {
+              "inicio": 800,
+              "fim": 806,
+              "unidade": "pontos_de_codigo_unicode"
+            },
+            "caracteristicas": {
+              "classe_semantica": "desconhecida",
+              "genero": "feminino",
+              "numero": "singular"
+            },
+            "confianca_deteccao": 0.82,
+            "mencao_pai_id": null
+          },
+          {
+            "id": "M27",
+            "texto": "ele",
+            "tipo": "pronome_pessoal",
+            "origem": "contexto_anterior",
+            "intervalo": {
+              "inicio": 846,
+              "fim": 849,
+              "unidade": "pontos_de_codigo_unicode"
+            },
+            "caracteristicas": {
+              "classe_semantica": "pessoa",
+              "genero": "masculino",
+              "numero": "singular"
+            },
+            "confianca_deteccao": 0.99,
+            "mencao_pai_id": null
+          },
+          {
+            "id": "M28",
+            "texto": "as coisas",
+            "tipo": "descricao_nominal",
+            "origem": "contexto_anterior",
+            "intervalo": {
+              "inicio": 875,
+              "fim": 884,
+              "unidade": "pontos_de_codigo_unicode"
+            },
+            "caracteristicas": {
+              "classe_semantica": "desconhecida",
+              "genero": "indeterminado",
+              "numero": "plural"
+            },
+            "confianca_deteccao": 0.82,
+            "mencao_pai_id": null
+          },
+          {
+            "id": "M29",
+            "texto": "o relatório de métricas",
+            "tipo": "descricao_nominal",
+            "origem": "paragrafo",
+            "intervalo": {
+              "inicio": 39,
+              "fim": 62,
+              "unidade": "pontos_de_codigo_unicode"
+            },
+            "caracteristicas": {
+              "classe_semantica": "desconhecida",
+              "genero": "masculino",
+              "numero": "singular"
+            },
+            "confianca_deteccao": 0.82,
+            "mencao_pai_id": null
+          },
+          {
+            "id": "M30",
+            "texto": "a Helena",
+            "tipo": "descricao_nominal",
+            "origem": "paragrafo",
+            "intervalo": {
+              "inicio": 77,
+              "fim": 85,
+              "unidade": "pontos_de_codigo_unicode"
+            },
+            "caracteristicas": {
+              "classe_semantica": "desconhecida",
+              "genero": "feminino",
+              "numero": "singular"
+            },
+            "confianca_deteccao": 0.82,
+            "mencao_pai_id": null
+          },
+          {
+            "id": "M31",
+            "texto": "Helena",
+            "tipo": "nome_proprio",
+            "origem": "paragrafo",
+            "intervalo": {
+              "inicio": 79,
+              "fim": 85,
+              "unidade": "pontos_de_codigo_unicode"
+            },
+            "caracteristicas": {
+              "classe_semantica": "pessoa",
+              "genero": "feminino",
+              "numero": "indeterminado"
+            },
+            "confianca_deteccao": 0.93,
+            "mencao_pai_id": "M30"
+          },
+          {
+            "id": "M32",
+            "texto": "a diretora de operações",
+            "tipo": "descricao_nominal",
+            "origem": "paragrafo",
+            "intervalo": {
+              "inicio": 87,
+              "fim": 110,
+              "unidade": "pontos_de_codigo_unicode"
+            },
+            "caracteristicas": {
+              "classe_semantica": "desconhecida",
+              "genero": "feminino",
+              "numero": "singular"
+            },
+            "confianca_deteccao": 0.82,
+            "mencao_pai_id": null
+          },
+          {
+            "id": "M33",
+            "texto": "Fiquei",
+            "tipo": "nome_proprio",
+            "origem": "paragrafo",
+            "intervalo": {
+              "inicio": 112,
+              "fim": 118,
+              "unidade": "pontos_de_codigo_unicode"
+            },
+            "caracteristicas": {
+              "classe_semantica": "pessoa",
+              "genero": "indeterminado",
+              "numero": "indeterminado"
+            },
+            "confianca_deteccao": 0.93,
+            "mencao_pai_id": null
+          },
+          {
+            "id": "M34",
+            "texto": "a caixa de entrada a cada",
+            "tipo": "descricao_nominal",
+            "origem": "paragrafo",
+            "intervalo": {
+              "inicio": 131,
+              "fim": 156,
+              "unidade": "pontos_de_codigo_unicode"
+            },
+            "caracteristicas": {
+              "classe_semantica": "desconhecida",
+              "genero": "feminino",
+              "numero": "singular"
+            },
+            "confianca_deteccao": 0.82,
+            "mencao_pai_id": null
+          },
+          {
+            "id": "M35",
+            "texto": "a cada dois minutos",
+            "tipo": "descricao_nominal",
+            "origem": "paragrafo",
+            "intervalo": {
+              "inicio": 150,
+              "fim": 169,
+              "unidade": "pontos_de_codigo_unicode"
+            },
+            "caracteristicas": {
+              "classe_semantica": "desconhecida",
+              "genero": "feminino",
+              "numero": "singular"
+            },
+            "confianca_deteccao": 0.82,
+            "mencao_pai_id": null
+          },
+          {
+            "id": "M36",
+            "texto": "um café puro na minha caneca",
+            "tipo": "descricao_nominal",
+            "origem": "paragrafo",
+            "intervalo": {
+              "inicio": 186,
+              "fim": 214,
+              "unidade": "pontos_de_codigo_unicode"
+            },
+            "caracteristicas": {
+              "classe_semantica": "desconhecida",
+              "genero": "masculino",
+              "numero": "singular"
+            },
+            "confianca_deteccao": 0.82,
+            "mencao_pai_id": null
+          },
+          {
+            "id": "M37",
+            "texto": "minha",
+            "tipo": "pronome_possessivo",
+            "origem": "paragrafo",
+            "intervalo": {
+              "inicio": 202,
+              "fim": 207,
+              "unidade": "pontos_de_codigo_unicode"
+            },
+            "caracteristicas": {
+              "classe_semantica": "desconhecida",
+              "genero": "indeterminado",
+              "numero": "indeterminado"
+            },
+            "confianca_deteccao": 0.99,
+            "mencao_pai_id": "M36"
+          },
+          {
+            "id": "M38",
+            "texto": "ela",
+            "tipo": "pronome_pessoal",
+            "origem": "paragrafo",
+            "intervalo": {
+              "inicio": 237,
+              "fim": 240,
+              "unidade": "pontos_de_codigo_unicode"
+            },
+            "caracteristicas": {
+              "classe_semantica": "pessoa",
+              "genero": "feminino",
+              "numero": "singular"
+            },
+            "confianca_deteccao": 0.99,
+            "mencao_pai_id": null
+          },
+          {
+            "id": "M39",
+            "texto": "um erro mínimo de alinhamento num",
+            "tipo": "descricao_nominal",
+            "origem": "paragrafo",
+            "intervalo": {
+              "inicio": 284,
+              "fim": 317,
+              "unidade": "pontos_de_codigo_unicode"
+            },
+            "caracteristicas": {
+              "classe_semantica": "desconhecida",
+              "genero": "masculino",
+              "numero": "singular"
+            },
+            "confianca_deteccao": 0.82,
+            "mencao_pai_id": null
+          },
+          {
+            "id": "M40",
+            "texto": "Eu",
+            "tipo": "pronome_pessoal",
+            "origem": "paragrafo",
+            "intervalo": {
+              "inicio": 344,
+              "fim": 346,
+              "unidade": "pontos_de_codigo_unicode"
+            },
+            "caracteristicas": {
+              "classe_semantica": "pessoa",
+              "genero": "indeterminado",
+              "numero": "singular"
+            },
+            "confianca_deteccao": 0.99,
+            "mencao_pai_id": null
+          },
+          {
+            "id": "M41",
+            "texto": "Mesmo",
+            "tipo": "nome_proprio",
+            "origem": "paragrafo",
+            "intervalo": {
+              "inicio": 394,
+              "fim": 399,
+              "unidade": "pontos_de_codigo_unicode"
+            },
+            "caracteristicas": {
+              "classe_semantica": "pessoa",
+              "genero": "indeterminado",
+              "numero": "indeterminado"
+            },
+            "confianca_deteccao": 0.93,
+            "mencao_pai_id": null
+          },
+          {
+            "id": "M42",
+            "texto": "o computador",
+            "tipo": "descricao_nominal",
+            "origem": "paragrafo",
+            "intervalo": {
+              "inicio": 418,
+              "fim": 430,
+              "unidade": "pontos_de_codigo_unicode"
+            },
+            "caracteristicas": {
+              "classe_semantica": "desconhecida",
+              "genero": "masculino",
+              "numero": "singular"
+            },
+            "confianca_deteccao": 0.82,
+            "mencao_pai_id": null
+          },
+          {
+            "id": "M43",
+            "texto": "o arquivo rapidamente",
+            "tipo": "descricao_nominal",
+            "origem": "paragrafo",
+            "intervalo": {
+              "inicio": 440,
+              "fim": 461,
+              "unidade": "pontos_de_codigo_unicode"
+            },
+            "caracteristicas": {
+              "classe_semantica": "desconhecida",
+              "genero": "masculino",
+              "numero": "singular"
+            },
+            "confianca_deteccao": 0.82,
+            "mencao_pai_id": null
+          },
+          {
+            "id": "M44",
+            "texto": "a nova versão",
+            "tipo": "descricao_nominal",
+            "origem": "paragrafo",
+            "intervalo": {
+              "inicio": 472,
+              "fim": 485,
+              "unidade": "pontos_de_codigo_unicode"
+            },
+            "caracteristicas": {
+              "classe_semantica": "desconhecida",
+              "genero": "feminino",
+              "numero": "singular"
+            },
+            "confianca_deteccao": 0.82,
+            "mencao_pai_id": null
+          },
+          {
+            "id": "M45",
+            "texto": "Voltei",
+            "tipo": "nome_proprio",
+            "origem": "paragrafo",
+            "intervalo": {
+              "inicio": 487,
+              "fim": 493,
+              "unidade": "pontos_de_codigo_unicode"
+            },
+            "caracteristicas": {
+              "classe_semantica": "pessoa",
+              "genero": "indeterminado",
+              "numero": "indeterminado"
+            },
+            "confianca_deteccao": 0.93,
+            "mencao_pai_id": null
+          },
+          {
+            "id": "M46",
+            "texto": "a sala dela",
+            "tipo": "descricao_nominal",
+            "origem": "paragrafo",
+            "intervalo": {
+              "inicio": 498,
+              "fim": 509,
+              "unidade": "pontos_de_codigo_unicode"
+            },
+            "caracteristicas": {
+              "classe_semantica": "desconhecida",
+              "genero": "feminino",
+              "numero": "singular"
+            },
+            "confianca_deteccao": 0.82,
+            "mencao_pai_id": null
+          },
+          {
+            "id": "M47",
+            "texto": "dela",
+            "tipo": "pronome_possessivo",
+            "origem": "paragrafo",
+            "intervalo": {
+              "inicio": 505,
+              "fim": 509,
+              "unidade": "pontos_de_codigo_unicode"
+            },
+            "caracteristicas": {
+              "classe_semantica": "desconhecida",
+              "genero": "feminino",
+              "numero": "singular"
+            },
+            "confianca_deteccao": 0.99,
+            "mencao_pai_id": "M46"
+          },
+          {
+            "id": "M48",
+            "texto": "o papel",
+            "tipo": "descricao_nominal",
+            "origem": "paragrafo",
+            "intervalo": {
+              "inicio": 546,
+              "fim": 553,
+              "unidade": "pontos_de_codigo_unicode"
+            },
+            "caracteristicas": {
+              "classe_semantica": "desconhecida",
+              "genero": "masculino",
+              "numero": "singular"
+            },
+            "confianca_deteccao": 0.82,
+            "mencao_pai_id": null
+          },
+          {
+            "id": "M49",
+            "texto": "Ela",
+            "tipo": "pronome_pessoal",
+            "origem": "paragrafo",
+            "intervalo": {
+              "inicio": 555,
+              "fim": 558,
+              "unidade": "pontos_de_codigo_unicode"
+            },
+            "caracteristicas": {
+              "classe_semantica": "pessoa",
+              "genero": "feminino",
+              "numero": "singular"
+            },
+            "confianca_deteccao": 0.99,
+            "mencao_pai_id": null
+          },
+          {
+            "id": "M50",
+            "texto": "a folha",
+            "tipo": "descricao_nominal",
+            "origem": "paragrafo",
+            "intervalo": {
+              "inicio": 565,
+              "fim": 572,
+              "unidade": "pontos_de_codigo_unicode"
+            },
+            "caracteristicas": {
+              "classe_semantica": "desconhecida",
+              "genero": "feminino",
+              "numero": "singular"
+            },
+            "confianca_deteccao": 0.82,
+            "mencao_pai_id": null
+          },
+          {
+            "id": "M51",
+            "texto": "aquele mesmo aceno",
+            "tipo": "descricao_nominal",
+            "origem": "paragrafo",
+            "intervalo": {
+              "inicio": 625,
+              "fim": 643,
+              "unidade": "pontos_de_codigo_unicode"
+            },
+            "caracteristicas": {
+              "classe_semantica": "desconhecida",
+              "genero": "masculino",
+              "numero": "singular"
+            },
+            "confianca_deteccao": 0.82,
+            "mencao_pai_id": null
+          },
+          {
+            "id": "M52",
+            "texto": "a cabeça",
+            "tipo": "descricao_nominal",
+            "origem": "paragrafo",
+            "intervalo": {
+              "inicio": 648,
+              "fim": 656,
+              "unidade": "pontos_de_codigo_unicode"
+            },
+            "caracteristicas": {
+              "classe_semantica": "desconhecida",
+              "genero": "feminino",
+              "numero": "singular"
+            },
+            "confianca_deteccao": 0.82,
+            "mencao_pai_id": null
+          },
+          {
+            "id": "M53",
+            "texto": "Retornei",
+            "tipo": "nome_proprio",
+            "origem": "paragrafo",
+            "intervalo": {
+              "inicio": 658,
+              "fim": 666,
+              "unidade": "pontos_de_codigo_unicode"
+            },
+            "caracteristicas": {
+              "classe_semantica": "pessoa",
+              "genero": "indeterminado",
+              "numero": "indeterminado"
+            },
+            "confianca_deteccao": 0.93,
+            "mencao_pai_id": null
+          },
+          {
+            "id": "M54",
+            "texto": "a minha mesa",
+            "tipo": "descricao_nominal",
+            "origem": "paragrafo",
+            "intervalo": {
+              "inicio": 672,
+              "fim": 684,
+              "unidade": "pontos_de_codigo_unicode"
+            },
+            "caracteristicas": {
+              "classe_semantica": "desconhecida",
+              "genero": "feminino",
+              "numero": "singular"
+            },
+            "confianca_deteccao": 0.82,
+            "mencao_pai_id": null
+          },
+          {
+            "id": "M55",
+            "texto": "minha",
+            "tipo": "pronome_possessivo",
+            "origem": "paragrafo",
+            "intervalo": {
+              "inicio": 674,
+              "fim": 679,
+              "unidade": "pontos_de_codigo_unicode"
+            },
+            "caracteristicas": {
+              "classe_semantica": "desconhecida",
+              "genero": "indeterminado",
+              "numero": "indeterminado"
+            },
+            "confianca_deteccao": 0.99,
+            "mencao_pai_id": "M54"
+          },
+          {
+            "id": "M56",
+            "texto": "uma sensação de alívio esquisita",
+            "tipo": "descricao_nominal",
+            "origem": "paragrafo",
+            "intervalo": {
+              "inicio": 689,
+              "fim": 721,
+              "unidade": "pontos_de_codigo_unicode"
+            },
+            "caracteristicas": {
+              "classe_semantica": "desconhecida",
+              "genero": "feminino",
+              "numero": "singular"
+            },
+            "confianca_deteccao": 0.82,
+            "mencao_pai_id": null
+          },
+          {
+            "id": "M57",
+            "texto": "a mesma",
+            "tipo": "descricao_nominal",
+            "origem": "paragrafo",
+            "intervalo": {
+              "inicio": 734,
+              "fim": 741,
+              "unidade": "pontos_de_codigo_unicode"
+            },
+            "caracteristicas": {
+              "classe_semantica": "desconhecida",
+              "genero": "feminino",
+              "numero": "singular"
+            },
+            "confianca_deteccao": 0.82,
+            "mencao_pai_id": null
+          },
+          {
+            "id": "M58",
+            "texto": "eu",
+            "tipo": "pronome_pessoal",
+            "origem": "paragrafo",
+            "intervalo": {
+              "inicio": 746,
+              "fim": 748,
+              "unidade": "pontos_de_codigo_unicode"
+            },
+            "caracteristicas": {
+              "classe_semantica": "pessoa",
+              "genero": "indeterminado",
+              "numero": "singular"
+            },
+            "confianca_deteccao": 0.99,
+            "mencao_pai_id": null
+          },
+          {
+            "id": "M59",
+            "texto": "o pano de prato úmido",
+            "tipo": "descricao_nominal",
+            "origem": "paragrafo",
+            "intervalo": {
+              "inicio": 777,
+              "fim": 798,
+              "unidade": "pontos_de_codigo_unicode"
+            },
+            "caracteristicas": {
+              "classe_semantica": "desconhecida",
+              "genero": "masculino",
+              "numero": "singular"
+            },
+            "confianca_deteccao": 0.82,
+            "mencao_pai_id": null
+          },
+          {
+            "id": "M60",
+            "texto": "Parece",
+            "tipo": "nome_proprio",
+            "origem": "paragrafo",
+            "intervalo": {
+              "inicio": 800,
+              "fim": 806,
+              "unidade": "pontos_de_codigo_unicode"
+            },
+            "caracteristicas": {
+              "classe_semantica": "pessoa",
+              "genero": "indeterminado",
+              "numero": "indeterminado"
+            },
+            "confianca_deteccao": 0.93,
+            "mencao_pai_id": null
+          },
+          {
+            "id": "M61",
+            "texto": "a minha semana só consegue engrenar",
+            "tipo": "descricao_nominal",
+            "origem": "paragrafo",
+            "intervalo": {
+              "inicio": 811,
+              "fim": 846,
+              "unidade": "pontos_de_codigo_unicode"
+            },
+            "caracteristicas": {
+              "classe_semantica": "desconhecida",
+              "genero": "feminino",
+              "numero": "singular"
+            },
+            "confianca_deteccao": 0.82,
+            "mencao_pai_id": null
+          },
+          {
+            "id": "M62",
+            "texto": "minha",
+            "tipo": "pronome_possessivo",
+            "origem": "paragrafo",
+            "intervalo": {
+              "inicio": 813,
+              "fim": 818,
+              "unidade": "pontos_de_codigo_unicode"
+            },
+            "caracteristicas": {
+              "classe_semantica": "desconhecida",
+              "genero": "indeterminado",
+              "numero": "indeterminado"
+            },
+            "confianca_deteccao": 0.99,
+            "mencao_pai_id": "M61"
+          }
+        ],
+        "referentes": [
+          {
+            "id": "R1",
+            "rotulo": "a tensão",
+            "classe_semantica": "desconhecida",
+            "mencoes": [
+              "M1"
+            ],
+            "confianca": 0.82
+          },
+          {
+            "id": "R2",
+            "rotulo": "as bordas dos pratos fundos",
+            "classe_semantica": "desconhecida",
+            "mencoes": [
+              "M4"
+            ],
+            "confianca": 0.82
+          },
+          {
+            "id": "R3",
+            "rotulo": "um pano de prato",
+            "classe_semantica": "desconhecida",
+            "mencoes": [
+              "M5"
+            ],
+            "confianca": 0.82
+          },
+          {
+            "id": "R4",
+            "rotulo": "a pilha",
+            "classe_semantica": "desconhecida",
+            "mencoes": [
+              "M8"
+            ],
+            "confianca": 0.82
+          },
+          {
+            "id": "R5",
+            "rotulo": "Ainda",
+            "classe_semantica": "pessoa",
+            "mencoes": [
+              "M10",
+              "M16"
+            ],
+            "confianca": 0.72
+          },
+          {
+            "id": "R6",
+            "rotulo": "a louça de volta",
+            "classe_semantica": "desconhecida",
+            "mencoes": [
+              "M12"
+            ],
+            "confianca": 0.82
+          },
+          {
+            "id": "R7",
+            "rotulo": "um calor irritante subindo",
+            "classe_semantica": "desconhecida",
+            "mencoes": [
+              "M13"
+            ],
+            "confianca": 0.82
+          },
+          {
+            "id": "R8",
+            "rotulo": "O estranho é",
+            "classe_semantica": "desconhecida",
+            "mencoes": [
+              "M14"
+            ],
+            "confianca": 0.82
+          },
+          {
+            "id": "R9",
+            "rotulo": "um copo",
+            "classe_semantica": "desconhecida",
+            "mencoes": [
+              "M18"
+            ],
+            "confianca": 0.82
+          },
+          {
+            "id": "R10",
+            "rotulo": "a cabeça",
+            "classe_semantica": "desconhecida",
+            "mencoes": [
+              "M19",
+              "M52"
+            ],
+            "confianca": 0.77
+          },
+          {
+            "id": "R11",
+            "rotulo": "Será",
+            "classe_semantica": "pessoa",
+            "mencoes": [
+              "M20"
+            ],
+            "confianca": 0.93
+          },
+          {
+            "id": "R12",
+            "rotulo": "Não",
+            "classe_semantica": "pessoa",
+            "mencoes": [
+              "M23",
+              "M25"
+            ],
+            "confianca": 0.75
+          },
+          {
+            "id": "R13",
+            "rotulo": "a casa",
+            "classe_semantica": "desconhecida",
+            "mencoes": [
+              "M26"
+            ],
+            "confianca": 0.82
+          },
+          {
+            "id": "R14",
+            "rotulo": "as coisas",
+            "classe_semantica": "desconhecida",
+            "mencoes": [
+              "M28"
+            ],
+            "confianca": 0.82
+          },
+          {
+            "id": "R15",
+            "rotulo": "o relatório de métricas",
+            "classe_semantica": "desconhecida",
+            "mencoes": [
+              "M29"
+            ],
+            "confianca": 0.82
+          },
+          {
+            "id": "R16",
+            "rotulo": "a Helena",
+            "classe_semantica": "desconhecida",
+            "mencoes": [
+              "M30"
+            ],
+            "confianca": 0.82
+          },
+          {
+            "id": "R17",
+            "rotulo": "Helena",
+            "classe_semantica": "pessoa",
+            "mencoes": [
+              "M31",
+              "M47"
+            ],
+            "confianca": 0.79
+          },
+          {
+            "id": "R18",
+            "rotulo": "a diretora de operações",
+            "classe_semantica": "desconhecida",
+            "mencoes": [
+              "M32"
+            ],
+            "confianca": 0.82
+          },
+          {
+            "id": "R19",
+            "rotulo": "Fiquei",
+            "classe_semantica": "pessoa",
+            "mencoes": [
+              "M33"
+            ],
+            "confianca": 0.93
+          },
+          {
+            "id": "R20",
+            "rotulo": "a caixa de entrada a cada",
+            "classe_semantica": "desconhecida",
+            "mencoes": [
+              "M34",
+              "M35"
+            ],
+            "confianca": 0.81
+          },
+          {
+            "id": "R21",
+            "rotulo": "um café puro na minha caneca",
+            "classe_semantica": "desconhecida",
+            "mencoes": [
+              "M36"
+            ],
+            "confianca": 0.82
+          },
+          {
+            "id": "R22",
+            "rotulo": "um erro mínimo de alinhamento num",
+            "classe_semantica": "desconhecida",
+            "mencoes": [
+              "M39"
+            ],
+            "confianca": 0.82
+          },
+          {
+            "id": "R23",
+            "rotulo": "Mesmo",
+            "classe_semantica": "pessoa",
+            "mencoes": [
+              "M41"
+            ],
+            "confianca": 0.93
+          },
+          {
+            "id": "R24",
+            "rotulo": "o computador",
+            "classe_semantica": "desconhecida",
+            "mencoes": [
+              "M42"
+            ],
+            "confianca": 0.82
+          },
+          {
+            "id": "R25",
+            "rotulo": "o arquivo rapidamente",
+            "classe_semantica": "desconhecida",
+            "mencoes": [
+              "M43"
+            ],
+            "confianca": 0.82
+          },
+          {
+            "id": "R26",
+            "rotulo": "a nova versão",
+            "classe_semantica": "desconhecida",
+            "mencoes": [
+              "M44"
+            ],
+            "confianca": 0.82
+          },
+          {
+            "id": "R27",
+            "rotulo": "Voltei",
+            "classe_semantica": "pessoa",
+            "mencoes": [
+              "M45"
+            ],
+            "confianca": 0.93
+          },
+          {
+            "id": "R28",
+            "rotulo": "a sala dela",
+            "classe_semantica": "desconhecida",
+            "mencoes": [
+              "M46"
+            ],
+            "confianca": 0.82
+          },
+          {
+            "id": "R29",
+            "rotulo": "o papel",
+            "classe_semantica": "desconhecida",
+            "mencoes": [
+              "M48"
+            ],
+            "confianca": 0.82
+          },
+          {
+            "id": "R30",
+            "rotulo": "a folha",
+            "classe_semantica": "desconhecida",
+            "mencoes": [
+              "M50"
+            ],
+            "confianca": 0.82
+          },
+          {
+            "id": "R31",
+            "rotulo": "aquele mesmo aceno",
+            "classe_semantica": "desconhecida",
+            "mencoes": [
+              "M51"
+            ],
+            "confianca": 0.82
+          },
+          {
+            "id": "R32",
+            "rotulo": "Retornei",
+            "classe_semantica": "pessoa",
+            "mencoes": [
+              "M53"
+            ],
+            "confianca": 0.93
+          },
+          {
+            "id": "R33",
+            "rotulo": "a minha mesa",
+            "classe_semantica": "desconhecida",
+            "mencoes": [
+              "M54"
+            ],
+            "confianca": 0.82
+          },
+          {
+            "id": "R34",
+            "rotulo": "uma sensação de alívio esquisita",
+            "classe_semantica": "desconhecida",
+            "mencoes": [
+              "M56"
+            ],
+            "confianca": 0.82
+          },
+          {
+            "id": "R35",
+            "rotulo": "a mesma",
+            "classe_semantica": "desconhecida",
+            "mencoes": [
+              "M57"
+            ],
+            "confianca": 0.82
+          },
+          {
+            "id": "R36",
+            "rotulo": "o pano de prato úmido",
+            "classe_semantica": "desconhecida",
+            "mencoes": [
+              "M59"
+            ],
+            "confianca": 0.82
+          },
+          {
+            "id": "R37",
+            "rotulo": "Parece",
+            "classe_semantica": "pessoa",
+            "mencoes": [
+              "M60"
+            ],
+            "confianca": 0.93
+          },
+          {
+            "id": "R38",
+            "rotulo": "a minha semana só consegue engrenar",
+            "classe_semantica": "desconhecida",
+            "mencoes": [
+              "M61"
+            ],
+            "confianca": 0.82
+          }
+        ],
+        "resolucoes": [
+          {
+            "mencao_id": "M1",
+            "referente_id": "R1",
+            "estado": "novo_referente",
+            "tipo_relacao": "introducao",
+            "confianca": 0.82,
+            "antecedente_mencao_id": null,
+            "razoes": [
+              "menção nominal introduz um referente distinto"
+            ],
+            "alternativas": [],
+            "evidencias": [
+              {
+                "mencao_id": "M1",
+                "texto": "a tensão",
+                "origem": "contexto_anterior",
+                "intervalo": {
+                  "inicio": 52,
+                  "fim": 60,
+                  "unidade": "pontos_de_codigo_unicode"
+                }
+              }
+            ]
+          },
+          {
+            "mencao_id": "M2",
+            "referente_id": null,
+            "estado": "nao_resolvida",
+            "tipo_relacao": "identidade",
+            "confianca": 0.0,
+            "antecedente_mencao_id": null,
+            "razoes": [
+              "nenhum antecedente atingiu o limiar de decisão"
+            ],
+            "alternativas": [],
+            "evidencias": [
+              {
+                "mencao_id": "M2",
+                "texto": "eu",
+                "origem": "contexto_anterior",
+                "intervalo": {
+                  "inicio": 111,
+                  "fim": 113,
+                  "unidade": "pontos_de_codigo_unicode"
+                }
+              }
+            ]
+          },
+          {
+            "mencao_id": "M3",
+            "referente_id": null,
+            "estado": "nao_resolvida",
+            "tipo_relacao": "possuidor",
+            "confianca": 0.0,
+            "antecedente_mencao_id": null,
+            "razoes": [
+              "nenhum antecedente atingiu o limiar de decisão"
+            ],
+            "alternativas": [],
+            "evidencias": [
+              {
+                "mencao_id": "M3",
+                "texto": "meus",
+                "origem": "contexto_anterior",
+                "intervalo": {
+                  "inicio": 144,
+                  "fim": 148,
+                  "unidade": "pontos_de_codigo_unicode"
+                }
+              }
+            ]
+          },
+          {
+            "mencao_id": "M4",
+            "referente_id": "R2",
+            "estado": "novo_referente",
+            "tipo_relacao": "introducao",
+            "confianca": 0.82,
+            "antecedente_mencao_id": null,
+            "razoes": [
+              "menção nominal introduz um referente distinto"
+            ],
+            "alternativas": [],
+            "evidencias": [
+              {
+                "mencao_id": "M4",
+                "texto": "as bordas dos pratos fundos",
+                "origem": "contexto_anterior",
+                "intervalo": {
+                  "inicio": 163,
+                  "fim": 190,
+                  "unidade": "pontos_de_codigo_unicode"
+                }
+              }
+            ]
+          },
+          {
+            "mencao_id": "M5",
+            "referente_id": "R3",
+            "estado": "novo_referente",
+            "tipo_relacao": "introducao",
+            "confianca": 0.82,
+            "antecedente_mencao_id": null,
+            "razoes": [
+              "menção nominal introduz um referente distinto"
+            ],
+            "alternativas": [],
+            "evidencias": [
+              {
+                "mencao_id": "M5",
+                "texto": "um pano de prato",
+                "origem": "contexto_anterior",
+                "intervalo": {
+                  "inicio": 195,
+                  "fim": 211,
+                  "unidade": "pontos_de_codigo_unicode"
+                }
+              }
+            ]
+          },
+          {
+            "mencao_id": "M6",
+            "referente_id": null,
+            "estado": "nao_resolvida",
+            "tipo_relacao": "possuidor",
+            "confianca": 0.0,
+            "antecedente_mencao_id": null,
+            "razoes": [
+              "nenhum antecedente atingiu o limiar de decisão"
+            ],
+            "alternativas": [],
+            "evidencias": [
+              {
+                "mencao_id": "M6",
+                "texto": "meu",
+                "origem": "contexto_anterior",
+                "intervalo": {
+                  "inicio": 229,
+                  "fim": 232,
+                  "unidade": "pontos_de_codigo_unicode"
+                }
+              }
+            ]
+          },
+          {
+            "mencao_id": "M7",
+            "referente_id": null,
+            "estado": "nao_resolvida",
+            "tipo_relacao": "identidade",
+            "confianca": 0.0,
+            "antecedente_mencao_id": null,
+            "razoes": [
+              "nenhum antecedente atingiu o limiar de decisão"
+            ],
+            "alternativas": [],
+            "evidencias": [
+              {
+                "mencao_id": "M7",
+                "texto": "Ele",
+                "origem": "contexto_anterior",
+                "intervalo": {
+                  "inicio": 252,
+                  "fim": 255,
+                  "unidade": "pontos_de_codigo_unicode"
+                }
+              }
+            ]
+          },
+          {
+            "mencao_id": "M8",
+            "referente_id": "R4",
+            "estado": "novo_referente",
+            "tipo_relacao": "introducao",
+            "confianca": 0.82,
+            "antecedente_mencao_id": null,
+            "razoes": [
+              "menção nominal introduz um referente distinto"
+            ],
+            "alternativas": [],
+            "evidencias": [
+              {
+                "mencao_id": "M8",
+                "texto": "a pilha",
+                "origem": "contexto_anterior",
+                "intervalo": {
+                  "inicio": 283,
+                  "fim": 290,
+                  "unidade": "pontos_de_codigo_unicode"
+                }
+              }
+            ]
+          },
+          {
+            "mencao_id": "M9",
+            "referente_id": null,
+            "estado": "nao_resolvida",
+            "tipo_relacao": "identidade",
+            "confianca": 0.0,
+            "antecedente_mencao_id": null,
+            "razoes": [
+              "nenhum antecedente atingiu o limiar de decisão"
+            ],
+            "alternativas": [],
+            "evidencias": [
+              {
+                "mencao_id": "M9",
+                "texto": "eu",
+                "origem": "contexto_anterior",
+                "intervalo": {
+                  "inicio": 295,
+                  "fim": 297,
+                  "unidade": "pontos_de_codigo_unicode"
+                }
+              }
+            ]
+          },
+          {
+            "mencao_id": "M10",
+            "referente_id": "R5",
+            "estado": "novo_referente",
+            "tipo_relacao": "introducao",
+            "confianca": 0.93,
+            "antecedente_mencao_id": null,
+            "razoes": [
+              "menção nominal introduz um referente distinto"
+            ],
+            "alternativas": [],
+            "evidencias": [
+              {
+                "mencao_id": "M10",
+                "texto": "Ainda",
+                "origem": "contexto_anterior",
+                "intervalo": {
+                  "inicio": 326,
+                  "fim": 331,
+                  "unidade": "pontos_de_codigo_unicode"
+                }
+              }
+            ]
+          },
+          {
+            "mencao_id": "M11",
+            "referente_id": null,
+            "estado": "nao_resolvida",
+            "tipo_relacao": "identidade",
+            "confianca": 0.0,
+            "antecedente_mencao_id": null,
+            "razoes": [
+              "nenhum antecedente atingiu o limiar de decisão"
+            ],
+            "alternativas": [],
+            "evidencias": [
+              {
+                "mencao_id": "M11",
+                "texto": "Eu",
+                "origem": "contexto_anterior",
+                "intervalo": {
+                  "inicio": 363,
+                  "fim": 365,
+                  "unidade": "pontos_de_codigo_unicode"
+                }
+              }
+            ]
+          },
+          {
+            "mencao_id": "M12",
+            "referente_id": "R6",
+            "estado": "novo_referente",
+            "tipo_relacao": "introducao",
+            "confianca": 0.82,
+            "antecedente_mencao_id": null,
+            "razoes": [
+              "menção nominal introduz um referente distinto"
+            ],
+            "alternativas": [],
+            "evidencias": [
+              {
+                "mencao_id": "M12",
+                "texto": "a louça de volta",
+                "origem": "contexto_anterior",
+                "intervalo": {
+                  "inicio": 395,
+                  "fim": 411,
+                  "unidade": "pontos_de_codigo_unicode"
+                }
+              }
+            ]
+          },
+          {
+            "mencao_id": "M13",
+            "referente_id": "R7",
+            "estado": "novo_referente",
+            "tipo_relacao": "introducao",
+            "confianca": 0.82,
+            "antecedente_mencao_id": null,
+            "razoes": [
+              "menção nominal introduz um referente distinto"
+            ],
+            "alternativas": [],
+            "evidencias": [
+              {
+                "mencao_id": "M13",
+                "texto": "um calor irritante subindo",
+                "origem": "contexto_anterior",
+                "intervalo": {
+                  "inicio": 422,
+                  "fim": 448,
+                  "unidade": "pontos_de_codigo_unicode"
+                }
+              }
+            ]
+          },
+          {
+            "mencao_id": "M14",
+            "referente_id": "R8",
+            "estado": "novo_referente",
+            "tipo_relacao": "introducao",
+            "confianca": 0.82,
+            "antecedente_mencao_id": null,
+            "razoes": [
+              "menção nominal introduz um referente distinto"
+            ],
+            "alternativas": [],
+            "evidencias": [
+              {
+                "mencao_id": "M14",
+                "texto": "O estranho é",
+                "origem": "contexto_anterior",
+                "intervalo": {
+                  "inicio": 463,
+                  "fim": 475,
+                  "unidade": "pontos_de_codigo_unicode"
+                }
+              }
+            ]
+          },
+          {
+            "mencao_id": "M15",
+            "referente_id": null,
+            "estado": "nao_resolvida",
+            "tipo_relacao": "identidade",
+            "confianca": 0.0,
+            "antecedente_mencao_id": null,
+            "razoes": [
+              "nenhum antecedente atingiu o limiar de decisão"
+            ],
+            "alternativas": [],
+            "evidencias": [
+              {
+                "mencao_id": "M15",
+                "texto": "eu",
+                "origem": "contexto_anterior",
+                "intervalo": {
+                  "inicio": 480,
+                  "fim": 482,
+                  "unidade": "pontos_de_codigo_unicode"
+                }
+              }
+            ]
+          },
+          {
+            "mencao_id": "M16",
+            "referente_id": "R5",
+            "estado": "resolvida",
+            "tipo_relacao": "possuidor",
+            "confianca": 0.51,
+            "antecedente_mencao_id": "M10",
+            "razoes": [
+              "candidato humano para o papel de possuidor",
+              "antecedente disponível no contexto",
+              "nome próprio saliente",
+              "mesma unidade textual"
+            ],
+            "alternativas": [],
+            "evidencias": [
+              {
+                "mencao_id": "M10",
+                "texto": "Ainda",
+                "origem": "contexto_anterior",
+                "intervalo": {
+                  "inicio": 326,
+                  "fim": 331,
+                  "unidade": "pontos_de_codigo_unicode"
+                }
+              },
+              {
+                "mencao_id": "M16",
+                "texto": "dele",
+                "origem": "contexto_anterior",
+                "intervalo": {
+                  "inicio": 550,
+                  "fim": 554,
+                  "unidade": "pontos_de_codigo_unicode"
+                }
+              }
+            ]
+          },
+          {
+            "mencao_id": "M17",
+            "referente_id": null,
+            "estado": "nao_resolvida",
+            "tipo_relacao": "identidade",
+            "confianca": 0.46,
+            "antecedente_mencao_id": null,
+            "razoes": [
+              "nenhum antecedente atingiu o limiar de decisão"
+            ],
+            "alternativas": [
+              {
+                "antecedente_mencao_id": "M10",
+                "referente_id": "R5",
+                "pontuacao": 0.46,
+                "razoes": [
+                  "mesma classe semântica: pessoa",
+                  "antecedente disponível no contexto",
+                  "nome próprio saliente",
+                  "mesma unidade textual"
+                ]
+              }
+            ],
+            "evidencias": [
+              {
+                "mencao_id": "M17",
+                "texto": "ele",
+                "origem": "contexto_anterior",
+                "intervalo": {
+                  "inicio": 604,
+                  "fim": 607,
+                  "unidade": "pontos_de_codigo_unicode"
+                }
+              }
+            ]
+          },
+          {
+            "mencao_id": "M18",
+            "referente_id": "R9",
+            "estado": "novo_referente",
+            "tipo_relacao": "introducao",
+            "confianca": 0.82,
+            "antecedente_mencao_id": null,
+            "razoes": [
+              "menção nominal introduz um referente distinto"
+            ],
+            "alternativas": [],
+            "evidencias": [
+              {
+                "mencao_id": "M18",
+                "texto": "um copo",
+                "origem": "contexto_anterior",
+                "intervalo": {
+                  "inicio": 628,
+                  "fim": 635,
+                  "unidade": "pontos_de_codigo_unicode"
+                }
+              }
+            ]
+          },
+          {
+            "mencao_id": "M19",
+            "referente_id": "R10",
+            "estado": "novo_referente",
+            "tipo_relacao": "introducao",
+            "confianca": 0.82,
+            "antecedente_mencao_id": null,
+            "razoes": [
+              "menção nominal introduz um referente distinto"
+            ],
+            "alternativas": [],
+            "evidencias": [
+              {
+                "mencao_id": "M19",
+                "texto": "a cabeça",
+                "origem": "contexto_anterior",
+                "intervalo": {
+                  "inicio": 662,
+                  "fim": 670,
+                  "unidade": "pontos_de_codigo_unicode"
+                }
+              }
+            ]
+          },
+          {
+            "mencao_id": "M20",
+            "referente_id": "R11",
+            "estado": "novo_referente",
+            "tipo_relacao": "introducao",
+            "confianca": 0.93,
+            "antecedente_mencao_id": null,
+            "razoes": [
+              "menção nominal introduz um referente distinto"
+            ],
+            "alternativas": [],
+            "evidencias": [
+              {
+                "mencao_id": "M20",
+                "texto": "Será",
+                "origem": "contexto_anterior",
+                "intervalo": {
+                  "inicio": 672,
+                  "fim": 676,
+                  "unidade": "pontos_de_codigo_unicode"
+                }
+              }
+            ]
+          },
+          {
+            "mencao_id": "M21",
+            "referente_id": null,
+            "estado": "nao_resolvida",
+            "tipo_relacao": "identidade",
+            "confianca": 0.0,
+            "antecedente_mencao_id": null,
+            "razoes": [
+              "nenhum antecedente atingiu o limiar de decisão"
+            ],
+            "alternativas": [],
+            "evidencias": [
+              {
+                "mencao_id": "M21",
+                "texto": "eu",
+                "origem": "contexto_anterior",
+                "intervalo": {
+                  "inicio": 681,
+                  "fim": 683,
+                  "unidade": "pontos_de_codigo_unicode"
+                }
+              }
+            ]
+          },
+          {
+            "mencao_id": "M22",
+            "referente_id": null,
+            "estado": "nao_resolvida",
+            "tipo_relacao": "possuidor",
+            "confianca": 0.0,
+            "antecedente_mencao_id": null,
+            "razoes": [
+              "nenhum antecedente atingiu o limiar de decisão"
+            ],
+            "alternativas": [],
+            "evidencias": [
+              {
+                "mencao_id": "M22",
+                "texto": "minha",
+                "origem": "contexto_anterior",
+                "intervalo": {
+                  "inicio": 692,
+                  "fim": 697,
+                  "unidade": "pontos_de_codigo_unicode"
+                }
+              }
+            ]
+          },
+          {
+            "mencao_id": "M23",
+            "referente_id": "R12",
+            "estado": "novo_referente",
+            "tipo_relacao": "introducao",
+            "confianca": 0.93,
+            "antecedente_mencao_id": null,
+            "razoes": [
+              "menção nominal introduz um referente distinto"
+            ],
+            "alternativas": [],
+            "evidencias": [
+              {
+                "mencao_id": "M23",
+                "texto": "Não",
+                "origem": "contexto_anterior",
+                "intervalo": {
+                  "inicio": 754,
+                  "fim": 757,
+                  "unidade": "pontos_de_codigo_unicode"
+                }
+              }
+            ]
+          },
+          {
+            "mencao_id": "M24",
+            "referente_id": null,
+            "estado": "nao_resolvida",
+            "tipo_relacao": "identidade",
+            "confianca": 0.0,
+            "antecedente_mencao_id": null,
+            "razoes": [
+              "nenhum antecedente atingiu o limiar de decisão"
+            ],
+            "alternativas": [],
+            "evidencias": [
+              {
+                "mencao_id": "M24",
+                "texto": "eu",
+                "origem": "contexto_anterior",
+                "intervalo": {
+                  "inicio": 764,
+                  "fim": 766,
+                  "unidade": "pontos_de_codigo_unicode"
+                }
+              }
+            ]
+          },
+          {
+            "mencao_id": "M25",
+            "referente_id": "R12",
+            "estado": "resolvida",
+            "tipo_relacao": "possuidor",
+            "confianca": 0.57,
+            "antecedente_mencao_id": "M23",
+            "razoes": [
+              "candidato humano para o papel de possuidor",
+              "antecedente recente",
+              "nome próprio saliente",
+              "mesma unidade textual"
+            ],
+            "alternativas": [
+              {
+                "antecedente_mencao_id": "M20",
+                "referente_id": "R11",
+                "pontuacao": 0.51,
+                "razoes": [
+                  "candidato humano para o papel de possuidor",
+                  "antecedente disponível no contexto",
+                  "nome próprio saliente",
+                  "mesma unidade textual"
+                ]
+              },
+              {
+                "antecedente_mencao_id": "M10",
+                "referente_id": "R5",
+                "pontuacao": 0.46,
+                "razoes": [
+                  "candidato humano para o papel de possuidor",
+                  "antecedente disponível no contexto",
+                  "nome próprio saliente",
+                  "mesma unidade textual"
+                ]
+              }
+            ],
+            "evidencias": [
+              {
+                "mencao_id": "M23",
+                "texto": "Não",
+                "origem": "contexto_anterior",
+                "intervalo": {
+                  "inicio": 754,
+                  "fim": 757,
+                  "unidade": "pontos_de_codigo_unicode"
+                }
+              },
+              {
+                "mencao_id": "M25",
+                "texto": "dele",
+                "origem": "contexto_anterior",
+                "intervalo": {
+                  "inicio": 790,
+                  "fim": 794,
+                  "unidade": "pontos_de_codigo_unicode"
+                }
+              }
+            ]
+          },
+          {
+            "mencao_id": "M26",
+            "referente_id": "R13",
+            "estado": "novo_referente",
+            "tipo_relacao": "introducao",
+            "confianca": 0.82,
+            "antecedente_mencao_id": null,
+            "razoes": [
+              "menção nominal introduz um referente distinto"
+            ],
+            "alternativas": [],
+            "evidencias": [
+              {
+                "mencao_id": "M26",
+                "texto": "a casa",
+                "origem": "contexto_anterior",
+                "intervalo": {
+                  "inicio": 800,
+                  "fim": 806,
+                  "unidade": "pontos_de_codigo_unicode"
+                }
+              }
+            ]
+          },
+          {
+            "mencao_id": "M27",
+            "referente_id": null,
+            "estado": "nao_resolvida",
+            "tipo_relacao": "identidade",
+            "confianca": 0.51,
+            "antecedente_mencao_id": null,
+            "razoes": [
+              "nenhum antecedente atingiu o limiar de decisão"
+            ],
+            "alternativas": [
+              {
+                "antecedente_mencao_id": "M23",
+                "referente_id": "R12",
+                "pontuacao": 0.51,
+                "razoes": [
+                  "mesma classe semântica: pessoa",
+                  "antecedente disponível no contexto",
+                  "nome próprio saliente",
+                  "mesma unidade textual"
+                ]
+              },
+              {
+                "antecedente_mencao_id": "M20",
+                "referente_id": "R11",
+                "pontuacao": 0.46,
+                "razoes": [
+                  "mesma classe semântica: pessoa",
+                  "antecedente disponível no contexto",
+                  "nome próprio saliente",
+                  "mesma unidade textual"
+                ]
+              },
+              {
+                "antecedente_mencao_id": "M10",
+                "referente_id": "R5",
+                "pontuacao": 0.46,
+                "razoes": [
+                  "mesma classe semântica: pessoa",
+                  "antecedente disponível no contexto",
+                  "nome próprio saliente",
+                  "mesma unidade textual"
+                ]
+              }
+            ],
+            "evidencias": [
+              {
+                "mencao_id": "M27",
+                "texto": "ele",
+                "origem": "contexto_anterior",
+                "intervalo": {
+                  "inicio": 846,
+                  "fim": 849,
+                  "unidade": "pontos_de_codigo_unicode"
+                }
+              }
+            ]
+          },
+          {
+            "mencao_id": "M28",
+            "referente_id": "R14",
+            "estado": "novo_referente",
+            "tipo_relacao": "introducao",
+            "confianca": 0.82,
+            "antecedente_mencao_id": null,
+            "razoes": [
+              "menção nominal introduz um referente distinto"
+            ],
+            "alternativas": [],
+            "evidencias": [
+              {
+                "mencao_id": "M28",
+                "texto": "as coisas",
+                "origem": "contexto_anterior",
+                "intervalo": {
+                  "inicio": 875,
+                  "fim": 884,
+                  "unidade": "pontos_de_codigo_unicode"
+                }
+              }
+            ]
+          },
+          {
+            "mencao_id": "M29",
+            "referente_id": "R15",
+            "estado": "novo_referente",
+            "tipo_relacao": "introducao",
+            "confianca": 0.82,
+            "antecedente_mencao_id": null,
+            "razoes": [
+              "menção nominal introduz um referente distinto"
+            ],
+            "alternativas": [],
+            "evidencias": [
+              {
+                "mencao_id": "M29",
+                "texto": "o relatório de métricas",
+                "origem": "paragrafo",
+                "intervalo": {
+                  "inicio": 39,
+                  "fim": 62,
+                  "unidade": "pontos_de_codigo_unicode"
+                }
+              }
+            ]
+          },
+          {
+            "mencao_id": "M30",
+            "referente_id": "R16",
+            "estado": "novo_referente",
+            "tipo_relacao": "introducao",
+            "confianca": 0.82,
+            "antecedente_mencao_id": null,
+            "razoes": [
+              "menção nominal introduz um referente distinto"
+            ],
+            "alternativas": [],
+            "evidencias": [
+              {
+                "mencao_id": "M30",
+                "texto": "a Helena",
+                "origem": "paragrafo",
+                "intervalo": {
+                  "inicio": 77,
+                  "fim": 85,
+                  "unidade": "pontos_de_codigo_unicode"
+                }
+              }
+            ]
+          },
+          {
+            "mencao_id": "M31",
+            "referente_id": "R17",
+            "estado": "novo_referente",
+            "tipo_relacao": "introducao",
+            "confianca": 0.93,
+            "antecedente_mencao_id": null,
+            "razoes": [
+              "menção nominal introduz um referente distinto"
+            ],
+            "alternativas": [],
+            "evidencias": [
+              {
+                "mencao_id": "M31",
+                "texto": "Helena",
+                "origem": "paragrafo",
+                "intervalo": {
+                  "inicio": 79,
+                  "fim": 85,
+                  "unidade": "pontos_de_codigo_unicode"
+                }
+              }
+            ]
+          },
+          {
+            "mencao_id": "M32",
+            "referente_id": "R18",
+            "estado": "novo_referente",
+            "tipo_relacao": "introducao",
+            "confianca": 0.82,
+            "antecedente_mencao_id": null,
+            "razoes": [
+              "menção nominal introduz um referente distinto"
+            ],
+            "alternativas": [],
+            "evidencias": [
+              {
+                "mencao_id": "M32",
+                "texto": "a diretora de operações",
+                "origem": "paragrafo",
+                "intervalo": {
+                  "inicio": 87,
+                  "fim": 110,
+                  "unidade": "pontos_de_codigo_unicode"
+                }
+              }
+            ]
+          },
+          {
+            "mencao_id": "M33",
+            "referente_id": "R19",
+            "estado": "novo_referente",
+            "tipo_relacao": "introducao",
+            "confianca": 0.93,
+            "antecedente_mencao_id": null,
+            "razoes": [
+              "menção nominal introduz um referente distinto"
+            ],
+            "alternativas": [],
+            "evidencias": [
+              {
+                "mencao_id": "M33",
+                "texto": "Fiquei",
+                "origem": "paragrafo",
+                "intervalo": {
+                  "inicio": 112,
+                  "fim": 118,
+                  "unidade": "pontos_de_codigo_unicode"
+                }
+              }
+            ]
+          },
+          {
+            "mencao_id": "M34",
+            "referente_id": "R20",
+            "estado": "novo_referente",
+            "tipo_relacao": "introducao",
+            "confianca": 0.82,
+            "antecedente_mencao_id": null,
+            "razoes": [
+              "menção nominal introduz um referente distinto"
+            ],
+            "alternativas": [],
+            "evidencias": [
+              {
+                "mencao_id": "M34",
+                "texto": "a caixa de entrada a cada",
+                "origem": "paragrafo",
+                "intervalo": {
+                  "inicio": 131,
+                  "fim": 156,
+                  "unidade": "pontos_de_codigo_unicode"
+                }
+              }
+            ]
+          },
+          {
+            "mencao_id": "M35",
+            "referente_id": "R20",
+            "estado": "resolvida",
+            "tipo_relacao": "identidade",
+            "confianca": 0.81,
+            "antecedente_mencao_id": "M34",
+            "razoes": [
+              "gênero compatível",
+              "número compatível",
+              "antecedente recente",
+              "mesma unidade textual",
+              "núcleo lexical compartilhado"
+            ],
+            "alternativas": [
+              {
+                "antecedente_mencao_id": "M32",
+                "referente_id": "R18",
+                "pontuacao": 0.57,
+                "razoes": [
+                  "gênero compatível",
+                  "número compatível",
+                  "antecedente recente",
+                  "mesma unidade textual"
+                ]
+              },
+              {
+                "antecedente_mencao_id": "M30",
+                "referente_id": "R16",
+                "pontuacao": 0.51,
+                "razoes": [
+                  "gênero compatível",
+                  "número compatível",
+                  "antecedente disponível no contexto",
+                  "mesma unidade textual"
+                ]
+              },
+              {
+                "antecedente_mencao_id": "M31",
+                "referente_id": "R17",
+                "pontuacao": 0.45,
+                "razoes": [
+                  "gênero compatível",
+                  "antecedente disponível no contexto",
+                  "nome próprio saliente",
+                  "mesma unidade textual"
+                ]
+              }
+            ],
+            "evidencias": [
+              {
+                "mencao_id": "M34",
+                "texto": "a caixa de entrada a cada",
+                "origem": "paragrafo",
+                "intervalo": {
+                  "inicio": 131,
+                  "fim": 156,
+                  "unidade": "pontos_de_codigo_unicode"
+                }
+              },
+              {
+                "mencao_id": "M35",
+                "texto": "a cada dois minutos",
+                "origem": "paragrafo",
+                "intervalo": {
+                  "inicio": 150,
+                  "fim": 169,
+                  "unidade": "pontos_de_codigo_unicode"
+                }
+              }
+            ]
+          },
+          {
+            "mencao_id": "M36",
+            "referente_id": "R21",
+            "estado": "novo_referente",
+            "tipo_relacao": "introducao",
+            "confianca": 0.82,
+            "antecedente_mencao_id": null,
+            "razoes": [
+              "menção nominal introduz um referente distinto"
+            ],
+            "alternativas": [
+              {
+                "antecedente_mencao_id": "M29",
+                "referente_id": "R15",
+                "pontuacao": 0.46,
+                "razoes": [
+                  "gênero compatível",
+                  "número compatível",
+                  "antecedente disponível no contexto",
+                  "mesma unidade textual"
+                ]
+              },
+              {
+                "antecedente_mencao_id": "M35",
+                "referente_id": "R20",
+                "pontuacao": 0.45,
+                "razoes": [
+                  "número compatível",
+                  "antecedente recente",
+                  "mesma unidade textual"
+                ]
+              },
+              {
+                "antecedente_mencao_id": "M18",
+                "referente_id": "R9",
+                "pontuacao": 0.43,
+                "razoes": [
+                  "gênero compatível",
+                  "número compatível",
+                  "antecedente disponível no contexto",
+                  "continuidade com o contexto anterior"
+                ]
+              }
+            ],
+            "evidencias": [
+              {
+                "mencao_id": "M36",
+                "texto": "um café puro na minha caneca",
+                "origem": "paragrafo",
+                "intervalo": {
+                  "inicio": 186,
+                  "fim": 214,
+                  "unidade": "pontos_de_codigo_unicode"
+                }
+              }
+            ]
+          },
+          {
+            "mencao_id": "M37",
+            "referente_id": null,
+            "estado": "nao_resolvida",
+            "tipo_relacao": "possuidor",
+            "confianca": 0.0,
+            "antecedente_mencao_id": null,
+            "razoes": [
+              "nenhum antecedente atingiu o limiar de decisão"
+            ],
+            "alternativas": [],
+            "evidencias": [
+              {
+                "mencao_id": "M37",
+                "texto": "minha",
+                "origem": "paragrafo",
+                "intervalo": {
+                  "inicio": 202,
+                  "fim": 207,
+                  "unidade": "pontos_de_codigo_unicode"
+                }
+              }
+            ]
+          },
+          {
+            "mencao_id": "M38",
+            "referente_id": null,
+            "estado": "nao_resolvida",
+            "tipo_relacao": "identidade",
+            "confianca": 0.64,
+            "antecedente_mencao_id": null,
+            "razoes": [
+              "nenhum antecedente atingiu o limiar de decisão"
+            ],
+            "alternativas": [
+              {
+                "antecedente_mencao_id": "M31",
+                "referente_id": "R17",
+                "pontuacao": 0.64,
+                "razoes": [
+                  "mesma classe semântica: pessoa",
+                  "gênero compatível",
+                  "antecedente disponível no contexto",
+                  "nome próprio saliente",
+                  "mesma unidade textual"
+                ]
+              },
+              {
+                "antecedente_mencao_id": "M33",
+                "referente_id": "R19",
+                "pontuacao": 0.51,
+                "razoes": [
+                  "mesma classe semântica: pessoa",
+                  "antecedente disponível no contexto",
+                  "nome próprio saliente",
+                  "mesma unidade textual"
+                ]
+              },
+              {
+                "antecedente_mencao_id": "M23",
+                "referente_id": "R12",
+                "pontuacao": 0.43,
+                "razoes": [
+                  "mesma classe semântica: pessoa",
+                  "antecedente disponível no contexto",
+                  "nome próprio saliente",
+                  "continuidade com o contexto anterior"
+                ]
+              }
+            ],
+            "evidencias": [
+              {
+                "mencao_id": "M38",
+                "texto": "ela",
+                "origem": "paragrafo",
+                "intervalo": {
+                  "inicio": 237,
+                  "fim": 240,
+                  "unidade": "pontos_de_codigo_unicode"
+                }
+              }
+            ]
+          },
+          {
+            "mencao_id": "M39",
+            "referente_id": "R22",
+            "estado": "novo_referente",
+            "tipo_relacao": "introducao",
+            "confianca": 0.82,
+            "antecedente_mencao_id": null,
+            "razoes": [
+              "menção nominal introduz um referente distinto"
+            ],
+            "alternativas": [],
+            "evidencias": [
+              {
+                "mencao_id": "M39",
+                "texto": "um erro mínimo de alinhamento num",
+                "origem": "paragrafo",
+                "intervalo": {
+                  "inicio": 284,
+                  "fim": 317,
+                  "unidade": "pontos_de_codigo_unicode"
+                }
+              }
+            ]
+          },
+          {
+            "mencao_id": "M40",
+            "referente_id": null,
+            "estado": "nao_resolvida",
+            "tipo_relacao": "identidade",
+            "confianca": 0.0,
+            "antecedente_mencao_id": null,
+            "razoes": [
+              "nenhum antecedente atingiu o limiar de decisão"
+            ],
+            "alternativas": [],
+            "evidencias": [
+              {
+                "mencao_id": "M40",
+                "texto": "Eu",
+                "origem": "paragrafo",
+                "intervalo": {
+                  "inicio": 344,
+                  "fim": 346,
+                  "unidade": "pontos_de_codigo_unicode"
+                }
+              }
+            ]
+          },
+          {
+            "mencao_id": "M41",
+            "referente_id": "R23",
+            "estado": "novo_referente",
+            "tipo_relacao": "introducao",
+            "confianca": 0.93,
+            "antecedente_mencao_id": null,
+            "razoes": [
+              "menção nominal introduz um referente distinto"
+            ],
+            "alternativas": [],
+            "evidencias": [
+              {
+                "mencao_id": "M41",
+                "texto": "Mesmo",
+                "origem": "paragrafo",
+                "intervalo": {
+                  "inicio": 394,
+                  "fim": 399,
+                  "unidade": "pontos_de_codigo_unicode"
+                }
+              }
+            ]
+          },
+          {
+            "mencao_id": "M42",
+            "referente_id": "R24",
+            "estado": "novo_referente",
+            "tipo_relacao": "introducao",
+            "confianca": 0.82,
+            "antecedente_mencao_id": null,
+            "razoes": [
+              "menção nominal introduz um referente distinto"
+            ],
+            "alternativas": [],
+            "evidencias": [
+              {
+                "mencao_id": "M42",
+                "texto": "o computador",
+                "origem": "paragrafo",
+                "intervalo": {
+                  "inicio": 418,
+                  "fim": 430,
+                  "unidade": "pontos_de_codigo_unicode"
+                }
+              }
+            ]
+          },
+          {
+            "mencao_id": "M43",
+            "referente_id": "R25",
+            "estado": "novo_referente",
+            "tipo_relacao": "introducao",
+            "confianca": 0.82,
+            "antecedente_mencao_id": null,
+            "razoes": [
+              "menção nominal introduz um referente distinto"
+            ],
+            "alternativas": [],
+            "evidencias": [
+              {
+                "mencao_id": "M43",
+                "texto": "o arquivo rapidamente",
+                "origem": "paragrafo",
+                "intervalo": {
+                  "inicio": 440,
+                  "fim": 461,
+                  "unidade": "pontos_de_codigo_unicode"
+                }
+              }
+            ]
+          },
+          {
+            "mencao_id": "M44",
+            "referente_id": "R26",
+            "estado": "novo_referente",
+            "tipo_relacao": "introducao",
+            "confianca": 0.82,
+            "antecedente_mencao_id": null,
+            "razoes": [
+              "menção nominal introduz um referente distinto"
+            ],
+            "alternativas": [],
+            "evidencias": [
+              {
+                "mencao_id": "M44",
+                "texto": "a nova versão",
+                "origem": "paragrafo",
+                "intervalo": {
+                  "inicio": 472,
+                  "fim": 485,
+                  "unidade": "pontos_de_codigo_unicode"
+                }
+              }
+            ]
+          },
+          {
+            "mencao_id": "M45",
+            "referente_id": "R27",
+            "estado": "novo_referente",
+            "tipo_relacao": "introducao",
+            "confianca": 0.93,
+            "antecedente_mencao_id": null,
+            "razoes": [
+              "menção nominal introduz um referente distinto"
+            ],
+            "alternativas": [],
+            "evidencias": [
+              {
+                "mencao_id": "M45",
+                "texto": "Voltei",
+                "origem": "paragrafo",
+                "intervalo": {
+                  "inicio": 487,
+                  "fim": 493,
+                  "unidade": "pontos_de_codigo_unicode"
+                }
+              }
+            ]
+          },
+          {
+            "mencao_id": "M46",
+            "referente_id": "R28",
+            "estado": "novo_referente",
+            "tipo_relacao": "introducao",
+            "confianca": 0.82,
+            "antecedente_mencao_id": null,
+            "razoes": [
+              "menção nominal introduz um referente distinto"
+            ],
+            "alternativas": [],
+            "evidencias": [
+              {
+                "mencao_id": "M46",
+                "texto": "a sala dela",
+                "origem": "paragrafo",
+                "intervalo": {
+                  "inicio": 498,
+                  "fim": 509,
+                  "unidade": "pontos_de_codigo_unicode"
+                }
+              }
+            ]
+          },
+          {
+            "mencao_id": "M47",
+            "referente_id": "R17",
+            "estado": "resolvida",
+            "tipo_relacao": "possuidor",
+            "confianca": 0.64,
+            "antecedente_mencao_id": "M31",
+            "razoes": [
+              "candidato humano para o papel de possuidor",
+              "gênero compatível",
+              "antecedente disponível no contexto",
+              "nome próprio saliente",
+              "mesma unidade textual"
+            ],
+            "alternativas": [
+              {
+                "antecedente_mencao_id": "M45",
+                "referente_id": "R27",
+                "pontuacao": 0.57,
+                "razoes": [
+                  "candidato humano para o papel de possuidor",
+                  "antecedente recente",
+                  "nome próprio saliente",
+                  "mesma unidade textual"
+                ]
+              },
+              {
+                "antecedente_mencao_id": "M41",
+                "referente_id": "R23",
+                "pontuacao": 0.51,
+                "razoes": [
+                  "candidato humano para o papel de possuidor",
+                  "antecedente disponível no contexto",
+                  "nome próprio saliente",
+                  "mesma unidade textual"
+                ]
+              },
+              {
+                "antecedente_mencao_id": "M33",
+                "referente_id": "R19",
+                "pontuacao": 0.46,
+                "razoes": [
+                  "candidato humano para o papel de possuidor",
+                  "antecedente disponível no contexto",
+                  "nome próprio saliente",
+                  "mesma unidade textual"
+                ]
+              }
+            ],
+            "evidencias": [
+              {
+                "mencao_id": "M31",
+                "texto": "Helena",
+                "origem": "paragrafo",
+                "intervalo": {
+                  "inicio": 79,
+                  "fim": 85,
+                  "unidade": "pontos_de_codigo_unicode"
+                }
+              },
+              {
+                "mencao_id": "M47",
+                "texto": "dela",
+                "origem": "paragrafo",
+                "intervalo": {
+                  "inicio": 505,
+                  "fim": 509,
+                  "unidade": "pontos_de_codigo_unicode"
+                }
+              }
+            ]
+          },
+          {
+            "mencao_id": "M48",
+            "referente_id": "R29",
+            "estado": "novo_referente",
+            "tipo_relacao": "introducao",
+            "confianca": 0.82,
+            "antecedente_mencao_id": null,
+            "razoes": [
+              "menção nominal introduz um referente distinto"
+            ],
+            "alternativas": [],
+            "evidencias": [
+              {
+                "mencao_id": "M48",
+                "texto": "o papel",
+                "origem": "paragrafo",
+                "intervalo": {
+                  "inicio": 546,
+                  "fim": 553,
+                  "unidade": "pontos_de_codigo_unicode"
+                }
+              }
+            ]
+          },
+          {
+            "mencao_id": "M49",
+            "referente_id": null,
+            "estado": "nao_resolvida",
+            "tipo_relacao": "identidade",
+            "confianca": 0.64,
+            "antecedente_mencao_id": null,
+            "razoes": [
+              "nenhum antecedente atingiu o limiar de decisão"
+            ],
+            "alternativas": [
+              {
+                "antecedente_mencao_id": "M31",
+                "referente_id": "R17",
+                "pontuacao": 0.64,
+                "razoes": [
+                  "mesma classe semântica: pessoa",
+                  "gênero compatível",
+                  "antecedente disponível no contexto",
+                  "nome próprio saliente",
+                  "mesma unidade textual"
+                ]
+              },
+              {
+                "antecedente_mencao_id": "M45",
+                "referente_id": "R27",
+                "pontuacao": 0.51,
+                "razoes": [
+                  "mesma classe semântica: pessoa",
+                  "antecedente disponível no contexto",
+                  "nome próprio saliente",
+                  "mesma unidade textual"
+                ]
+              },
+              {
+                "antecedente_mencao_id": "M41",
+                "referente_id": "R23",
+                "pontuacao": 0.46,
+                "razoes": [
+                  "mesma classe semântica: pessoa",
+                  "antecedente disponível no contexto",
+                  "nome próprio saliente",
+                  "mesma unidade textual"
+                ]
+              }
+            ],
+            "evidencias": [
+              {
+                "mencao_id": "M49",
+                "texto": "Ela",
+                "origem": "paragrafo",
+                "intervalo": {
+                  "inicio": 555,
+                  "fim": 558,
+                  "unidade": "pontos_de_codigo_unicode"
+                }
+              }
+            ]
+          },
+          {
+            "mencao_id": "M50",
+            "referente_id": "R30",
+            "estado": "novo_referente",
+            "tipo_relacao": "introducao",
+            "confianca": 0.82,
+            "antecedente_mencao_id": null,
+            "razoes": [
+              "menção nominal introduz um referente distinto"
+            ],
+            "alternativas": [],
+            "evidencias": [
+              {
+                "mencao_id": "M50",
+                "texto": "a folha",
+                "origem": "paragrafo",
+                "intervalo": {
+                  "inicio": 565,
+                  "fim": 572,
+                  "unidade": "pontos_de_codigo_unicode"
+                }
+              }
+            ]
+          },
+          {
+            "mencao_id": "M51",
+            "referente_id": "R31",
+            "estado": "novo_referente",
+            "tipo_relacao": "introducao",
+            "confianca": 0.82,
+            "antecedente_mencao_id": null,
+            "razoes": [
+              "menção nominal introduz um referente distinto"
+            ],
+            "alternativas": [
+              {
+                "antecedente_mencao_id": "M48",
+                "referente_id": "R29",
+                "pontuacao": 0.57,
+                "razoes": [
+                  "gênero compatível",
+                  "número compatível",
+                  "antecedente recente",
+                  "mesma unidade textual"
+                ]
+              },
+              {
+                "antecedente_mencao_id": "M43",
+                "referente_id": "R25",
+                "pontuacao": 0.46,
+                "razoes": [
+                  "gênero compatível",
+                  "número compatível",
+                  "antecedente disponível no contexto",
+                  "mesma unidade textual"
+                ]
+              },
+              {
+                "antecedente_mencao_id": "M42",
+                "referente_id": "R24",
+                "pontuacao": 0.46,
+                "razoes": [
+                  "gênero compatível",
+                  "número compatível",
+                  "antecedente disponível no contexto",
+                  "mesma unidade textual"
+                ]
+              }
+            ],
+            "evidencias": [
+              {
+                "mencao_id": "M51",
+                "texto": "aquele mesmo aceno",
+                "origem": "paragrafo",
+                "intervalo": {
+                  "inicio": 625,
+                  "fim": 643,
+                  "unidade": "pontos_de_codigo_unicode"
+                }
+              }
+            ]
+          },
+          {
+            "mencao_id": "M52",
+            "referente_id": "R10",
+            "estado": "resolvida",
+            "tipo_relacao": "identidade",
+            "confianca": 0.73,
+            "antecedente_mencao_id": "M19",
+            "razoes": [
+              "gênero compatível",
+              "número compatível",
+              "antecedente disponível no contexto",
+              "continuidade com o contexto anterior",
+              "mesma realização lexical"
+            ],
+            "alternativas": [
+              {
+                "antecedente_mencao_id": "M50",
+                "referente_id": "R30",
+                "pontuacao": 0.57,
+                "razoes": [
+                  "gênero compatível",
+                  "número compatível",
+                  "antecedente recente",
+                  "mesma unidade textual"
+                ]
+              },
+              {
+                "antecedente_mencao_id": "M46",
+                "referente_id": "R28",
+                "pontuacao": 0.51,
+                "razoes": [
+                  "gênero compatível",
+                  "número compatível",
+                  "antecedente disponível no contexto",
+                  "mesma unidade textual"
+                ]
+              },
+              {
+                "antecedente_mencao_id": "M47",
+                "referente_id": "R17",
+                "pontuacao": 0.46,
+                "razoes": [
+                  "gênero compatível",
+                  "número compatível",
+                  "antecedente disponível no contexto",
+                  "mesma unidade textual"
+                ]
+              }
+            ],
+            "evidencias": [
+              {
+                "mencao_id": "M19",
+                "texto": "a cabeça",
+                "origem": "contexto_anterior",
+                "intervalo": {
+                  "inicio": 662,
+                  "fim": 670,
+                  "unidade": "pontos_de_codigo_unicode"
+                }
+              },
+              {
+                "mencao_id": "M52",
+                "texto": "a cabeça",
+                "origem": "paragrafo",
+                "intervalo": {
+                  "inicio": 648,
+                  "fim": 656,
+                  "unidade": "pontos_de_codigo_unicode"
+                }
+              }
+            ]
+          },
+          {
+            "mencao_id": "M53",
+            "referente_id": "R32",
+            "estado": "novo_referente",
+            "tipo_relacao": "introducao",
+            "confianca": 0.93,
+            "antecedente_mencao_id": null,
+            "razoes": [
+              "menção nominal introduz um referente distinto"
+            ],
+            "alternativas": [],
+            "evidencias": [
+              {
+                "mencao_id": "M53",
+                "texto": "Retornei",
+                "origem": "paragrafo",
+                "intervalo": {
+                  "inicio": 658,
+                  "fim": 666,
+                  "unidade": "pontos_de_codigo_unicode"
+                }
+              }
+            ]
+          },
+          {
+            "mencao_id": "M54",
+            "referente_id": "R33",
+            "estado": "novo_referente",
+            "tipo_relacao": "introducao",
+            "confianca": 0.82,
+            "antecedente_mencao_id": null,
+            "razoes": [
+              "menção nominal introduz um referente distinto"
+            ],
+            "alternativas": [
+              {
+                "antecedente_mencao_id": "M52",
+                "referente_id": "R10",
+                "pontuacao": 0.57,
+                "razoes": [
+                  "gênero compatível",
+                  "número compatível",
+                  "antecedente recente",
+                  "mesma unidade textual"
+                ]
+              },
+              {
+                "antecedente_mencao_id": "M50",
+                "referente_id": "R30",
+                "pontuacao": 0.51,
+                "razoes": [
+                  "gênero compatível",
+                  "número compatível",
+                  "antecedente disponível no contexto",
+                  "mesma unidade textual"
+                ]
+              },
+              {
+                "antecedente_mencao_id": "M46",
+                "referente_id": "R28",
+                "pontuacao": 0.46,
+                "razoes": [
+                  "gênero compatível",
+                  "número compatível",
+                  "antecedente disponível no contexto",
+                  "mesma unidade textual"
+                ]
+              }
+            ],
+            "evidencias": [
+              {
+                "mencao_id": "M54",
+                "texto": "a minha mesa",
+                "origem": "paragrafo",
+                "intervalo": {
+                  "inicio": 672,
+                  "fim": 684,
+                  "unidade": "pontos_de_codigo_unicode"
+                }
+              }
+            ]
+          },
+          {
+            "mencao_id": "M55",
+            "referente_id": null,
+            "estado": "nao_resolvida",
+            "tipo_relacao": "possuidor",
+            "confianca": 0.0,
+            "antecedente_mencao_id": null,
+            "razoes": [
+              "nenhum antecedente atingiu o limiar de decisão"
+            ],
+            "alternativas": [],
+            "evidencias": [
+              {
+                "mencao_id": "M55",
+                "texto": "minha",
+                "origem": "paragrafo",
+                "intervalo": {
+                  "inicio": 674,
+                  "fim": 679,
+                  "unidade": "pontos_de_codigo_unicode"
+                }
+              }
+            ]
+          },
+          {
+            "mencao_id": "M56",
+            "referente_id": "R34",
+            "estado": "novo_referente",
+            "tipo_relacao": "introducao",
+            "confianca": 0.82,
+            "antecedente_mencao_id": null,
+            "razoes": [
+              "menção nominal introduz um referente distinto"
+            ],
+            "alternativas": [],
+            "evidencias": [
+              {
+                "mencao_id": "M56",
+                "texto": "uma sensação de alívio esquisita",
+                "origem": "paragrafo",
+                "intervalo": {
+                  "inicio": 689,
+                  "fim": 721,
+                  "unidade": "pontos_de_codigo_unicode"
+                }
+              }
+            ]
+          },
+          {
+            "mencao_id": "M57",
+            "referente_id": "R35",
+            "estado": "novo_referente",
+            "tipo_relacao": "introducao",
+            "confianca": 0.82,
+            "antecedente_mencao_id": null,
+            "razoes": [
+              "menção nominal introduz um referente distinto"
+            ],
+            "alternativas": [],
+            "evidencias": [
+              {
+                "mencao_id": "M57",
+                "texto": "a mesma",
+                "origem": "paragrafo",
+                "intervalo": {
+                  "inicio": 734,
+                  "fim": 741,
+                  "unidade": "pontos_de_codigo_unicode"
+                }
+              }
+            ]
+          },
+          {
+            "mencao_id": "M58",
+            "referente_id": null,
+            "estado": "nao_resolvida",
+            "tipo_relacao": "identidade",
+            "confianca": 0.0,
+            "antecedente_mencao_id": null,
+            "razoes": [
+              "nenhum antecedente atingiu o limiar de decisão"
+            ],
+            "alternativas": [],
+            "evidencias": [
+              {
+                "mencao_id": "M58",
+                "texto": "eu",
+                "origem": "paragrafo",
+                "intervalo": {
+                  "inicio": 746,
+                  "fim": 748,
+                  "unidade": "pontos_de_codigo_unicode"
+                }
+              }
+            ]
+          },
+          {
+            "mencao_id": "M59",
+            "referente_id": "R36",
+            "estado": "novo_referente",
+            "tipo_relacao": "introducao",
+            "confianca": 0.82,
+            "antecedente_mencao_id": null,
+            "razoes": [
+              "menção nominal introduz um referente distinto"
+            ],
+            "alternativas": [
+              {
+                "antecedente_mencao_id": "M5",
+                "referente_id": "R3",
+                "pontuacao": 0.61,
+                "razoes": [
+                  "gênero compatível",
+                  "número compatível",
+                  "antecedente disponível no contexto",
+                  "continuidade com o contexto anterior",
+                  "núcleo lexical compartilhado"
+                ]
+              },
+              {
+                "antecedente_mencao_id": "M51",
+                "referente_id": "R31",
+                "pontuacao": 0.46,
+                "razoes": [
+                  "gênero compatível",
+                  "número compatível",
+                  "antecedente disponível no contexto",
+                  "mesma unidade textual"
+                ]
+              },
+              {
+                "antecedente_mencao_id": "M48",
+                "referente_id": "R29",
+                "pontuacao": 0.46,
+                "razoes": [
+                  "gênero compatível",
+                  "número compatível",
+                  "antecedente disponível no contexto",
+                  "mesma unidade textual"
+                ]
+              }
+            ],
+            "evidencias": [
+              {
+                "mencao_id": "M59",
+                "texto": "o pano de prato úmido",
+                "origem": "paragrafo",
+                "intervalo": {
+                  "inicio": 777,
+                  "fim": 798,
+                  "unidade": "pontos_de_codigo_unicode"
+                }
+              }
+            ]
+          },
+          {
+            "mencao_id": "M60",
+            "referente_id": "R37",
+            "estado": "novo_referente",
+            "tipo_relacao": "introducao",
+            "confianca": 0.93,
+            "antecedente_mencao_id": null,
+            "razoes": [
+              "menção nominal introduz um referente distinto"
+            ],
+            "alternativas": [],
+            "evidencias": [
+              {
+                "mencao_id": "M60",
+                "texto": "Parece",
+                "origem": "paragrafo",
+                "intervalo": {
+                  "inicio": 800,
+                  "fim": 806,
+                  "unidade": "pontos_de_codigo_unicode"
+                }
+              }
+            ]
+          },
+          {
+            "mencao_id": "M61",
+            "referente_id": "R38",
+            "estado": "novo_referente",
+            "tipo_relacao": "introducao",
+            "confianca": 0.82,
+            "antecedente_mencao_id": null,
+            "razoes": [
+              "menção nominal introduz um referente distinto"
+            ],
+            "alternativas": [
+              {
+                "antecedente_mencao_id": "M54",
+                "referente_id": "R33",
+                "pontuacao": 0.64,
+                "razoes": [
+                  "gênero compatível",
+                  "número compatível",
+                  "antecedente disponível no contexto",
+                  "mesma unidade textual",
+                  "núcleo lexical compartilhado"
+                ]
+              },
+              {
+                "antecedente_mencao_id": "M57",
+                "referente_id": "R35",
+                "pontuacao": 0.51,
+                "razoes": [
+                  "gênero compatível",
+                  "número compatível",
+                  "antecedente disponível no contexto",
+                  "mesma unidade textual"
+                ]
+              },
+              {
+                "antecedente_mencao_id": "M56",
+                "referente_id": "R34",
+                "pontuacao": 0.51,
+                "razoes": [
+                  "gênero compatível",
+                  "número compatível",
+                  "antecedente disponível no contexto",
+                  "mesma unidade textual"
+                ]
+              }
+            ],
+            "evidencias": [
+              {
+                "mencao_id": "M61",
+                "texto": "a minha semana só consegue engrenar",
+                "origem": "paragrafo",
+                "intervalo": {
+                  "inicio": 811,
+                  "fim": 846,
+                  "unidade": "pontos_de_codigo_unicode"
+                }
+              }
+            ]
+          },
+          {
+            "mencao_id": "M62",
+            "referente_id": null,
+            "estado": "nao_resolvida",
+            "tipo_relacao": "possuidor",
+            "confianca": 0.0,
+            "antecedente_mencao_id": null,
+            "razoes": [
+              "nenhum antecedente atingiu o limiar de decisão"
+            ],
+            "alternativas": [],
+            "evidencias": [
+              {
+                "mencao_id": "M62",
+                "texto": "minha",
+                "origem": "paragrafo",
+                "intervalo": {
+                  "inicio": 813,
+                  "fim": 818,
+                  "unidade": "pontos_de_codigo_unicode"
+                }
+              }
+            ]
+          }
+        ],
+        "operadores_escopo": [],
+        "quadros_atribuicao": [
+          {
+            "id": "A1",
+            "fonte": {
+              "tipo": "participante_discursivo",
+              "id": "NARRADOR",
+              "rotulo": "narrador"
+            },
+            "modo": "assercao_narrativa",
+            "estado": "afirmada",
+            "escopo": [
+              "P1"
+            ],
+            "evidencias": [
+              {
+                "texto": "leu sem demonstrar qualquer reação e",
+                "intervalo": {
+                  "inicio": 574,
+                  "fim": 610,
+                  "unidade": "pontos_de_codigo_unicode"
+                },
+                "origem": "paragrafo"
+              }
+            ],
+            "confianca": 0.94
+          }
+        ],
+        "relacoes": [],
+        "ideia_central": {
+          "estado": "proposta",
+          "texto": "leu sem demonstrar qualquer reação e",
+          "proposicao_ids": [
+            "P1"
+          ],
+          "evidencias": [
+            {
+              "texto": "leu sem demonstrar qualquer reação e",
+              "intervalo": {
+                "inicio": 574,
+                "fim": 610,
+                "unidade": "pontos_de_codigo_unicode"
+              }
+            }
+          ],
+          "confianca": 0.9,
+          "razoes": [
+            "O trecho introduz o desenvolvimento proposicional do parágrafo.",
+            "O conteúdo é apresentado como afirmado no registro discursivo."
+          ],
+          "alternativas": [],
+          "metodo": "heuristica_explicavel_v1"
+        },
+        "conteudo_essencial_ids": [
+          "P1"
+        ],
+        "sintese": {
+          "estado": "gerada",
+          "texto": "Ela pegou a folha, leu sem demonstrar qualquer reação e, por fim, deu aquele mesmo aceno com a cabeça.",
+          "estrategia": "extrativa_conteudo_essencial_v1",
+          "evidencias": [
+            {
+              "texto": "Ela pegou a folha, leu sem demonstrar qualquer reação e, por fim, deu aquele mesmo aceno com a cabeça.",
+              "intervalo": {
+                "inicio": 555,
+                "fim": 657,
+                "unidade": "pontos_de_codigo_unicode"
+              }
+            }
+          ],
+          "cobertura": {
+            "proposicao_ids": [
+              "P1"
+            ],
+            "operador_ids": [],
+            "relacao_ids": [],
+            "mencao_ids": [
+              "M50"
+            ]
+          },
+          "confianca": 0.9,
+          "alertas": [
+            "O período completo foi preservado para manter o contexto do conteúdo essencial."
+          ]
+        },
+        "parafrases": [],
+        "checagem": {
+          "estado": "sem_alertas_detectados",
+          "metodo": "cobertura_estrutural_v1",
+          "alvos_verificados": [
+            "sintese"
+          ],
+          "achados": [],
+          "limitacoes": [
+            "A checagem verifica rastreabilidade estrutural e transformações conhecidas; não certifica equivalência semântica geral."
+          ]
+        },
+        "execucao": {
+          "versao_motor": "1.0.0",
+          "duracao_ms": 19.439,
+          "parametros": {
+            "idioma": "pt-BR",
+            "estrategia_centralidade": "heuristica_explicavel_v1",
+            "estrategia_sintese": "extrativa_conteudo_essencial_v1",
+            "estrategia_parafrase": "substituicao_discursiva_controlada_v1",
+            "metodo_checagem": "cobertura_estrutural_v1",
+            "regras_parafrase": [
+              "coordenacao_negativa",
+              "justificativa_causal"
+            ],
+            "limite_alternativas_ideia_central": 2,
+            "usa_contexto_anterior": true
+          },
+          "custos": {
+            "moeda": "USD",
+            "chamadas_externas": 0,
+            "tokens_entrada": 0,
+            "tokens_saida": 0,
+            "custo_estimado": 0.0,
+            "observacao": "Motor heurístico local; nenhuma chamada externa ou cobrança por token."
+          }
+        },
+        "resumo": {
+          "proposicoes": 1,
+          "mencoes": 62,
+          "referentes": 38,
+          "resolucoes_resolvidas": 5,
+          "resolucoes_ambiguas": 0,
+          "operadores": 0,
+          "relacoes": 0,
+          "negacoes": 0,
+          "atribuicoes_marcadas": 0,
+          "conteudo_essencial": 1,
+          "sintese_caracteres": 102,
+          "parafrases": 0,
+          "achados_fidelidade": 0
+        },
+        "alertas": [
+          "19 menção pronominal permaneceu sem referente textual seguro."
+        ]
+      }
+    }
+  }
+}

@@ -6,12 +6,21 @@ O primeiro recorte do produto é deliberadamente pequeno: interpretar **um pará
 
 ## Estado atual
 
-O projeto concluiu as cinco etapas do primeiro ciclo. A versão `1.0.0` recebe e valida a vetorização, interpreta um parágrafo, gera textos, checa sua fidelidade e expõe todo o fluxo pela API e pela interface. Cada resposta também registra a versão do motor, as estratégias e os parâmetros usados, a duração medida e os custos da execução. O motor e a API são escritos em Python; a interface funcional está em `dist/`. Os anexos originais foram preservados em:
+A versão em desenvolvimento é `1.1.0.dev1`, primeira entrega da revisão linguística. O adaptador integra anotações do JSON, conserva as predições recebidas, registra conflitos e compartilha lemas e classes com a extração e a detecção de menções. A interface permite inspecionar os tokens e os diagnósticos. Sujeitos, correferência e novos tipos de relação ainda serão revisados nas próximas entregas.
+
+O projeto concluiu as cinco etapas do primeiro ciclo na versão `1.0.0`: receber e validar a vetorização, interpretar um parágrafo, gerar textos, checar sua fidelidade e expor o fluxo pela API e pela interface. Cada resposta também registra a versão do motor, as estratégias e os parâmetros usados, a duração medida e os custos da execução. O motor e a API são escritos em Python; a interface funcional está em `dist/`. Os anexos originais foram preservados em:
 
 - `fixtures/vetorizacao-28.json`: exemplo real de entrada;
+- `fixtures/vetorizacao-19.json`: entrada original da avaliação que orienta a revisão 1.1.0;
 - `docs/referencias/arquitetura_interpretacao_fundamentada_v1.pdf`: referência conceitual.
 
 O plano e os critérios de aceite estão em [`docs/01-escopo-e-etapas.md`](docs/01-escopo-e-etapas.md).
+
+A revisão de qualidade linguística proposta para a próxima versão está em [`docs/02-plano-revisao-1.1.0.md`](docs/02-plano-revisao-1.1.0.md), com diagnóstico dos resultados do documento 19, ordem das correções e critérios de avaliação.
+
+A reprodução do documento 19, com respostas completas do motor 1.0.0, falhas observadas e conflitos nas anotações recebidas, está em [`docs/03-documento-19-linha-de-base.md`](docs/03-documento-19-linha-de-base.md).
+
+A entrega do adaptador e a comparação com a referência estão em [`docs/04-entrega-adaptador-linguistico.md`](docs/04-entrega-adaptador-linguistico.md).
 
 ## Interface atual
 
@@ -72,6 +81,12 @@ Afirmações acrescentadas, cobertura removida, evidências divergentes e transf
 O contrato de análise `1.0.0` acrescenta `execucao`. Esse registro informa `versao_motor`, `duracao_ms`, os parâmetros das estratégias de centralidade, síntese, paráfrase e checagem, e se o contexto anterior foi usado. O bloco `custos` separa chamadas externas, tokens de entrada e saída e custo estimado em dólares.
 
 O motor atual é heurístico e local. Por isso, cada análise informa zero chamadas externas, zero tokens externos e custo estimado `USD 0.000000`; a duração em milissegundos é medida para cada execução. A interface apresenta esses mesmos dados e permite inspecionar todos os parâmetros utilizados.
+
+### Revisão linguística `1.1.0.dev1`
+
+O contrato de análise continua em `1.0.0`, com a extensão opcional `analise_linguistica`. Ela contém bases separadas do parágrafo e do contexto anterior, tokens com coordenadas locais, predições recebidas, lemas/classes adotados, decisões e diagnósticos. O motor informa a versão `1.1.0.dev1` e identifica o adaptador e a origem linguística nos parâmetros de execução.
+
+IDs, recortes, cabeças e ciclos sintáticos são validados antes do uso. Anotações ausentes usam o léxico local com limitação explícita; anotações estruturalmente inválidas retornam HTTP 422 com código e caminho. A integridade de uma anotação não certifica sua correção linguística. A ampliação de cobertura verbal não equivale à resolução de todos os erros de interpretação.
 
 ## Baixar e executar
 

@@ -3,6 +3,7 @@ from __future__ import annotations
 import re
 
 from ..models import Proposition, Span
+from ..linguistica import analisar_texto
 from ..referencias.models import Mention
 from .models import GraphEvidence, PropositionRelation
 
@@ -49,8 +50,16 @@ def extrair_relacoes(
         chaves.add(chave)
 
     ordenadas = sorted(proposicoes, key=lambda item: item.predicado_intervalo.inicio)
+    periodos = analisar_texto(texto).periodos
     verbos_atitude = {"acreditar", "pensar", "imaginar", "perceber", "dizer", "afirmar", "contar"}
     for atual, proxima in zip(ordenadas, ordenadas[1:]):
+        mesmo_periodo = any(
+            periodo.inicio <= atual.predicado_intervalo.inicio < periodo.fim
+            and periodo.inicio <= proxima.predicado_intervalo.inicio < periodo.fim
+            for periodo in periodos
+        )
+        if not mesmo_periodo:
+            continue
         inicio = atual.predicado_intervalo.fim
         fim = proxima.predicado_intervalo.inicio
         adicionar(

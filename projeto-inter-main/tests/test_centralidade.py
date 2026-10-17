@@ -21,8 +21,9 @@ class CentralIdeaTests(unittest.TestCase):
 
         self.assertEqual(resultado.schema_version, "1.0.0")
         self.assertEqual(ideia.estado, "proposta")
-        self.assertEqual(ideia.proposicao_ids, ["P1", "P2"])
-        self.assertEqual(resultado.conteudo_essencial_ids, ["P1", "P2"])
+        essenciais = {p.id for p in resultado.proposicoes if p.predicado in {"abandonar", "desistir", "buscar"}}
+        self.assertEqual(set(ideia.proposicao_ids), essenciais)
+        self.assertEqual(set(resultado.conteudo_essencial_ids), essenciais)
         self.assertIn("não abandonou", ideia.texto)
         self.assertIn("nem desistiu", ideia.texto)
         self.assertGreaterEqual(len(ideia.alternativas), 1)

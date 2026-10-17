@@ -12,6 +12,7 @@ from .models import (
     ExecutionCosts,
     ExecutionMetadata,
     ExecutionParameters,
+    LinguisticAnalysis,
     Operators,
     Participant,
     Proposition,
@@ -24,6 +25,9 @@ from .grafo import construir_grafo
 from .centralidade import propor_ideia_central
 from .geracao import gerar_parafrases, gerar_sintese
 from .fidelidade import checar_fidelidade
+from .linguistica import (
+    BaseLinguistica, DiagnosticoLinguistico, VERBOS, analisar_texto, lematizar_palavra,
+)
 
 
 @dataclass(frozen=True)
@@ -51,30 +55,6 @@ class DetectedParticipant:
     fim: int
 
 
-VERBOS = {
-    "abandonou": "abandonar", "acredita": "acreditar", "assinasse": "assinar",
-    "assinado": "assinar", "assinou": "assinar", "bombardeou": "bombardear",
-    "construiu": "construir", "desistiu": "desistir", "encontrada": "encontrar",
-    "encontrado": "encontrar", "enviou": "enviar", "enviado": "enviar",
-    "esgotando": "esgotar", "frear": "frear", "havia": "haver", "morreu": "morrer",
-    "morria": "morrer", "murmurou": "murmurar", "percebeu": "perceber",
-    "perder": "perder", "revisando": "revisar", "sentou": "sentar", "seria": "ser",
-    "tivesse": "ter", "transformando": "transformar", "foi": "ser", "era": "ser", "sido": "ser",
-    "é": "ser", "são": "ser", "está": "estar", "estava": "estar", "pode": "poder",
-    "poderia": "poder", "deve": "dever", "deveria": "dever", "quer": "querer",
-    "queria": "querer", "disse": "dizer", "afirmou": "afirmar", "contou": "contar",
-    "pensou": "pensar", "imaginou": "imaginar", "viu": "ver", "ouviu": "ouvir",
-    "chegou": "chegar", "fez": "fazer", "tinha": "ter", "tem": "ter",
-    "terá": "ter", "sofreu": "sofrer", "reagiu": "reagir", "respondeu": "responder",
-    "criticou": "criticar", "insistiu": "insistir", "acabava": "acabar", "acabou": "acabar",
-    "leu": "ler", "viaja": "viajar", "viaje": "viajar", "trabalha": "trabalhar",
-    "escreveu": "escrever", "saiu": "sair", "correu": "correr", "choveu": "chover",
-    "fracassou": "fracassar", "permaneceu": "permanecer", "falou": "falar",
-    "perguntou": "perguntar", "chegaria": "chegar", "frearia": "frear",
-    "abandonar": "abandonar", "assinar": "assinar", "enviar": "enviar",
-    "desistir": "desistir", "viajar": "viajar", "trabalhar": "trabalhar",
-}
-
 AUXILIARES = {"havia", "tivesse", "foi", "era", "seria", "estava", "está", "tinha", "terá", "sido"}
 AUXILIARES_MODAIS = {"pode", "poderia", "deve", "deveria", "quer", "queria"}
 VERBOS_FALA = {"dizer", "afirmar", "contar", "murmurar", "perguntar"}
@@ -93,8 +73,7 @@ NAO_VERBOS = {
 }
 
 TOKEN_RE = re.compile(r"[^\W\d_]+(?:[-'][^\W\d_]+)*", re.UNICODE)
-SENTENCE_RE = re.compile(r"\s*[^.!?]+(?:[.!?]+(?=[\"”»']?(?:\s|$))|$)", re.UNICODE)
-CONNECTOR_RE = re.compile(r"[,;:]|\b(?:quando|embora|porque|pois|enquanto|apesar\s+de|mas)\b", re.IGNORECASE)
+CONNECTOR_RE = re.compile(r"[,;:]|\b(?:quando|embora|porque|pois|enquanto|apesar\s+de|até\s+que|mas)\b", re.IGNORECASE)
 
 
 def tokenizar(texto: str) -> list[Token]:
@@ -102,28 +81,11 @@ def tokenizar(texto: str) -> list[Token]:
 
 
 def segmentar_periodos(texto: str) -> list[Sentence]:
-    periodos: list[Sentence] = []
-    for match in SENTENCE_RE.finditer(texto):
-        bruto = match.group()
-        esquerda = len(bruto) - len(bruto.lstrip())
-        inicio = match.start() + esquerda
-        fim = match.end()
-        if inicio < fim:
-            periodos.append(Sentence(texto[inicio:fim], inicio, fim))
-    return periodos or [Sentence(texto, 0, len(texto))]
+    return [Sentence(item.texto, item.inicio, item.fim) for item in analisar_texto(texto).periodos]
 
 
 def lematizar(token: Token) -> str | None:
-    palavra = token.normalizado
-    if palavra in NAO_VERBOS:
-        return None
-    if palavra in VERBOS:
-        return VERBOS[palavra]
-    if re.search(r"(?:aram|eram|iram|avam)$", palavra) and len(palavra) > 6:
-        return palavra[:-4] + "r"
-    if re.search(r"(?:asse|esse|isse)$", palavra) and len(palavra) > 6:
-        return palavra[:-4] + "r"
-    return None
+    return lematizar_palavra(token.normalizado)
 
 
 def intervalo_evidencia(texto: str, periodo: Sentence, token: Token) -> tuple[int, int]:
@@ -256,6 +218,11 @@ def participante_posposto(texto: str, inicio: int, fim: int) -> DetectedParticip
 
 def extrair_operadores(texto: str, token: Token, inicio_evidencia: int, fim_evidencia: int) -> Operators:
     esquerda = texto[max(inicio_evidencia, token.inicio - 90):token.inicio].casefold()
+    if lematizar(token) == token.normalizado:
+        complemento_infinitivo = re.search(r"\b(?:de|para|a)\s+((?:(?:não|nunca|jamais)\s+)?)$", esquerda)
+        if complemento_infinitivo:
+            # 'nem desistiu de buscar' nega desistir, sem afirmar 'não buscar'.
+            esquerda = complemento_infinitivo.group(1)
     coordenadores = list(re.finditer(r"\b(?:e|mas|porém)\b", esquerda, re.IGNORECASE))
     if coordenadores:
         esquerda = esquerda[coordenadores[-1].end():]
@@ -319,38 +286,73 @@ def encontrar_mencao(
     )
 
 
-def analisar_paragrafo(texto: str, contexto_anterior: str | None = None) -> AnalysisResponse:
+def analisar_paragrafo(
+    texto: str,
+    contexto_anterior: str | None = None,
+    *,
+    base_linguistica: BaseLinguistica | None = None,
+    base_contexto: BaseLinguistica | None = None,
+) -> AnalysisResponse:
     inicio_execucao = perf_counter()
     if not texto.strip():
         raise ValueError("O parágrafo não pode estar vazio.")
     contexto_anterior = contexto_anterior if contexto_anterior and contexto_anterior.strip() else None
+    base = base_linguistica.model_copy(deep=True) if base_linguistica else analisar_texto(texto)
+    if base.texto != texto:
+        raise ValueError("A base linguística diverge do parágrafo analisado.")
+    contexto = (base_contexto or analisar_texto(contexto_anterior)) if contexto_anterior else None
+    if contexto and contexto.texto != contexto_anterior:
+        raise ValueError("A base linguística diverge do contexto anterior.")
 
     mencoes_contexto = (
-        detectar_mencoes(contexto_anterior, "contexto_anterior", 1)
+        detectar_mencoes(contexto_anterior, "contexto_anterior", 1, contexto)
         if contexto_anterior else []
     )
     mencoes_paragrafo = detectar_mencoes(
         texto,
         "paragrafo",
         len(mencoes_contexto) + 1,
+        base,
     )
     mencoes = [*mencoes_contexto, *mencoes_paragrafo]
     resultado_referencias = resolver_referencias(mencoes)
 
     tokens = tokenizar(texto)
-    periodos = segmentar_periodos(texto)
+    periodos = [Sentence(item.texto, item.inicio, item.fim) for item in base.periodos]
+    por_id = {item.id: item for item in base.tokens}
+
+    def lema_do_token(token: Token) -> str | None:
+        anotado = base.token_em(token.inicio, token.fim)
+        return anotado.lema if anotado and anotado.pos in {"VERB", "AUX"} else None
     proposicoes: list[Proposition] = []
 
     for indice, token in enumerate(tokens):
-        lema = lematizar(token)
+        anotado = base.token_em(token.inicio, token.fim)
+        lema = lema_do_token(token)
         if not lema:
             continue
+        if anotado and anotado.pos == "AUX" and anotado.dependencia == "aux":
+            cabeca = por_id.get(anotado.cabeca_id)
+            if cabeca and cabeca.pos in {"VERB", "AUX"} and cabeca.lema:
+                continue
+        if anotado and anotado.dependencia in {"acl", "xcomp", "amod"}:
+            recebida = (anotado.recebida or {}).get("morfologia") or {}
+            if recebida.get("morfologia", {}).get("VerbForm") == "Part":
+                # Particípios descritivos não são ações autônomas comprovadas.
+                anotado.decisoes.append("participio_descritivo_sem_proposicao_autonoma")
+                base.diagnosticos.append(DiagnosticoLinguistico(
+                    codigo="participio_descritivo_omitido",
+                    caminho="$.analise_linguistica.paragrafo.tokens",
+                    mensagem="Particípio em construção descritiva; não foi inferida uma ação autônoma.",
+                    token_id=anotado.id, inicio=anotado.inicio, fim=anotado.fim,
+                ))
+                continue
         proximo = tokens[indice + 1] if indice + 1 < len(tokens) else None
         if proximo and proximo.normalizado == "se" and indice + 2 < len(tokens):
             proximo = tokens[indice + 2]
-        if token.normalizado in AUXILIARES and proximo and lematizar(proximo) and proximo.inicio - token.fim < 18:
+        if token.normalizado in AUXILIARES and proximo and lema_do_token(proximo) and proximo.inicio - token.fim < 18:
             continue
-        if token.normalizado in AUXILIARES_MODAIS and proximo and lematizar(proximo) and proximo.inicio - token.fim < 18:
+        if token.normalizado in AUXILIARES_MODAIS and proximo and lema_do_token(proximo) and proximo.inicio - token.fim < 18:
             continue
 
         periodo = next((item for item in periodos if item.inicio <= token.inicio < item.fim), periodos[0])
@@ -439,9 +441,25 @@ def analisar_paragrafo(texto: str, contexto_anterior: str | None = None) -> Anal
     ambiguas = [item for item in resultado_referencias.resolucoes if item.estado == "ambigua"]
     nao_resolvidas = [item for item in resultado_referencias.resolucoes if item.estado == "nao_resolvida"]
     if ambiguas:
-        alertas.append(f"{len(ambiguas)} resolução referencial permaneceu ambígua.")
+        alertas.append(
+            "1 resolução referencial permaneceu ambígua." if len(ambiguas) == 1
+            else f"{len(ambiguas)} resoluções referenciais permaneceram ambíguas."
+        )
     if nao_resolvidas:
-        alertas.append(f"{len(nao_resolvidas)} menção pronominal permaneceu sem referente textual seguro.")
+        alertas.append(
+            "1 menção pronominal permaneceu sem referente textual seguro." if len(nao_resolvidas) == 1
+            else f"{len(nao_resolvidas)} menções pronominais permaneceram sem referente textual seguro."
+        )
+    diagnosticos = [*base.diagnosticos, *(contexto.diagnosticos if contexto else [])]
+    if diagnosticos:
+        alertas.append(
+            f"A base linguística registra {len(diagnosticos)} diagnóstico(s); "
+            "consulte as limitações e os conflitos antes de aceitar a interpretação."
+        )
+    alertas.append(
+        "Participantes, referências, escopos e relações usam regras heurísticas em revisão; "
+        "a checagem estrutural da geração não valida toda a interpretação."
+    )
     if ideia_central.estado == "indeterminada":
         alertas.append("A ideia central não pôde ser proposta com o registro disponível.")
     elif ideia_central.alternativas and ideia_central.confianca < 0.72:
@@ -457,6 +475,8 @@ def analisar_paragrafo(texto: str, contexto_anterior: str | None = None) -> Anal
             regras_parafrase=["coordenacao_negativa", "justificativa_causal"],
             limite_alternativas_ideia_central=2,
             usa_contexto_anterior=contexto_anterior is not None,
+            origem_linguistica=base.origem,
+            adaptador_linguistico="base_linguistica_v1",
         ),
         custos=ExecutionCosts(
             chamadas_externas=0,
@@ -483,6 +503,7 @@ def analisar_paragrafo(texto: str, contexto_anterior: str | None = None) -> Anal
         parafrases=parafrases,
         checagem=checagem,
         execucao=execucao,
+        analise_linguistica=LinguisticAnalysis(paragrafo=base, contexto_anterior=contexto),
         resumo=AnalysisSummary(
             proposicoes=len(proposicoes),
             mencoes=len(mencoes),

@@ -2,6 +2,9 @@ from typing import Any, Literal, Self
 
 from pydantic import BaseModel, Field, field_validator, model_validator
 
+from .linguistica import BaseLinguistica
+from .version import VERSAO_MOTOR
+
 
 class AnalysisRequest(BaseModel):
     paragrafo: str = Field(max_length=5_000)
@@ -166,6 +169,8 @@ class ExecutionParameters(BaseModel):
     regras_parafrase: list[Literal["coordenacao_negativa", "justificativa_causal"]]
     limite_alternativas_ideia_central: int = Field(ge=0)
     usa_contexto_anterior: bool
+    origem_linguistica: str | None = None
+    adaptador_linguistico: str | None = None
 
 
 class ExecutionCosts(BaseModel):
@@ -178,7 +183,7 @@ class ExecutionCosts(BaseModel):
 
 
 class ExecutionMetadata(BaseModel):
-    versao_motor: Literal["1.0.0"] = "1.0.0"
+    versao_motor: str = VERSAO_MOTOR
     duracao_ms: float = Field(ge=0)
     parametros: ExecutionParameters
     custos: ExecutionCosts
@@ -200,6 +205,11 @@ class AnalysisSummary(BaseModel):
     achados_fidelidade: int
 
 
+class LinguisticAnalysis(BaseModel):
+    paragrafo: BaseLinguistica
+    contexto_anterior: BaseLinguistica | None = None
+
+
 class AnalysisResponse(BaseModel):
     schema_version: Literal["1.0.0"] = "1.0.0"
     paragrafo: str
@@ -217,6 +227,7 @@ class AnalysisResponse(BaseModel):
     parafrases: list[Paraphrase] = Field(default_factory=list)
     checagem: FidelityCheck
     execucao: ExecutionMetadata
+    analise_linguistica: LinguisticAnalysis | None = None
     resumo: AnalysisSummary
     alertas: list[str]
 

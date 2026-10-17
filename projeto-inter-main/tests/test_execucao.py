@@ -11,7 +11,7 @@ class ExecutionMetadataTests(unittest.TestCase):
         )
 
         self.assertEqual(resultado.schema_version, "1.0.0")
-        self.assertEqual(resultado.execucao.versao_motor, "1.0.0")
+        self.assertEqual(resultado.execucao.versao_motor, "1.1.0.dev1")
         self.assertGreaterEqual(resultado.execucao.duracao_ms, 0)
         self.assertEqual(
             resultado.execucao.parametros.estrategia_centralidade,

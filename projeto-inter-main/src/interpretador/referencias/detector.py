@@ -5,6 +5,7 @@ from dataclasses import dataclass
 
 from .models import Mention, MentionFeatures, MentionOrigin, MentionType
 from .validator import validar_mencoes
+from ..linguistica import BaseLinguistica, analisar_texto
 from ..models import Span
 
 
@@ -13,6 +14,8 @@ class Token:
     texto: str
     inicio: int
     fim: int
+    lema: str | None = None
+    pos: str | None = None
 
     @property
     def normalizado(self) -> str:
@@ -33,6 +36,7 @@ TOKEN_RE = re.compile(r"[^\W\d_]+(?:[-'][^\W\d_]+)*", re.UNICODE)
 
 PRONOMES_PESSOAIS = {"eu", "tu", "você", "nós", "vocês", "ele", "ela", "eles", "elas"}
 PRONOMES_POSSESSIVOS = {"dele", "dela", "deles", "delas", "seu", "sua", "seus", "suas", "meu", "minha", "meus", "minhas"}
+POSSESSIVOS_ADNOMINAIS = {"seu", "sua", "seus", "suas", "meu", "minha", "meus", "minhas"}
 DETERMINANTES = {
     "o", "a", "os", "as", "um", "uma", "uns", "umas", "nenhum", "nenhuma",
     "aquele", "aquela", "aqueles", "aquelas", "daquele", "daquela",
@@ -54,6 +58,10 @@ INICIOS_DE_PERIODO = {
     "Quando", "Durante", "Apesar", "No", "Na", "Você", "Claro", "Enquanto",
     "Embora", "Porque", "Pois", "Ontem", "Hoje", "Amanhã", "Talvez",
 }
+PALAVRAS_NAO_NOMES = {
+    "ainda", "não", "será", "sim", "depois", "antes", "aqui", "ali", "lá",
+    "então", "também", "assim", "apenas", "talvez", "onde", "logo",
+}
 FORMAS_VERBAIS = {
     "abandonou", "acredita", "assinasse", "assinado", "assinou", "bombardeou",
     "construiu", "desistiu", "encontrada", "encontrado", "enviou", "enviado",
@@ -63,7 +71,15 @@ FORMAS_VERBAIS = {
     "choveu", "fracassou", "permaneceu", "falou", "perguntou", "reagiu", "chegou",
 }
 
-TERMOS_PESSOA = {"gerente", "engenheira", "profissional", "diretor", "auditor", "auditores", "mensageiro", "alguém", "pessoa"}
+TERMOS_FAMILIA = {
+    "pai", "mãe", "pais", "mães", "filho",
+    "filha", "filhos", "filhas", "irmão", "irmã", "irmãos", "irmãs", "marido",
+    "esposa", "avô", "avó", "avós", "tio", "tia", "tios", "tias",
+}
+TERMOS_PESSOA = {
+    "gerente", "engenheira", "profissional", "diretor", "auditor", "auditores",
+    "mensageiro", "alguém", "pessoa",
+} | TERMOS_FAMILIA
 TERMOS_LUGAR = {"praça", "banco", "campo"}
 TERMOS_EVENTO = {"reunião", "revés", "crise"}
 TERMOS_OBJETO = {"contrato", "proposta", "cálculos", "planilhas", "bateria", "celular", "documento", "projeto", "recursos", "argumentos"}
@@ -71,19 +87,33 @@ NOMES_FEMININOS = {"helena", "ana", "maria", "clara", "beatriz", "luísa", "luis
 NOMES_MASCULINOS = {"joão", "joao", "josé", "jose", "paulo", "carlos", "pedro"}
 
 
-def _tokens(texto: str) -> list[Token]:
-    return [Token(match.group(), match.start(), match.end()) for match in TOKEN_RE.finditer(texto)]
+def _tokens(texto: str, base_linguistica: BaseLinguistica) -> list[Token]:
+    tokens = []
+    for match in TOKEN_RE.finditer(texto):
+        anotado = base_linguistica.token_em(match.start(), match.end())
+        tokens.append(Token(
+            match.group(), match.start(), match.end(),
+            lema=anotado.lema if anotado is not None else None,
+            pos=anotado.pos if anotado is not None else None,
+        ))
+    return tokens
 
 
 def _eh_limite_nominal(token: Token) -> bool:
+    if token.pos in {"VERB", "AUX", "ADV", "ADP", "CCONJ", "SCONJ", "PUNCT"}:
+        return True
     if token.normalizado in LIMITES:
         return True
+    if token.pos in {"NOUN", "PROPN", "ADJ"}:
+        return False
     return bool(re.search(r"(?:ou|aram|eram|iram|ava|avam|iam|iria)$", token.normalizado))
 
 
 def _classe_semantica(texto: str, tipo: MentionType) -> str:
-    palavras = {token.casefold() for token in TOKEN_RE.findall(texto)}
-    if tipo in {"pronome_pessoal", "nome_proprio"} or palavras & TERMOS_PESSOA:
+    sequencia = [token.casefold() for token in TOKEN_RE.findall(texto)]
+    palavras = set(sequencia)
+    cabeca = next((palavra for palavra in sequencia if palavra not in DETERMINANTES | PRONOMES_POSSESSIVOS), None)
+    if tipo in {"pronome_pessoal", "nome_proprio"} or palavras & (TERMOS_PESSOA - TERMOS_FAMILIA) or cabeca in TERMOS_FAMILIA:
         return "pessoa"
     if palavras & TERMOS_LUGAR:
         return "lugar"
@@ -100,8 +130,12 @@ def _genero(texto: str, tipo: MentionType) -> str:
         return "feminino"
     if tipo == "nome_proprio" and primeira in NOMES_MASCULINOS:
         return "masculino"
-    if primeira in {"seu", "sua", "seus", "suas", "meu", "minha", "meus", "minhas"}:
+    if tipo == "pronome_possessivo" and primeira in POSSESSIVOS_ADNOMINAIS:
         return "indeterminado"
+    if primeira in {"sua", "suas", "minha", "minhas"}:
+        return "feminino"
+    if primeira in {"seu", "seus", "meu", "meus"}:
+        return "masculino"
     if primeira in {"a", "uma", "nenhuma", "aquela", "daquela", "ela", "dela"}:
         return "feminino"
     if primeira in {"o", "um", "nenhum", "aquele", "daquele", "ele", "dele"}:
@@ -111,7 +145,7 @@ def _genero(texto: str, tipo: MentionType) -> str:
 
 def _numero(texto: str, tipo: MentionType) -> str:
     primeira = texto.split(maxsplit=1)[0].casefold()
-    if primeira in {"seu", "sua", "seus", "suas", "meu", "minha", "meus", "minhas"}:
+    if tipo == "pronome_possessivo" and primeira in POSSESSIVOS_ADNOMINAIS:
         return "indeterminado"
     if primeira in {"os", "as", "uns", "umas", "aqueles", "aquelas", "eles", "elas", "deles", "delas", "seus", "suas", "meus", "minhas"}:
         return "plural"
@@ -129,28 +163,29 @@ def _adicionar(candidatos: dict[tuple[int, int, str], Candidate], candidato: Can
         candidatos[chave] = candidato
 
 
-def _detectar_pronomes(texto: str, origem: MentionOrigin, candidatos: dict[tuple[int, int, str], Candidate]) -> None:
-    for token in _tokens(texto):
+def _detectar_pronomes(tokens: list[Token], origem: MentionOrigin, candidatos: dict[tuple[int, int, str], Candidate]) -> None:
+    for token in tokens:
         if token.normalizado in PRONOMES_PESSOAIS:
             _adicionar(candidatos, Candidate(token.texto, token.inicio, token.fim, "pronome_pessoal", origem, 0.99))
         elif token.normalizado in PRONOMES_POSSESSIVOS:
             _adicionar(candidatos, Candidate(token.texto, token.inicio, token.fim, "pronome_possessivo", origem, 0.99))
 
 
-def _detectar_nomes(texto: str, origem: MentionOrigin, candidatos: dict[tuple[int, int, str], Candidate]) -> None:
-    for token in _tokens(texto):
+def _detectar_nomes(tokens: list[Token], origem: MentionOrigin, candidatos: dict[tuple[int, int, str], Candidate]) -> None:
+    for token in tokens:
         if (
             token.texto[:1].isupper()
+            and token.pos in {None, "PROPN"}
             and token.texto not in INICIOS_DE_PERIODO
-            and token.normalizado not in PRONOMES_PESSOAIS | PRONOMES_POSSESSIVOS | DETERMINANTES | TERMOS_PESSOA
+            and token.normalizado not in PRONOMES_PESSOAIS | PRONOMES_POSSESSIVOS | DETERMINANTES | TERMOS_PESSOA | LIMITES | PALAVRAS_NAO_NOMES
+            and not _eh_limite_nominal(token)
         ):
             _adicionar(candidatos, Candidate(token.texto, token.inicio, token.fim, "nome_proprio", origem, 0.93))
 
 
-def _detectar_descricoes(texto: str, origem: MentionOrigin, candidatos: dict[tuple[int, int, str], Candidate]) -> None:
-    tokens = _tokens(texto)
+def _detectar_descricoes(texto: str, tokens: list[Token], origem: MentionOrigin, candidatos: dict[tuple[int, int, str], Candidate]) -> None:
     for indice, token in enumerate(tokens):
-        if token.normalizado not in DETERMINANTES:
+        if token.normalizado not in DETERMINANTES | POSSESSIVOS_ADNOMINAIS:
             continue
 
         fim_indice = indice
@@ -161,11 +196,13 @@ def _detectar_descricoes(texto: str, origem: MentionOrigin, candidatos: dict[tup
             separador = texto[anterior.fim:proximo.inicio]
             if re.search(r"[,.!?;:\"“”]", separador):
                 break
-            if _eh_limite_nominal(proximo):
-                break
-            if proximo.normalizado in PREPOSICOES_INTERNAS or proximo.normalizado in PRONOMES_POSSESSIVOS:
+            if proximo.normalizado in PREPOSICOES_INTERNAS:
+                continue
+            if proximo.normalizado in PRONOMES_POSSESSIVOS:
                 fim_indice = atual
                 continue
+            if _eh_limite_nominal(proximo) or proximo.normalizado in PRONOMES_PESSOAIS:
+                break
             palavras_conteudo += 1
             fim_indice = atual
             if palavras_conteudo >= 4:
@@ -179,28 +216,29 @@ def _detectar_descricoes(texto: str, origem: MentionOrigin, candidatos: dict[tup
         _adicionar(candidatos, Candidate(trecho, inicio, fim, "descricao_nominal", origem, 0.82))
 
 
-def _detectar_descricoes_complexas(texto: str, origem: MentionOrigin, candidatos: dict[tuple[int, int, str], Candidate]) -> None:
+def _detectar_descricoes_complexas(texto: str, tokens: list[Token], origem: MentionOrigin, candidatos: dict[tuple[int, int, str], Candidate]) -> None:
     padrao = re.compile(r"\balguém\s+que\s+[^,.!?;]+", re.IGNORECASE)
     for match in padrao.finditer(texto):
         trecho_bruto = match.group()
-        tokens = _tokens(trecho_bruto)
         verbos_finitos = 0
         fim_local = len(trecho_bruto.rstrip())
-        for token in tokens[2:]:
+        tokens_locais = [token for token in tokens if match.start() <= token.inicio < match.end()]
+        for token in tokens_locais[2:]:
             forma = token.normalizado
-            if forma not in FORMAS_VERBAIS or forma.endswith(("ando", "endo", "indo")):
+            if (token.pos not in {"VERB", "AUX"} and forma not in FORMAS_VERBAIS) or forma.endswith(("ando", "endo", "indo", "ado", "ido")):
+                continue
+            if token.lema == forma and forma.endswith(("ar", "er", "ir")):
                 continue
             verbos_finitos += 1
             if verbos_finitos > 1:
-                fim_local = token.inicio
+                fim_local = token.inicio - match.start()
                 break
         trecho = trecho_bruto[:fim_local].rstrip()
         fim = match.start() + len(trecho)
         _adicionar(candidatos, Candidate(trecho, match.start(), fim, "descricao_complexa", origem, 0.78))
 
 
-def _detectar_papeis_humanos(texto: str, origem: MentionOrigin, candidatos: dict[tuple[int, int, str], Candidate]) -> None:
-    tokens = _tokens(texto)
+def _detectar_papeis_humanos(texto: str, tokens: list[Token], origem: MentionOrigin, candidatos: dict[tuple[int, int, str], Candidate]) -> None:
     for indice, token in enumerate(tokens):
         if token.normalizado not in TERMOS_PESSOA:
             continue
@@ -220,13 +258,22 @@ def _detectar_papeis_humanos(texto: str, origem: MentionOrigin, candidatos: dict
         _adicionar(candidatos, Candidate(trecho, token.inicio, fim, "descricao_nominal", origem, 0.78))
 
 
-def detectar_mencoes(texto: str, origem: MentionOrigin = "paragrafo", inicio_id: int = 1) -> list[Mention]:
+def detectar_mencoes(
+    texto: str,
+    origem: MentionOrigin = "paragrafo",
+    inicio_id: int = 1,
+    base_linguistica: BaseLinguistica | None = None,
+) -> list[Mention]:
+    base = base_linguistica if base_linguistica is not None else analisar_texto(texto)
+    if base.texto != texto:
+        raise ValueError("A base linguística deve corresponder exatamente ao texto das menções.")
+    tokens = _tokens(texto, base)
     candidatos: dict[tuple[int, int, str], Candidate] = {}
-    _detectar_pronomes(texto, origem, candidatos)
-    _detectar_nomes(texto, origem, candidatos)
-    _detectar_descricoes(texto, origem, candidatos)
-    _detectar_descricoes_complexas(texto, origem, candidatos)
-    _detectar_papeis_humanos(texto, origem, candidatos)
+    _detectar_pronomes(tokens, origem, candidatos)
+    _detectar_nomes(tokens, origem, candidatos)
+    _detectar_descricoes(texto, tokens, origem, candidatos)
+    _detectar_descricoes_complexas(texto, tokens, origem, candidatos)
+    _detectar_papeis_humanos(texto, tokens, origem, candidatos)
 
     ordenados = sorted(candidatos.values(), key=lambda item: (item.inicio, -(item.fim - item.inicio), item.tipo))
     mencoes: list[Mention] = []

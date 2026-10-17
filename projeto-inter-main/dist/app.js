@@ -20,6 +20,7 @@ const centralIdea = document.querySelector("#central-idea");
 const synthesis = document.querySelector("#synthesis");
 const fidelityCheck = document.querySelector("#fidelity-check");
 const executionMeta = document.querySelector("#execution-meta");
+const linguisticAudit = document.querySelector("#linguistic-audit");
 const analyzeLabel = analyzeButton.querySelector("span");
 const jsonFileInput = document.querySelector("#json-file");
 const jsonStatus = document.querySelector("#json-status");
@@ -317,9 +318,43 @@ function renderExecution(execution) {
         <div><dt>Regras de paráfrase</dt><dd>${parameters.regras_parafrase.map(item => escapeHtml(humanize(item))).join(" · ")}</dd></div>
         <div><dt>Alternativas centrais</dt><dd>até ${parameters.limite_alternativas_ideia_central}</dd></div>
         <div><dt>Contexto anterior</dt><dd>${parameters.usa_contexto_anterior ? "utilizado" : "não informado"}</dd></div>
+        ${parameters.origem_linguistica ? `<div><dt>Base linguística</dt><dd>${escapeHtml(humanize(parameters.origem_linguistica))}</dd></div>` : ""}
       </dl>
     </details>
     <p class="execution-note">${escapeHtml(costs.observacao)}</p>
+  `;
+}
+
+function renderLinguisticAudit(audit) {
+  if (!audit) {
+    linguisticAudit.innerHTML = "";
+    return;
+  }
+  const bases = [["Parágrafo", audit.paragrafo], ["Contexto anterior", audit.contexto_anterior]]
+    .filter(([, base]) => base);
+  const diagnostics = bases.flatMap(([label, base]) => base.diagnosticos.map(item => `
+    <li><strong>${escapeHtml(label)} · ${escapeHtml(humanize(item.codigo))}</strong>
+      <p>${escapeHtml(item.mensagem)}</p>
+      ${item.inicio != null && item.fim != null ? `<small>“${escapeHtml([...base.texto].slice(item.inicio, item.fim).join(""))}” · [${item.inicio}, ${item.fim})</small>` : ""}
+    </li>
+  `));
+  linguisticAudit.innerHTML = `
+    <header>
+      <div><h3 id="linguistic-title">Base linguística em revisão</h3><p>Confira a origem das decisões e os conflitos antes de aceitar a interpretação.</p></div>
+      <span>${diagnostics.length} diagnósticos</span>
+    </header>
+    <p class="execution-note">A checagem de fidelidade acima verifica a geração. Lemas, sujeitos, referências e relações continuam sujeitos à revisão linguística.</p>
+    ${bases.map(([label, base]) => `
+      <p class="execution-note"><strong>${escapeHtml(label)}:</strong> ${escapeHtml(humanize(base.origem))} · ${base.tokens.length} tokens · ${base.periodos.length} períodos.</p>
+      <details class="execution-parameters">
+        <summary>Inspecionar lemas e classes — ${escapeHtml(label.toLowerCase())}</summary>
+        <div class="linguistic-table-scroll"><table class="linguistic-table">
+          <thead><tr><th>Trecho</th><th>Lema usado</th><th>Classe usada</th><th>Origem</th></tr></thead>
+          <tbody>${base.tokens.map(token => `<tr><td>${escapeHtml(token.texto)}<small>[${token.inicio}, ${token.fim})</small></td><td>${escapeHtml(token.lema || "indeterminado")}</td><td>${escapeHtml(token.pos || "indeterminada")}</td><td>${escapeHtml(humanize(token.origem))}</td></tr>`).join("")}</tbody>
+        </table></div>
+      </details>
+    `).join("")}
+    ${diagnostics.length ? `<details class="execution-parameters"><summary>Examinar diagnósticos e limitações</summary><ul class="linguistic-diagnostics">${diagnostics.join("")}</ul></details>` : `<p class="execution-note">Nenhum conflito foi identificado pelas regras atuais; isso não certifica correção linguística.</p>`}
   `;
 }
 
@@ -574,6 +609,7 @@ function renderError(message) {
   synthesis.innerHTML = "";
   fidelityCheck.innerHTML = "";
   executionMeta.innerHTML = "";
+  linguisticAudit.innerHTML = "";
   referenceMap.innerHTML = "";
   mentionMap.innerHTML = "";
   propositionList.innerHTML = `<li class="error-state">${escapeHtml(message)}</li>`;
@@ -623,6 +659,7 @@ async function renderAnalysis() {
     renderSynthesis(data.sintese, data.parafrases);
     renderFidelityCheck(data.checagem);
     renderExecution(data.execucao);
+    renderLinguisticAudit(data.analise_linguistica);
     renderGraph(data);
     renderReferences(data.referentes, data.resolucoes, data.mencoes);
     renderMentions(data.mencoes, data.resolucoes);

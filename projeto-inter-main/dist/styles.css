@@ -843,6 +843,15 @@ textarea.context-textarea:focus {
 .execution-parameters dl > div { display: grid; grid-template-columns: minmax(110px, 0.35fr) 1fr; gap: 10px; }
 .execution-parameters dd { margin: 0; overflow-wrap: anywhere; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 8px; }
 .execution-note { margin: 11px 0 0; color: var(--muted); font-size: 9px; line-height: 1.45; }
+.linguistic-table-scroll { max-height: 320px; margin-top: 10px; overflow: auto; }
+.linguistic-table { width: 100%; border-collapse: collapse; font-size: 10px; text-align: left; }
+.linguistic-table th, .linguistic-table td { padding: 7px; border-bottom: 1px solid var(--line); vertical-align: top; }
+.linguistic-table th { position: sticky; top: 0; background: var(--panel); }
+.linguistic-table td small { display: block; color: var(--muted); font-size: 8px; }
+.linguistic-diagnostics { padding-left: 17px; font-size: 10px; }
+.linguistic-diagnostics li + li { margin-top: 10px; }
+.linguistic-diagnostics p { margin: 4px 0; line-height: 1.45; }
+.linguistic-diagnostics small { color: var(--muted); }
 
 .reference-map {
   padding: 18px 20px;

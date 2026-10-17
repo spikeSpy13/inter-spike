@@ -45,16 +45,26 @@ class PropositionGraphTests(unittest.TestCase):
 
     def test_negacao_tem_escopo_exato(self) -> None:
         negativas = [item for item in self.resultado.operadores_escopo if item.tipo == "negacao"]
-        self.assertEqual([(item.marcador.casefold(), item.escopo) for item in negativas], [("não", ["P1"]), ("nem", ["P2"])])
+        self.assertEqual(
+            [(item.marcador.casefold(), item.escopo) for item in negativas],
+            [
+                ("não", [self._prop("abandonar").id]),
+                ("nem", [self._prop("desistir").id]),
+            ],
+        )
         self.assertEqual(self._prop("abandonar").polaridade, "negativa")
         self.assertEqual(self._prop("desistir").polaridade, "negativa")
+        self.assertIsNone(self._prop("buscar").operadores.negacao)
 
     def test_modalidade_nao_contamina_informacao_de_fundo(self) -> None:
         modais = [item for item in self.resultado.operadores_escopo if item.tipo == "modalidade"]
         self.assertEqual(len(modais), 2)
         por_subtipo = {item.subtipo: item.escopo for item in modais}
-        self.assertEqual(por_subtipo["irrealis_condicional"], ["P6", "P7"])
-        self.assertEqual(por_subtipo["capacidade_dinamica"], ["P7"])
+        self.assertEqual(
+            por_subtipo["irrealis_condicional"],
+            [self._prop("ser").id, self._prop("frear").id],
+        )
+        self.assertEqual(por_subtipo["capacidade_dinamica"], [self._prop("frear").id])
         self.assertIsNone(self._prop("acreditar").operadores.modalidade)
         self.assertIsNone(self._prop("construir").operadores.modalidade)
         self.assertIsNone(self._prop("transformar").operadores.modalidade)
@@ -62,8 +72,14 @@ class PropositionGraphTests(unittest.TestCase):
     def test_atribuicao_separa_pergunta_e_pressuposicao(self) -> None:
         pergunta = next(item for item in self.resultado.quadros_atribuicao if item.modo == "pergunta")
         fundo = next(item for item in self.resultado.quadros_atribuicao if item.modo == "pressuposicao")
-        self.assertEqual(pergunta.escopo, ["P5", "P6", "P7"])
-        self.assertEqual(fundo.escopo, ["P8", "P9"])
+        self.assertEqual(
+            pergunta.escopo,
+            [self._prop("acreditar").id, self._prop("ser").id, self._prop("frear").id],
+        )
+        self.assertEqual(
+            fundo.escopo,
+            [self._prop("construir").id, self._prop("transformar").id],
+        )
         self.assertEqual(fundo.estado, "pressuposta")
 
     def test_fonte_da_citacao_resolve_primeira_pessoa(self) -> None:

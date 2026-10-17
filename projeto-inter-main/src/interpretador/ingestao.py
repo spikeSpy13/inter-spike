@@ -2,10 +2,12 @@
 
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 import hashlib
 import math
 from typing import Any
+
+from .linguistica import BaseLinguistica, ErroAnotacao, adaptar_anotacoes
 
 
 SCHEMA_SUPORTADO = "1.0.0"
@@ -42,6 +44,7 @@ class ParagrafoIngerido:
     fim_original: int
     representacao_id: str
     artefato_id: str
+    base_linguistica: BaseLinguistica | None = None
 
 
 @dataclass(frozen=True)
@@ -71,12 +74,16 @@ class DocumentoIngerido:
             ]
         )
 
-    def contexto_anterior(self, paragrafo: ParagrafoIngerido) -> str | None:
+    def paragrafo_anterior(self, paragrafo: ParagrafoIngerido) -> ParagrafoIngerido | None:
         anteriores = [item for item in self.paragrafos if item.ordem < paragrafo.ordem]
         if not anteriores:
             return None
         anterior = max(anteriores, key=lambda item: item.ordem)
-        return anterior.texto
+        return anterior
+
+    def contexto_anterior(self, paragrafo: ParagrafoIngerido) -> str | None:
+        anterior = self.paragrafo_anterior(paragrafo)
+        return anterior.texto if anterior else None
 
 
 class _Coletor:
@@ -563,6 +570,24 @@ def validar_documento(documento: Any) -> DocumentoIngerido:
         coletor.adicionar("sem_artefatos", "$.artefatos", "Nenhum artefato vetorial foi encontrado.")
 
     coletor.concluir()
+    analise_origem = contexto["regras"]["analise"]
+    anotacao_origem = analise_origem["anotacao"]
+    try:
+        bases = adaptar_anotacoes(
+            original,
+            segmentacao,
+            anotacao_origem.get("anotacoes_tokens"),
+            analise_origem.get("sintaxe"),
+        )
+    except ErroAnotacao as erro:
+        raise ErroIngestao([
+            ProblemaIngestao(item.codigo, item.caminho, item.mensagem)
+            for item in erro.problemas
+        ]) from erro
+    paragrafos_ingeridos = [
+        replace(item, base_linguistica=bases[item.id])
+        for item in paragrafos_ingeridos
+    ]
     paragrafos_ingeridos.sort(key=lambda item: item.ordem)
     return DocumentoIngerido(
         documento_id=documento_id,

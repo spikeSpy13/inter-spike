@@ -89,7 +89,7 @@ class ApiTests(unittest.TestCase):
         self.assertEqual(resultado.resumo.parafrases, len(resultado.parafrases))
         self.assertEqual(resultado.checagem.estado, "sem_alertas_detectados")
         self.assertEqual(resultado.resumo.achados_fidelidade, 0)
-        self.assertEqual(resultado.execucao.versao_motor, "1.0.0")
+        self.assertEqual(resultado.execucao.versao_motor, "1.1.0.dev1")
         self.assertGreaterEqual(resultado.execucao.duracao_ms, 0)
         self.assertEqual(resultado.execucao.custos.chamadas_externas, 0)
 
@@ -115,7 +115,7 @@ class ApiTests(unittest.TestCase):
         self.assertIn("parafrases", payload)
         self.assertIn("checagem", payload)
         self.assertIn("execucao", payload)
-        self.assertEqual(payload["execucao"]["versao_motor"], "1.0.0")
+        self.assertEqual(payload["execucao"]["versao_motor"], "1.1.0.dev1")
         self.assertEqual(payload["execucao"]["custos"]["custo_estimado"], 0)
 
     def test_http_rejeita_paragrafo_vazio(self) -> None:
@@ -174,6 +174,29 @@ class ApiTests(unittest.TestCase):
             script = resposta.read().decode()
         self.assertIn("Interpretador de Proposições", pagina)
         self.assertIn("function renderAnalysis()", script)
+
+    def test_http_documento19_serializa_predicao_e_revisao(self) -> None:
+        raiz = Path(__file__).resolve().parents[1]
+        documento = json.loads((raiz / "fixtures" / "vetorizacao-19.json").read_bytes())
+        with self.requisitar("/api/analisar-json", {"documento": documento, "paragrafo_id": "P1"}) as resposta:
+            payload = json.load(resposta)
+        analise = payload["analise"]
+        base = analise["analise_linguistica"]["paragrafo"]
+        gostasse = next(t for t in base["tokens"] if t["texto"] == "gostasse")
+        self.assertEqual(gostasse["recebida"]["morfologia"]["lema"], "gostasse")
+        self.assertEqual(gostasse["lema"], "gostar")
+        self.assertTrue(base["diagnosticos"])
+        self.assertEqual(analise["execucao"]["parametros"]["adaptador_linguistico"], "base_linguistica_v1")
+
+    def test_http_rejeita_cabeca_sintatica_inexistente(self) -> None:
+        raiz = Path(__file__).resolve().parents[1]
+        documento = json.loads((raiz / "fixtures" / "vetorizacao-19.json").read_bytes())
+        documento["contexto"]["regras"]["analise"]["sintaxe"][0]["cabeca_token_id"] = "token:inexistente"
+        with self.assertRaises(URLError) as erro:
+            self.requisitar("/api/analisar-json", {"documento": documento, "paragrafo_id": "P1"})
+        self.assertEqual(erro.exception.code, 422)
+        payload = json.loads(erro.exception.read())
+        self.assertTrue(any("cabeca_token_id" in item["caminho"] for item in payload["detail"]))
 
 
 if __name__ == "__main__":
